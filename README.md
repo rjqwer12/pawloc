@@ -70,6 +70,19 @@ Open the local URL displayed in the terminal, usually:
 http://localhost:5173
 ```
 
+## User Flow Diagram 
+<img width="11195" height="10111" alt="image" src="https://github.com/user-attachments/assets/e64cb713-5ac2-4376-9f7d-b34c69f0f58d" />
+
+## Sitemap Diagram 
+<img width="7547" height="7424" alt="image" src="https://github.com/user-attachments/assets/15b79c8b-c60b-471d-bf7a-5278cf925e71" />
+
+## System Architecture Diagram 
+<img width="7294" height="3930" alt="image" src="https://github.com/user-attachments/assets/7c911b50-5b84-4cb5-8228-aece06cd6eac" />
+
+## Database/ERD Diagram 
+<img width="7707" height="5169" alt="image" src="https://github.com/user-attachments/assets/aba89e01-5f03-437b-a000-422a6162a8c1" />
+
+
 ## Project Team
 
 **Western Institute of Technology**  
