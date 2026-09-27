@@ -1,0 +1,32 @@
+.create-post-modal.create-post-modal-lost { background: #fefefe; }
+.create-post-modal-lost .create-post-header { padding-bottom: 8px; }
+.create-post-modal-lost .create-post-header h2 { font-size: 23px; letter-spacing: -.5px; }
+.lost-pet-form { display: grid; gap: 16px; padding: 0 24px 16px; }
+.lost-pet-photo-field h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+.lost-pet-form label { display: grid; gap: 6px; font-size: 12px; color: #344054; }
+.lost-pet-form .lost-pet-upload { position: relative; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 14px; background: #fafbfd; border: 2px dashed #e2e7ed; border-radius: 13px; cursor: pointer; text-align: center; }
+.lost-pet-upload input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.lost-pet-upload:focus-within { outline: 3px solid #689d4b; outline-offset: 3px; }
+.lost-pet-upload > img { width: 90px; height: 60px; border-radius: 8px; object-fit: cover; }
+.lost-pet-camera { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: white; color: #689d4b; }
+.lost-pet-upload strong { font-size: 12px; }
+.lost-pet-upload > span:last-child { max-width: 100%; overflow-wrap: anywhere; font-size: 11px; color: #98a2b3; }
+.lost-pet-required { color: #ff6262; }
+.lost-pet-field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.lost-pet-form input:not([type='file']), .lost-pet-form textarea { width: 100%; min-width: 0; border: 1px solid #e1e5eb; border-radius: 12px; padding: 12px 14px; background: white; color: #344054; font: inherit; line-height: 1.4; }
+.lost-pet-form input::placeholder, .lost-pet-form textarea::placeholder { color: #7c8981; }
+.lost-pet-form textarea { resize: vertical; min-height: 56px; }
+.lost-pet-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 24px; }
+.lost-pet-actions button { border-radius: 16px; padding: 13px 10px; color: #7a857b; background: transparent; font-size: 14px; font-weight: 600; }
+.lost-pet-actions button[type='submit'] { min-width: 80px; background: #689d4b; color: white; padding: 13px 22px; }
+.lost-pet-actions button[type='submit']:hover { background: #56843d; }
+.lost-pet-actions button:disabled { opacity: .6; }
+.lost-pet-error { color: #c53232; font-size: 12px; }
+@media (max-width: 480px) {
+  .lost-pet-form { padding: 0 16px 16px; gap: 14px; }
+  .create-post-modal-lost .create-post-header h2 { font-size: 18px; }
+  .create-post-modal-lost .create-post-heading-icon { width: 32px; height: 32px; }
+  .lost-pet-actions { margin-top: 14px; }
+}
+@media (max-width: 350px) { .lost-pet-field-row { grid-template-columns: minmax(0, 1fr); } }
+.pet-field-optional { color: #8b958e; font-size: 11px; }

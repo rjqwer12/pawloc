@@ -16,23 +16,19 @@
 }
 
 .hero-highlight {
-  color: #D96868;
+  color: #d96868;
+}
+
+.hero-line,
+.hero-subtitle > span {
+  display: block;
 }
 
 .hero-subtitle {
-  font-size: 1.08rem;
+  font-size: clamp(0.95rem, 1vw, 1.08rem);
   line-height: 1.25;
   color: var(--color-text-muted);
-  margin-bottom: 3.35rem;
   max-width: 670px;
-}
-
-.hero-cta {
-  align-self: flex-start;
-  min-width: 190px;
-  min-height: 58px;
-  padding: 0.9rem 2rem;
-  font-size: 1.08rem;
 }
 
 @media (max-width: 900px) {
@@ -49,9 +45,5 @@
 
   .hero-title {
     font-size: clamp(3rem, 10vw, 4.2rem);
-  }
-
-  .hero-cta {
-    align-self: center;
   }
 }

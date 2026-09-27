@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { stories, storyFilters } from '../data/stories';
 import './Stories.css';
 
-function PinIcon() {
+function ClockIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
     </svg>
   );
 }
 
 export default function Stories() {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('All Pets');
 
   const filterMap = {
-    All: () => true,
+    'All Pets': () => true,
     Dogs: (story) => story.type === 'dog',
     Cats: (story) => story.type === 'cat',
     Birds: (story) => story.type === 'bird',
@@ -42,7 +42,7 @@ export default function Stories() {
               Verified submissions from owners and local shelter partners
             </p>
           </div>
-          <div className="stories-filters">
+          <div className="stories-filters" role="group" aria-label="Filter reunions">
             {storyFilters.map((filter) => (
               <button
                 key={filter}
@@ -72,10 +72,7 @@ export default function Stories() {
                 </p>
                 <p className="story-card-quote">&ldquo;{story.quote}&rdquo;</p>
                 <div className="story-card-footer">
-                  <span className="story-card-shelter">
-                    <PinIcon />
-                    {story.shelter}
-                  </span>
+                  <ClockIcon />
                   <span className="story-card-time">{story.time}</span>
                 </div>
               </div>

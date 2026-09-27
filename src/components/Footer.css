@@ -2,9 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 4rem 2rem;
-  max-width: var(--max-width);
-  margin: 0 auto;
+  padding: 1.25rem 1.67vw 2rem;
   width: 100%;
   gap: 1rem;
 }

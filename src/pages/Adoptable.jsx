@@ -1,20 +1,10 @@
 import { useState } from 'react';
 import PetCard from '../components/PetCard';
-import { pets } from '../data/pets';
+import { pets, filters } from '../data/pets';
 import './Adoptable.css';
-
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
 
 export default function Adoptable() {
   const [activeFilter, setActiveFilter] = useState('All Pets');
-  const [searchQuery, setSearchQuery] = useState('');
 
   const filterMap = {
     'All Pets': () => true,
@@ -24,14 +14,7 @@ export default function Adoptable() {
     Hamsters: (pet) => pet.type === 'hamster',
   };
 
-  const filteredPets = pets.filter((pet) => {
-    const matchesSearch =
-      !searchQuery ||
-      pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pet.breed.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return matchesSearch && filterMap[activeFilter](pet);
-  });
+  const filteredPets = pets.filter(filterMap[activeFilter]);
 
   return (
     <main className="adoptable-page">
@@ -51,24 +34,14 @@ export default function Adoptable() {
           </div>
           <div className="stat-card stat-card--coral">
             <span className="stat-value">0</span>
-            <span className="stat-label">Total Adoptions</span>
+            <span className="stat-label">Total Adaptions</span>
           </div>
         </div>
       </section>
 
       <section className="adoptable-toolbar">
-        <div className="search-wrap">
-          <SearchIcon />
-          <input
-            type="search"
-            placeholder="Search by breed, name, or characteristics..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
         <div className="filter-pills">
-          {['All Pets', 'Dogs', 'Cats', 'Birds', 'Hamsters'].map((filter) => (
+          {filters.map((filter) => (
             <button
               key={filter}
               type="button"
@@ -86,7 +59,7 @@ export default function Adoptable() {
           <div>
             <h2 className="grid-title">Featured Companions</h2>
             <p className="grid-subtitle">
-              Showing {filteredPets.length} of 8 verified shelter profiles
+              Showing 0 of 0 verified shelter profiles
             </p>
           </div>
         </div>

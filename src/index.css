@@ -8,9 +8,9 @@
 
 :root {
   --color-bg: #fcfaf7;
-  --color-primary: #689D4B;
-  --color-primary-hover: #57863E;
-  --color-logo-brown: #D96868;
+  --color-primary: #689d4b;
+  --color-primary-hover: #56843d;
+  --color-logo-brown: #d96868;
   --color-text: #050505;
   --color-text-muted: #171717;
   --color-text-light: #9ca3af;
@@ -27,7 +27,7 @@ html {
 
 body {
   min-height: 100%;
-  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  font-family: 'Work Sans', 'Segoe UI', sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;

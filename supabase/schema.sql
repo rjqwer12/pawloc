@@ -2,7 +2,7 @@
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
-  role text not null default 'user' check (role in ('user', 'shelter', 'admin')),
+  role text not null default 'adopter' check (role in ('adopter', 'shelter')),
   first_name text,
   middle_name text,
   last_name text,
@@ -14,14 +14,6 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-
-update public.profiles
-set role = 'user'
-where role = 'adopter';
-
-alter table public.profiles drop constraint if exists profiles_role_check;
-alter table public.profiles
-  add constraint profiles_role_check check (role in ('user', 'shelter', 'admin'));
 
 alter table public.profiles enable row level security;
 

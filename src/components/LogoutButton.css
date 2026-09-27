@@ -1,0 +1,16 @@
+.logout-modal { width: min(512px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; margin: auto; padding: 32px; border: 1px solid #f3f4f6; border-radius: 24px; background: white; box-shadow: 0 25px 50px -12px #00000040; color: #111827; }
+.logout-modal::backdrop { background: #14203366; }
+.logout-modal-content { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.logout-modal-badge { display: grid; place-items: center; width: 64px; height: 64px; flex-shrink: 0; background: #f2f7ec; border: 1px solid #deeacd; border-radius: 16px; box-shadow: 0 1px 2px #0000000d; color: #689d4b; }
+.logout-modal-badge svg { width: 32px; height: 32px; stroke-width: 2; }
+.logout-modal-heading { width: 100%; text-align: center; }
+.logout-modal-heading h2 { margin: 0 0 9px; font-size: 24px; line-height: 32px; font-weight: 700; letter-spacing: -.6px; }
+.logout-modal-heading p { padding: 0 12px; font-size: 14px; line-height: 23px; color: #6b7280; }
+.logout-modal-actions { display: flex; gap: 14px; width: 100%; padding-top: 12px; }
+.logout-modal-actions button { flex: 1; min-height: 46px; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 12px; background: white; color: #374151; font-size: 14px; line-height: 20px; font-weight: 700; box-shadow: 0 1px 2px #0000000d; cursor: pointer; }
+.logout-modal-actions .logout-modal-confirm { background: #689d4b; color: white; border-color: #689d4b; box-shadow: 0 4px 6px -1px #0000001a; }
+.logout-modal-confirm:hover { background: #56843d; }
+.logout-modal-actions button:focus-visible { outline: 3px solid #689d4b; outline-offset: 3px; }
+.logout-modal-actions button:disabled { opacity: .65; cursor: wait; }
+.logout-modal-error { color: #c53232; font-size: 13px; text-align: center; }
+@media (max-width: 480px) { .logout-modal { padding: 26px 20px; } .logout-modal-heading h2 { font-size: 22px; } .logout-modal-heading p { padding: 0; } }

@@ -3,8 +3,6 @@ import {
   completeSignup,
   sendEmailOtp,
   uploadShelterDoc,
-  EMAIL_OTP_LENGTH,
-  getAuthErrorMessage,
 } from '../lib/auth';
 import { supabase } from '../lib/supabase';
 import './CreateAccountModal.css';
@@ -80,6 +78,13 @@ function formatTime(seconds) {
   const m = String(Math.floor(seconds / 60)).padStart(2, '0');
   const s = String(seconds % 60).padStart(2, '0');
   return `${m}:${s}`;
+}
+
+function getAuthErrorMessage(error) {
+  if (/rate limit/i.test(error?.message || '')) {
+    return 'Email sending is temporarily rate-limited. Wait a few minutes and try again, or configure a custom SMTP provider in Supabase.';
+  }
+  return error?.message || 'Unable to send the verification email.';
 }
 
 function PasswordField({ id, label, placeholder, value, onChange }) {
@@ -158,7 +163,7 @@ function AdopterForm({ onClose }) {
       setOtpSeconds(39);
       setStatus({ type: 'success', text: 'OTP sent. Check your email.' });
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to send the verification email. Please try again.') });
+      setStatus({ type: 'error', text: getAuthErrorMessage(err) });
     } finally {
       setLoading(false);
     }
@@ -178,12 +183,12 @@ function AdopterForm({ onClose }) {
         token: form.otp,
         password: form.password,
         metadata: {
-          role: 'user',
+          role: 'adopter',
           first_name: form.firstName,
           last_name: form.lastName,
         },
         profile: {
-          role: 'user',
+          role: 'adopter',
           first_name: form.firstName,
           middle_name: form.middleName,
           last_name: form.lastName,
@@ -191,7 +196,7 @@ function AdopterForm({ onClose }) {
       });
       onClose();
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to create the account. Please try again.') });
+      setStatus({ type: 'error', text: err.message });
     } finally {
       setLoading(false);
     }
@@ -281,8 +286,8 @@ function AdopterForm({ onClose }) {
           type="text"
           inputMode="numeric"
           placeholder="• • • • • •"
-          maxLength={EMAIL_OTP_LENGTH}
-          pattern={`[0-9]{${EMAIL_OTP_LENGTH}}`}
+          maxLength={8}
+          pattern="[0-9]{8}"
           value={form.otp}
           onChange={update('otp')}
           required
@@ -365,7 +370,7 @@ function ShelterForm({ onClose }) {
       setOtpSeconds(300);
       setStatus({ type: 'success', text: 'OTP sent. Check your email.' });
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to send the verification email. Please try again.') });
+      setStatus({ type: 'error', text: getAuthErrorMessage(err) });
     } finally {
       setLoading(false);
     }
@@ -409,7 +414,7 @@ function ShelterForm({ onClose }) {
 
       onClose();
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to register the shelter. Please try again.') });
+      setStatus({ type: 'error', text: err.message });
     } finally {
       setLoading(false);
     }
@@ -502,8 +507,8 @@ function ShelterForm({ onClose }) {
           type="text"
           inputMode="numeric"
           placeholder="Enter shelter verification code"
-          maxLength={EMAIL_OTP_LENGTH}
-          pattern={`[0-9]{${EMAIL_OTP_LENGTH}}`}
+          maxLength={8}
+          pattern="[0-9]{8}"
           value={form.otp}
           onChange={update('otp')}
           required
@@ -585,7 +590,7 @@ function ShelterForm({ onClose }) {
 }
 
 export default function CreateAccountModal({ onClose }) {
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState('adopter');
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -625,9 +630,9 @@ export default function CreateAccountModal({ onClose }) {
           <button
             type="button"
             role="tab"
-            aria-selected={role === 'user'}
-            className={`modal-tab${role === 'user' ? ' modal-tab--active' : ''}`}
-            onClick={() => setRole('user')}
+            aria-selected={role === 'adopter'}
+            className={`modal-tab${role === 'adopter' ? ' modal-tab--active' : ''}`}
+            onClick={() => setRole('adopter')}
           >
             <UserIcon />
             Pet Adopter / User
@@ -645,7 +650,7 @@ export default function CreateAccountModal({ onClose }) {
         </div>
 
         <div className="modal-body">
-          {role === 'user' ? (
+          {role === 'adopter' ? (
             <AdopterForm onClose={onClose} />
           ) : (
             <ShelterForm onClose={onClose} />

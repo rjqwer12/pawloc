@@ -1,17 +1,85 @@
 .pet-card {
   background: #fff;
-  border-radius: 7px;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #ebe8e3;
   display: flex;
   flex-direction: column;
+  min-height: 25.15rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.pet-card-image-wrap { position: relative; aspect-ratio: 2 / 1; overflow: hidden; }
-.pet-card-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-.pet-card-body { padding: 0.55rem 0.65rem 0.65rem; display: flex; flex-direction: column; flex: 1; }
-.pet-name { font-size: 0.72rem; font-weight: 700; color: var(--color-text); margin-bottom: 0.22rem; }
-.pet-meta { font-size: 0.48rem; color: #6b7280; margin-bottom: 0.25rem; }
-.pet-description { font-size: 0.48rem; line-height: 1.35; color: #6b7280; margin-bottom: 0.5rem; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.pet-meet-btn { width: 100%; padding: 0.35rem 0.7rem; font-size: 0.52rem; font-weight: 600; color: var(--color-primary); background: #f3f4f6; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.15s ease; }
-.pet-meet-btn:hover { background: #e5e7eb; }
+.pet-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.98 / 1;
+  overflow: hidden;
+  background: #eceef0;
+  flex: 0 0 auto;
+}
+
+.pet-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pet-card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.pet-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #1e1e1e;
+  margin-bottom: 0.25rem;
+}
+
+.pet-meta {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: #43474d;
+  margin-bottom: 0.25rem;
+}
+
+.pet-description {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  color: #43474d;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5rem;
+}
+
+.pet-meet-btn {
+  width: 100%;
+  min-height: 2.25rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: #fff;
+  border: 1px solid var(--color-primary);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.pet-meet-btn:hover {
+  background: rgba(104, 157, 75, 0.08);
+}
+
+@media (max-width: 540px) {
+  .pet-card {
+    min-height: 0;
+  }
+}

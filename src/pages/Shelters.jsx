@@ -1,16 +1,6 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { shelters } from '../data/shelters';
 import './Shelters.css';
-
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
 
 function PinIcon() {
   return (
@@ -30,71 +20,48 @@ function PhoneIcon() {
 }
 
 export default function Shelters() {
-  const [query, setQuery] = useState('');
-
-  const visibleShelters = shelters.filter((shelter) => {
-    const haystack = `${shelter.name} ${shelter.landmark} ${shelter.species}`.toLowerCase();
-    return haystack.includes(query.toLowerCase());
-  });
-
   return (
     <main className="shelters-page">
       <section className="shelters-hero">
         <h1 className="shelters-title">Nearby Shelters</h1>
         <p className="shelters-subtitle">
-          Locate, visit, and contact verified local rescue shelters and compassionate
-          animal adoption sanctuaries near you.
+          Locate, visit, and contact verified local rescue shelters and compassionate animal adoption sanctuaries near you.
         </p>
       </section>
 
-      <section className="shelters-toolbar">
-        <div className="shelters-search">
-          <SearchIcon />
-          <input
-            type="search"
-            placeholder="Search by shelter name, neighborhood, or zip..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-      </section>
-
       <section className="shelters-grid">
-        {visibleShelters.map((shelter) => {
+        {shelters.map((shelter) => {
           return (
             <article key={shelter.id} className="shelter-card">
-              <div className="shelter-card-top">
-                <span className={`shelter-status shelter-status--${shelter.statusType}`}>
-                  <span className="shelter-status-dot" />
+              <span className="shelter-status">
+                <span className="shelter-status-dot" aria-hidden="true" />
                   {shelter.status}
-                </span>
-              </div>
+              </span>
 
               <h2 className="shelter-name">{shelter.name}</h2>
               <p className="shelter-location">
                 <PinIcon />
                 <span>{shelter.distance}</span>
                 <span className="shelter-dot">•</span>
-                <span className="shelter-landmark">{shelter.landmark}</span>
+                <span>{shelter.landmark}</span>
               </p>
 
               <div className="shelter-meta">
                 <div className="shelter-contact">
                   <PhoneIcon />
-                  <div>
-                    <p>{shelter.phone}</p>
-                    <p className="shelter-hours">{shelter.hours}</p>
-                  </div>
+                  <span>{shelter.phone}</span>
                 </div>
                 <span className="shelter-species">{shelter.species}</span>
               </div>
 
+              <p className="shelter-hours">{shelter.hours}</p>
+
               <div className="shelter-actions">
-                <Link to="/" className="shelter-btn shelter-btn--ghost">
+                <Link to="/" className="shelter-btn shelter-btn--contact">
                   Contact
                 </Link>
-                <Link to="/" className="shelter-btn shelter-btn--dark">
-                  View Adoptable ›
+                <Link to="/" className="shelter-btn shelter-btn--adoptable">
+                  View Adoptable
                 </Link>
               </div>
             </article>

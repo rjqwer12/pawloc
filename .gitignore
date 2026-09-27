@@ -25,9 +25,3 @@ dist-ssr
 
 .env
 .env.local
-
-# Environment variants and Supabase local state
-.env.*
-!.env.example
-supabase/.temp/
-supabase/.branches/

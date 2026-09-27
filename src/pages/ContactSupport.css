@@ -1,0 +1,109 @@
+.page--support {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.support-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 6.5rem 1.5rem 4rem;
+  background: #fafafa;
+}
+
+.support-back {
+  position: absolute;
+  top: 2rem;
+  left: 2.5rem;
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: #0e0e0e;
+  cursor: pointer;
+}
+
+.support-back svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.support-back:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.support-content {
+  width: 100%;
+  max-width: 43.25rem;
+  margin: 0 auto;
+  color: #5c6068;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.support-title {
+  margin: 0 0 2rem;
+  color: #0e0e0e;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.support-section {
+  margin-bottom: 1.25rem;
+}
+
+.support-section h2 {
+  margin-bottom: 0.2rem;
+  color: #202124;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.support-section p {
+  margin-bottom: 0.55rem;
+}
+
+.support-section ul {
+  margin: 0.15rem 0 1rem 1.5rem;
+  padding: 0;
+}
+
+.support-section a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.support-section a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.support-contact p + p {
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .support-page {
+    padding: 5.5rem 1.25rem 2.5rem;
+  }
+
+  .support-back {
+    top: 1.25rem;
+    left: 1rem;
+  }
+
+  .support-title {
+    font-size: 1.75rem;
+  }
+
+  .support-content {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+}

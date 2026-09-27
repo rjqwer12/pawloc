@@ -1,3 +1,4 @@
+import LogoutButton from './LogoutButton';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import pawlocLogo from '../assets/pawloc.svg';
@@ -12,7 +13,7 @@ const navLinks = [
 
 export default function Navbar() {
   const { pathname } = useLocation();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const isHome = pathname === '/';
 
   return (
@@ -38,9 +39,7 @@ export default function Navbar() {
       {isHome ? (
         <span className="nav-login-spacer" aria-hidden="true" />
       ) : user ? (
-        <button type="button" className="nav-login-btn" onClick={signOut}>
-          Log out
-        </button>
+        <LogoutButton className="nav-login-btn">Log out</LogoutButton>
       ) : (
         <Link to="/" className="nav-login-btn">
           Login

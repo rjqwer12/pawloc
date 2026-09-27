@@ -1,3 +1,4 @@
+import LogoutButton from './LogoutButton';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateAccountModal from './CreateAccountModal';
@@ -6,9 +7,6 @@ import {
   sendPasswordResetCode,
   updatePassword,
   verifyPasswordResetCode,
-  getUserRole,
-  EMAIL_OTP_LENGTH,
-  getAuthErrorMessage,
 } from '../lib/auth';
 import { useAuth } from '../lib/AuthContext';
 import './LoginForm.css';
@@ -60,7 +58,7 @@ function CheckBadge({ active }) {
 function ForgotPasswordModal({ onClose }) {
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
-  const [otp, setOtp] = useState(Array(EMAIL_OTP_LENGTH).fill(''));
+  const [otp, setOtp] = useState(Array(8).fill(''));
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -89,7 +87,7 @@ function ForgotPasswordModal({ onClose }) {
       setStatus({ type: 'success', text: 'Code sent to your email.' });
       setStep('otp');
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to send reset code. Please try again.') });
+      setStatus({ type: 'error', text: err.message || 'Unable to send reset code.' });
     } finally {
       setLoading(false);
     }
@@ -110,8 +108,8 @@ function ForgotPasswordModal({ onClose }) {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     const code = otp.join('');
-    if (code.length !== EMAIL_OTP_LENGTH) {
-      setStatus({ type: 'error', text: `Enter the full ${EMAIL_OTP_LENGTH}-digit code.` });
+    if (code.length !== 8) {
+      setStatus({ type: 'error', text: 'Enter the full 8-digit code.' });
       return;
     }
 
@@ -121,7 +119,7 @@ function ForgotPasswordModal({ onClose }) {
       await verifyPasswordResetCode(email, code);
       setStep('password');
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Invalid or expired code.') });
+      setStatus({ type: 'error', text: err.message || 'Invalid or expired code.' });
     } finally {
       setLoading(false);
     }
@@ -152,7 +150,7 @@ function ForgotPasswordModal({ onClose }) {
       setStatus({ type: 'success', text: 'Password updated successfully.' });
       setTimeout(onClose, 800);
     } catch (err) {
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to update password. Please try again.') });
+      setStatus({ type: 'error', text: err.message || 'Unable to update password.' });
     } finally {
       setLoading(false);
     }
@@ -253,7 +251,7 @@ function ForgotPasswordModal({ onClose }) {
         {step === 'password' && (
           <form className="forgot-form forgot-form--password" onSubmit={handlePasswordSubmit}>
             <div className="forgot-title-wrap">
-              <h3><span className="forgot-title-icon"><LockIcon /></span>Create new password</h3>
+              <h3>Create new password</h3>
             </div>
 
             <label className="forgot-field">
@@ -266,7 +264,7 @@ function ForgotPasswordModal({ onClose }) {
                   placeholder="Example1234!"
                   required
                 />
-                <button type="button" className="forgot-eye" onClick={() => setShowPassword((prev) => !prev)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
+                <button type="button" className="forgot-eye" onClick={() => setShowPassword((prev) => !prev)}>
                   <EyeIcon open={showPassword} />
                 </button>
               </div>
@@ -291,6 +289,9 @@ function ForgotPasswordModal({ onClose }) {
                   placeholder="Example1234!"
                   required
                 />
+                <button type="button" className="forgot-eye" onClick={() => setShowPassword((prev) => !prev)}>
+                  <EyeIcon open={showPassword} />
+                </button>
               </div>
             </label>
 
@@ -320,7 +321,6 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isRedirecting, setIsRedirecting] = useState(false);
   const [status, setStatus] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -329,21 +329,22 @@ export default function LoginForm() {
       setStatus({ type: 'error', text: 'Please agree to the Terms of Service.' });
       return;
     }
+    // Local UI preview only; this does not create a Supabase session.
+    if (import.meta.env.DEV && email.trim() === 'test') {
+      if (password !== 'test') {
+        setStatus({ type: 'error', text: 'The preview password is test.' });
+        return;
+      }
+      navigate('/user/home');
+      return;
+    }
     setLoading(true);
-    setIsRedirecting(true);
     setStatus(null);
     try {
       const { user: signedInUser } = await signIn(email, password);
-      const role = await getUserRole(signedInUser);
-      const destination = role === 'shelter'
-        ? '/shelter-dashboard'
-        : role === 'admin'
-          ? '/admin-dashboard'
-          : '/user-home';
-      navigate(destination);
+      navigate(signedInUser.user_metadata?.role === 'adopter' ? '/user/home' : '/adoptable');
     } catch (err) {
-      setIsRedirecting(false);
-      setStatus({ type: 'error', text: getAuthErrorMessage(err, 'Unable to sign in. Check your credentials and try again.') });
+      setStatus({ type: 'error', text: err.message });
     } finally {
       setLoading(false);
     }
@@ -354,7 +355,25 @@ export default function LoginForm() {
     setShowForgotPassword(true);
   };
 
-  if (user && !showForgotPassword && !isRedirecting) return null;
+  if (user) {
+    const name =
+      user.user_metadata?.first_name ||
+      user.user_metadata?.shelter_name ||
+      user.email;
+
+    return (
+      <section className="login-section">
+        <div className="login-form">
+          <h2 className="login-title">Welcome back</h2>
+          <p className="login-status login-status--success">Signed in as {name}</p>
+          <button type="button" className="btn btn-primary btn-full" onClick={() => navigate(user.user_metadata?.role === 'adopter' ? '/user/home' : '/adoptable')}>
+            Continue
+          </button>
+          <LogoutButton className="btn btn-outline btn-full">Log out</LogoutButton>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="login-section" aria-labelledby="login-heading">
@@ -365,12 +384,12 @@ export default function LoginForm() {
 
         <div className="form-group">
           <label htmlFor="email" className="sr-only">
-            Email address
+            {import.meta.env.DEV ? 'Email address or test username' : 'Email address'}
           </label>
           <input
             id="email"
-            type="email"
-            placeholder="Email address"
+            type={import.meta.env.DEV && email.trim() === 'test' ? 'text' : 'email'}
+            placeholder={import.meta.env.DEV ? 'Email address or test' : 'Email address'}
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

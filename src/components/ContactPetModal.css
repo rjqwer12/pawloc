@@ -1,0 +1,29 @@
+.contact-pet-modal { width: min(672px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; border: 0; border-radius: 12px; background: white; color: #162130; box-shadow: 0 20px 50px #111c2d1f; }
+.contact-pet-modal::backdrop { background: #14203370; }
+.contact-pet-header { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 28px 32px 20px; }
+.contact-pet-header h2 { font-size: 22px; font-weight: 750; line-height: 1.3; }
+.contact-pet-tag { display: inline-flex; align-items: center; gap: 3px; background: #ffe0dc; color: #d53131; padding: 4px 7px; border-radius: 16px; font-size: 10px; }
+.contact-pet-tag-found { background: #c6d3ff; color: #1818ec; }
+.contact-pet-tag svg { width: 11px; height: 11px; }
+.contact-pet-close { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; margin-left: auto; padding: 0; border-radius: 50%; color: #56635e; background: #f0f3ff; }
+.contact-pet-close svg { width: 18px; height: 18px; }
+.contact-pet-fields { display: grid; gap: 20px; padding: 8px 32px 28px; }
+.contact-pet-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.contact-pet-fields label { display: block; font-size: 11px; font-weight: 600; line-height: 1.5; }
+.contact-pet-fields label > span { color: #ee6161; }
+.contact-pet-fields input, .contact-pet-fields textarea { display: block; width: 100%; min-width: 0; margin-top: 6px; padding: 11px 13px; border: 1px solid #e0e5ee; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 400; color: #344054; }
+.contact-pet-fields input::placeholder, .contact-pet-fields textarea::placeholder { color: #8b9690; }
+.contact-pet-fields textarea { resize: vertical; }
+.contact-pet-actions { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 16px 32px; background: #f3f5ff; }
+.contact-pet-actions button { padding: 12px 20px; border-radius: 20px; background: transparent; color: #55625b; font-size: 13px; font-weight: 600; }
+.contact-pet-modal .contact-pet-send { padding: 12px 24px; background: #689d4b; color: white; border-radius: 18px; font-size: 13px; font-weight: 700; box-shadow: 0 2px 5px #689d4b30; }
+.contact-pet-modal .contact-pet-send:hover { background: #56843d; }
+.contact-pet-error { color: #c53232; font-size: 12px; }
+.contact-pet-modal-sent { width: min(448px, calc(100% - 24px)); border-radius: 16px; }
+.contact-pet-success { position: relative; padding: 52px 28px 28px; text-align: center; }
+.contact-pet-success .contact-pet-close { position: absolute; top: 14px; right: 14px; }
+.contact-pet-check { display: grid; place-items: center; margin: 0 auto 18px; width: 64px; height: 64px; border-radius: 50%; background: #f0f3ff; color: #689d4b; font-size: 30px; }
+.contact-pet-success h2 { font-size: 28px; margin-bottom: 20px; font-weight: 800; }
+.contact-pet-success p { font-size: 14px; line-height: 1.6; color: #65736a; margin-bottom: 16px; }
+.contact-pet-success .contact-pet-send { width: 100%; }
+@media (max-width: 480px) { .contact-pet-header { padding: 20px 18px 12px; } .contact-pet-header h2 { font-size: 19px; } .contact-pet-fields { padding: 8px 18px 24px; gap: 16px; } .contact-pet-row { grid-template-columns: minmax(0, 1fr); gap: 16px; } .contact-pet-actions { padding: 14px 18px; } }
