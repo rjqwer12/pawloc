@@ -34,7 +34,7 @@ Instead of relying on scattered social media posts and physical flyers, Pawloc p
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR-GITHUB-REPOSITORY-URL
+git clone https://github.com/rjqwer12/pawloc.git
 ```
 
 ### 2. Open the Project Folder
