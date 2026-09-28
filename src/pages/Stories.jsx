@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { stories, storyFilters } from '../data/stories';
+import { storyFilters } from '../data/stories';
+import usePublicRecords from '../lib/usePublicRecords';
 import './Stories.css';
 
 function ClockIcon() {
@@ -12,6 +13,8 @@ function ClockIcon() {
 }
 
 export default function Stories() {
+  const { records, loading, error } = usePublicRecords('post');
+  const stories = records.filter(post => post.category === 'reunited');
   const [activeFilter, setActiveFilter] = useState('All Pets');
 
   const filterMap = {
@@ -39,7 +42,7 @@ export default function Stories() {
           <div>
             <h2 className="stories-list-title">Recent Reunions</h2>
             <p className="stories-list-subtitle">
-              Verified submissions from owners and local shelter partners
+              Stories shared by community members
             </p>
           </div>
           <div className="stories-filters" role="group" aria-label="Filter reunions">
@@ -57,6 +60,9 @@ export default function Stories() {
         </div>
 
         <div className="stories-grid">
+          {loading && <p role="status">Loading stories...</p>}
+          {error && <p role="alert">{error}</p>}
+          {!loading && !error && !visibleStories.length && <p>No reunited stories in this category yet.</p>}
           {visibleStories.map((story) => (
             <article key={story.id} className="story-card">
               <img
@@ -68,9 +74,9 @@ export default function Stories() {
               <div className="story-card-body">
                 <h3 className="story-card-title">{story.title}</h3>
                 <p className="story-card-meta">
-                  {story.breed} &bull; {story.area}
+                  {story.dateFound ? `Date found: ${story.dateFound}` : story.author}
                 </p>
-                <p className="story-card-quote">&ldquo;{story.quote}&rdquo;</p>
+                <p className="story-card-quote">&ldquo;{story.description}&rdquo;</p>
                 <div className="story-card-footer">
                   <ClockIcon />
                   <span className="story-card-time">{story.time}</span>

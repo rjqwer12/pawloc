@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { shelters } from '../data/shelters';
+import usePublicRecords from '../lib/usePublicRecords';
 import './Shelters.css';
 
 function PinIcon() {
@@ -20,6 +20,7 @@ function PhoneIcon() {
 }
 
 export default function Shelters() {
+  const { records: shelters, loading, error } = usePublicRecords('shelter');
   return (
     <main className="shelters-page">
       <section className="shelters-hero">
@@ -30,6 +31,9 @@ export default function Shelters() {
       </section>
 
       <section className="shelters-grid">
+        {loading && <p role="status">Loading shelters...</p>}
+        {error && <p role="alert">{error}</p>}
+        {!loading && !error && !shelters.length && <p>No shelters have been listed yet.</p>}
         {shelters.map((shelter) => {
           return (
             <article key={shelter.id} className="shelter-card">

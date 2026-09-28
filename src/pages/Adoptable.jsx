@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import PetCard from '../components/PetCard';
-import { pets, filters } from '../data/pets';
+import { filters } from '../data/pets';
+import usePublicRecords from '../lib/usePublicRecords';
 import './Adoptable.css';
 
 export default function Adoptable() {
+  const { records: pets, loading, error } = usePublicRecords('pet');
   const [activeFilter, setActiveFilter] = useState('All Pets');
 
   const filterMap = {
@@ -29,12 +31,12 @@ export default function Adoptable() {
 
         <div className="adoptable-stats">
           <div className="stat-card stat-card--green">
-            <span className="stat-value">0</span>
-            <span className="stat-label">Adoptions this week</span>
+            <span className="stat-value">{loading || error ? '—' : pets.filter(pet => pet.status === 'Available' || pet.status === 'Senior Gentle').length}</span>
+            <span className="stat-label">Available pets</span>
           </div>
           <div className="stat-card stat-card--coral">
-            <span className="stat-value">0</span>
-            <span className="stat-label">Total Adaptions</span>
+            <span className="stat-value">{loading || error ? '—' : pets.length}</span>
+            <span className="stat-label">Listed pets</span>
           </div>
         </div>
       </section>
@@ -59,12 +61,15 @@ export default function Adoptable() {
           <div>
             <h2 className="grid-title">Featured Companions</h2>
             <p className="grid-subtitle">
-              Showing 0 of 0 verified shelter profiles
+              Showing {filteredPets.length} of {pets.length} pet listings
             </p>
           </div>
         </div>
 
         <div className="pet-grid">
+          {loading && <p role="status">Loading pets...</p>}
+          {error && <p role="alert">{error}</p>}
+          {!loading && !error && !filteredPets.length && <p>No pets in this category yet.</p>}
           {filteredPets.map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}

@@ -1,0 +1,6 @@
+.create-post-modal.edit-post-modal { width: min(640px, calc(100% - 24px)); border-radius: 24px; padding: 12px; }
+.edit-post-modal .create-post-heading-icon { color: #689d4b; }
+.edit-post-modal .lost-pet-upload { min-height: 116px; }
+.edit-post-modal .lost-pet-form textarea { min-height: 100px; }
+.edit-post-modal .lost-pet-actions { padding-top: 12px; }
+@media (max-width: 480px) { .create-post-modal.edit-post-modal { padding: 2px; } }

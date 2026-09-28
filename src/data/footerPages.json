@@ -1,0 +1,142 @@
+{
+  "about-us": {
+    "title": "About us",
+    "intro": "",
+    "sections": [
+      {
+        "heading": "Who We Are",
+        "text": "Pawloc is a web-based platform developed to address the challenges faced by pet owners, rescuers, shelters, and communities when pets become lost or are found without their owners. Our project was created by students from the Information Technology Department of the College of Engineering at Western Institute of Technology. Our team combines skills in project management, UX/UI design, frontend development, backend development, full-stack development, and quality assurance."
+      },
+      {
+        "heading": "Why Pawloc Exists",
+        "text": "We recognized that information about lost and found pets is often scattered across social media pages, community groups, barangay reports, and physical posters. Important posts can become buried, while incomplete information can make it difficult to determine whether a found animal is someone's missing pet. Pawloc was designed to provide a centralized space where these reports can remain organized and accessible to the community."
+      },
+      {
+        "heading": "What We Believe",
+        "text": "We believe technology can help communities respond more effectively when pets go missing. Pawloc focuses on:",
+        "items": [
+          "Organized lost and found pet reporting",
+          "Community participation",
+          "Safer communication",
+          "Location-based reporting",
+          "Rescue and shelter coordination",
+          "Helping pets reconnect with their owners"
+        ]
+      },
+      {
+        "heading": "Our Mission",
+        "text": "Our mission is to provide a secure and community-focused platform that makes lost and found pet reporting easier, more organized, and more accessible."
+      },
+      {
+        "heading": "Our Vision",
+        "text": "We envision communities where lost pets can be reported quickly, found animals can be identified more easily, and shelters and rescuers have better tools to support animal recovery."
+      }
+    ]
+  },
+  "community-guidelines": {
+    "title": "Community Guidelines",
+    "intro": "",
+    "sections": [
+      {
+        "heading": "Help Us Keep Pawloc Safe and Helpful",
+        "text": "Pawloc is a community platform designed to help people report lost pets, identify found animals, and support rescue and shelter efforts. Everyone using Pawloc is expected to treat other users and animals with respect."
+      },
+      {
+        "heading": "1. Provide Accurate Information",
+        "text": "When creating a report, provide information that is truthful and as accurate as possible. Do not intentionally submit false information about a lost or found pet."
+      },
+      {
+        "heading": "2. Do Not Make False Ownership Claims",
+        "text": "Do not falsely claim that an animal belongs to you. If you believe a found animal may be yours, provide reasonable information that can help establish ownership."
+      },
+      {
+        "heading": "3. Respect Other Users",
+        "text": "Do not use Pawloc to:",
+        "items": [
+          "Harass or threaten others",
+          "Send spam",
+          "Impersonate another person",
+          "Bully or intimidate users",
+          "Publish someone's private information without permission"
+        ]
+      },
+      {
+        "heading": "4. Protect Personal Information",
+        "text": "Avoid posting sensitive personal information publicly. Do not publish passwords, financial information, private addresses, or other information that could put someone at risk."
+      },
+      {
+        "heading": "5. No Fraud or Abuse",
+        "text": "Pawloc must not be used to scam users, request money through deceptive claims, or manipulate pet reports for personal gain."
+      },
+      {
+        "heading": "6. Appropriate Content",
+        "text": "Pet photos, descriptions, and other submitted content should be relevant to the purpose of Pawloc. Content that is abusive, threatening, fraudulent, or otherwise inappropriate may be removed."
+      },
+      {
+        "heading": "7. Help Keep Reports Useful",
+        "text": "Update your report when circumstances change. If a lost pet is found, rescued, or otherwise no longer missing, update its status when possible."
+      },
+      {
+        "heading": "8. Report Problems",
+        "text": "If you see suspicious activity, false claims, spam, harassment, or other violations, report them to Pawloc support. Our goal is to maintain a community where people can work together to help lost and found pets."
+      }
+    ]
+  },
+  "privacy-policy": {
+    "title": "Privacy Policy",
+    "intro": "Pawloc respects your privacy and is committed to handling your information responsibly. This Privacy Policy explains what information may be collected when you use Pawloc and how that information may be used.",
+    "sections": [
+      {
+        "heading": "1. Information We Collect",
+        "text": "Depending on how you use Pawloc, the platform may collect information such as:",
+        "items": [
+          "Account registration information",
+          "Email address used for account verification",
+          "Information included in lost or found pet reports",
+          "Pet photos and descriptions",
+          "Location information associated with pet reports",
+          "Shelter-related documents when applicable",
+          "Information you provide when contacting support"
+        ]
+      },
+      {
+        "heading": "2. How We Use Information",
+        "text": "Information collected through Pawloc may be used to:",
+        "items": [
+          "Create and manage user accounts",
+          "Verify accounts",
+          "Publish and organize lost and found pet reports",
+          "Help users identify and locate missing pets",
+          "Support rescue and shelter activities",
+          "Improve the functionality and reliability of the platform",
+          "Respond to support requests",
+          "Protect the platform and its users from abuse or misuse"
+        ]
+      },
+      {
+        "heading": "3. Location Information",
+        "text": "Location information may be included in pet reports to help community members identify where a pet was last seen or found. Users should avoid including unnecessary personal information in public report descriptions."
+      },
+      {
+        "heading": "4. Account Security",
+        "text": "Pawloc uses account authentication and secure cloud services to help protect user information. However, no online service can guarantee absolute security. Users are responsible for keeping their account credentials confidential."
+      },
+      {
+        "heading": "5. Sharing of Personal Information",
+        "text": "Pawloc is designed to reduce the need for users to publicly expose personal phone numbers when communicating about pet reports. We do not encourage users to publicly post sensitive personal information."
+      },
+      {
+        "heading": "6. Pet Photos and Reports",
+        "text": "Photos, descriptions, and other information submitted as part of a pet report may be visible to other users when necessary to support the lost-and-found process. Please only submit information that you are comfortable sharing for this purpose."
+      },
+      {
+        "heading": "7. Changes to This Policy",
+        "text": "This Privacy Policy may be updated as Pawloc develops. Any significant changes should be reflected on this page."
+      },
+      {
+        "heading": "8. Contact",
+        "text": "For privacy-related questions or concerns, contact: Email: pawloc2026@gmail.com"
+      }
+    ]
+  }
+}

@@ -51,7 +51,7 @@ export default function CreatePostModal({ onClose, onCreate }) {
           <span className="create-post-option-icon"><Icon name={option.icon} /></span>
           <span className="create-post-option-content"><span className="create-post-option-heading"><strong>{option.title}</strong><span className="create-post-option-badge"><Icon name={option.value === 'reunited' ? 'heart' : 'warning'} />{option.badge}</span></span><span className="create-post-option-description">{option.description}</span></span>
         </button>)}
-      </div> : category === 'lost' ? <LostPetForm key="lost" onBack={() => setCategory(null)} onSubmit={post => setPublished(onCreate(post))} /> : category === 'found' ? <FoundPetForm key="found" onBack={() => setCategory(null)} onSubmit={post => setPublished(onCreate(post))} /> : <ReunitedStoryForm key="reunited" onBack={() => setCategory(null)} onSubmit={post => setPublished(onCreate(post))} />}
+      </div> : category === 'lost' ? <LostPetForm key="lost" onBack={() => setCategory(null)} onSubmit={async post => setPublished(await onCreate(post))} /> : category === 'found' ? <FoundPetForm key="found" onBack={() => setCategory(null)} onSubmit={async post => setPublished(await onCreate(post))} /> : <ReunitedStoryForm key="reunited" onBack={() => setCategory(null)} onSubmit={async post => setPublished(await onCreate(post))} />}
     </dialog>
   );
 }

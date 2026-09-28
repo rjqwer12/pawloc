@@ -3,12 +3,16 @@ import { Link, useSearchParams } from 'react-router-dom';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import UserLayout from '../../components/UserLayout';
-import { shelters } from '../../data/shelters';
+import { listRecords } from '../../lib/userData';
+import { useAuth } from '../../lib/AuthContext';
+import { shelters as sampleShelters } from '../../data/shelters';
 import { drivingRoute, findShelter } from '../../lib/maps';
 import './UserMap.css';
 
 export default function UserMap() {
   const [params] = useSearchParams();
+  const { user } = useAuth();
+  const [shelters, setShelters] = useState(() => user ? [] : sampleShelters);
   const shelter = shelters.find(item => String(item.id) === params.get('shelter'));
   // City overview only; never used as a shelter destination.
   const container = useRef(null);
@@ -23,6 +27,8 @@ export default function UserMap() {
   const [route, setRoute] = useState(null);
   const [routeMessage, setRouteMessage] = useState('');
   const [tileError, setTileError] = useState(false);
+  useEffect(() => { if (user) listRecords('shelter').then(setShelters).catch(error => setMessage(error.message)); }, [user]);
+
 
   useEffect(() => {
     const instance = L.map(container.current).setView([10.72, 122.54], 13);

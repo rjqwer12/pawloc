@@ -17,7 +17,7 @@ export default function UserLayout({ children }) {
       <header className="user-topbar">
         <Link to="/user/home" aria-label="Pawloc home"><img src={logo} alt="PAWLOC" className="user-logo" /></Link>
         <div className="user-topbar-account">
-          <button disabled title="Notifications are not available yet" aria-label="Notifications"><Icon name="bell" /><span className="user-notification-dot" /></button>
+          <Link to="/user/notifications" title="Notifications" aria-label="Notifications"><Icon name="bell" /></Link>
           <span className="user-avatar">{name.slice(0, 2).toUpperCase()}</span><span>{name}</span>
         </div>
       </header>

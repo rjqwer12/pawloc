@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const footerLinks = [
-  { label: 'About us', href: '#about' },
-  { label: 'Privacy Policy', href: '#privacy' },
-  { label: 'Community Guidelines', href: '#guidelines' },
+  { label: 'About us', href: '/about-us' },
+  { label: 'Contact Support', href: '/contact-support' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Community Guidelines', href: '/community-guidelines' },
 ];
 
 export default function Footer() {
@@ -14,13 +15,10 @@ export default function Footer() {
         &copy; 2026 PAWLOC Rescue and Adoption Network. All rights reserved.
       </p>
       <nav className="footer-links" aria-label="Footer navigation">
-        <Link to="/contact-support" className="footer-link">
-          Contact Support
-        </Link>
         {footerLinks.map(({ label, href }) => (
-          <a key={label} href={href} className="footer-link">
+          <Link key={label} to={href} className="footer-link">
             {label}
-          </a>
+          </Link>
         ))}
       </nav>
     </footer>

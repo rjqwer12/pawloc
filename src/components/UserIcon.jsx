@@ -1,5 +1,6 @@
 export default function UserIcon({ name, ...props }) {
   const paths = {
+    edit: 'M14 4H4v16h16V10 M10 14l1-4 8-8 3 3-8 8z M17 4l3 3',
     profile: 'M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M4 21v-3a8 6 0 0 1 16 0v3z',
     delete: 'M3 6h18 M9 6V3h6v3 M5 6l1 15h12l1-15 M10 10v7 M14 10v7',
     calendar: 'M3 5h18v16H3z M3 10h18 M7 3v4 M17 3v4 M7 14h2 M12 14h2 M7 18h2',

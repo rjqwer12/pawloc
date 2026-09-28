@@ -1,7 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PetDetailsModal from '../../components/PetDetailsModal';
 import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
-import { userPets } from '../../data/userPets';
+import { userPets as sampleListings } from '../../data/userPets';
+import { useAuth } from '../../lib/AuthContext';
+import { listRecords } from '../../lib/userData';
 import './UserAdoptable.css';
 
 const filters = [['all', 'All Pets'], ['dog', 'Dogs'], ['cat', 'Cats']];
@@ -14,14 +17,18 @@ function PetPhoto({ pet }) {
 }
 
 export default function UserAdoptable() {
+  const { user } = useAuth();
+  const [userPets, setListings] = useState(() => user ? [] : sampleListings);
+  const [error, setError] = useState('');
+  useEffect(() => { let active = true; if (user) listRecords('pet').then(rows => { if (active) setListings(rows); }).catch(error => { if (active) setError(error.message); }); return () => { active = false; }; }, [user]);
   const [filter, setFilter] = useState('all');
   const [selectedPet, setSelectedPet] = useState(null);
-  const dialog = useRef(null);
+
   const visiblePets = userPets.filter(pet => filter === 'all' || pet.type === filter);
 
   function showDetails(pet) {
     setSelectedPet(pet);
-    dialog.current.showModal();
+
   }
 
   return (
@@ -47,18 +54,9 @@ export default function UserAdoptable() {
             </article>
           ))}
         </section>
-        <p className="user-pet-preview">Sample listings and photos for preview.</p>
+        {error && <p role="alert">{error}</p>}{!user && <p>Preview listings. Sign in with a real account for database features.</p>}
       </main>
-      <dialog className="user-pet-dialog" ref={dialog} aria-labelledby="user-pet-dialog-title">
-        {selectedPet && <>
-          <header><h2 id="user-pet-dialog-title">Meet {selectedPet.name}</h2><button onClick={() => dialog.current.close()} aria-label="Close pet details">×</button></header>
-          <div className="user-pet-dialog-photo"><PetPhoto key={selectedPet.id} pet={selectedPet} /></div>
-          <p className="user-pet-dialog-description">{selectedPet.description}</p>
-          <dl><div><dt>Breed</dt><dd>{selectedPet.breed}</dd></div><div><dt>Age</dt><dd>{selectedPet.age}</dd></div><div><dt>Gender</dt><dd>{selectedPet.gender}</dd></div><div><dt>Shelter</dt><dd>{selectedPet.shelter}</dd></div><div><dt>Status</dt><dd>{selectedPet.status}</dd></div></dl>
-          <p className="user-pet-preview">This is a sample pet profile.</p>
-          <button className="user-pet-details-button" onClick={() => dialog.current.close()}>Back to pets</button>
-        </>}
-      </dialog>
+      {selectedPet && <PetDetailsModal key={selectedPet.id} pet={selectedPet} onClose={() => setSelectedPet(null)} />}
     </UserLayout>
   );
 }

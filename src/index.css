@@ -25,6 +25,19 @@ html {
   overflow-y: scroll;
 }
 
+html:has(dialog:modal) {
+  overflow: hidden;
+}
+
+dialog:modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 body {
   min-height: 100%;
   font-family: 'Work Sans', 'Segoe UI', sans-serif;

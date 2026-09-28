@@ -76,6 +76,16 @@ export async function signIn(email, password) {
   return data;
 }
 
+export async function getShelterApproval(user) {
+  if (user.user_metadata?.role !== 'shelter') return null;
+  const { data, error } = await supabase.from('shelter_approvals').select('status').eq('user_id', user.id).maybeSingle();
+  if (error) throw new Error('Unable to check shelter approval. Please contact support or try again later.');
+  if (data?.status === 'approved') return null;
+  const { data: profile, error: profileError } = await supabase.from('profiles').select('shelter_name, representative').eq('id', user.id).maybeSingle();
+  if (profileError) throw profileError;
+  return { status: data?.status || 'pending', name: profile?.shelter_name || user.user_metadata?.shelter_name || 'Shelter', owner: profile?.representative, email: user.email };
+}
+
 export async function sendPasswordReset(email) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin,
@@ -95,7 +105,7 @@ export async function verifyPasswordResetCode(email, token) {
   const { data, error } = await supabase.auth.verifyOtp({
     email,
     token,
-    type: 'recovery',
+    type: 'email',
   });
   if (error) throw error;
   return data;

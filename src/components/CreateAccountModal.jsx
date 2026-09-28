@@ -4,20 +4,9 @@ import {
   sendEmailOtp,
   uploadShelterDoc,
 } from '../lib/auth';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import './CreateAccountModal.css';
-
-function PawIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <ellipse cx="12" cy="17" rx="4.5" ry="3.5" />
-      <ellipse cx="6.5" cy="11" rx="2.5" ry="3" transform="rotate(-15 6.5 11)" />
-      <ellipse cx="17.5" cy="11" rx="2.5" ry="3" transform="rotate(15 17.5 11)" />
-      <ellipse cx="9" cy="7" rx="2" ry="2.5" transform="rotate(-10 9 7)" />
-      <ellipse cx="15" cy="7" rx="2" ry="2.5" transform="rotate(10 15 7)" />
-    </svg>
-  );
-}
 
 function UserIcon() {
   return (
@@ -125,7 +114,7 @@ function StatusMessage({ status }) {
   );
 }
 
-function AdopterForm({ onClose }) {
+function AdopterForm({ onSuccess }) {
   const [form, setForm] = useState({
     firstName: '',
     middleName: '',
@@ -160,7 +149,7 @@ function AdopterForm({ onClose }) {
     try {
       await sendEmailOtp(form.email);
       setSent(true);
-      setOtpSeconds(39);
+      setOtpSeconds(300);
       setStatus({ type: 'success', text: 'OTP sent. Check your email.' });
     } catch (err) {
       setStatus({ type: 'error', text: getAuthErrorMessage(err) });
@@ -194,7 +183,7 @@ function AdopterForm({ onClose }) {
           last_name: form.lastName,
         },
       });
-      onClose();
+      onSuccess({ role: 'adopter', name: [form.firstName, form.middleName, form.lastName].filter(Boolean).join(' '), email: form.email });
     } catch (err) {
       setStatus({ type: 'error', text: err.message });
     } finally {
@@ -212,7 +201,7 @@ function AdopterForm({ onClose }) {
           </span>
           <input
             type="text"
-            placeholder="Jane"
+            placeholder="RJ Molene"
             value={form.firstName}
             onChange={update('firstName')}
             required
@@ -224,7 +213,7 @@ function AdopterForm({ onClose }) {
           </span>
           <input
             type="text"
-            placeholder="Marie"
+            placeholder="Sepida"
             value={form.middleName}
             onChange={update('middleName')}
           />
@@ -236,7 +225,7 @@ function AdopterForm({ onClose }) {
           </span>
           <input
             type="text"
-            placeholder="Doe"
+            placeholder="Socias"
             value={form.lastName}
             onChange={update('lastName')}
             required
@@ -252,7 +241,7 @@ function AdopterForm({ onClose }) {
         <span className="modal-inline">
           <input
             type="email"
-            placeholder="janedoe@example.com"
+            placeholder="RJMolene@example.com"
             value={form.email}
             onChange={update('email')}
             required
@@ -315,7 +304,7 @@ function AdopterForm({ onClose }) {
         <input type="checkbox" required />
         <span>
           I agree to the <a href="#terms">Terms of Service</a> and acknowledge
-          PAWLOC’s <a href="#privacy">Privacy Policy</a>
+          PAWLOC’s <Link to="/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</Link>
         </span>
       </label>
 
@@ -328,7 +317,7 @@ function AdopterForm({ onClose }) {
   );
 }
 
-function ShelterForm({ onClose }) {
+function ShelterForm({ onSuccess }) {
   const [form, setForm] = useState({
     shelterName: '',
     representative: '',
@@ -378,6 +367,14 @@ function ShelterForm({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!birFile || !permitFile) {
+      setStatus({ type: 'error', text: 'Upload both your shelter image and business permit before registering.' });
+      return;
+    }
+    if ([birFile, permitFile].some(file => !['image/png', 'image/jpeg', 'application/pdf'].includes(file.type) || file.size === 0 || file.size > 10 * 1024 * 1024)) {
+      setStatus({ type: 'error', text: 'Each required document must be a PNG, JPG, or PDF file up to 10 MB.' });
+      return;
+    }
     if (form.password !== form.confirm) {
       setStatus({ type: 'error', text: 'Passwords do not match.' });
       return;
@@ -412,7 +409,7 @@ function ShelterForm({ onClose }) {
         if (error) throw error;
       }
 
-      onClose();
+      onSuccess({ role: 'shelter', name: form.shelterName, owner: form.representative, email: form.email, documents: Boolean(birPath && permitPath) });
     } catch (err) {
       setStatus({ type: 'error', text: err.message });
     } finally {
@@ -425,12 +422,12 @@ function ShelterForm({ onClose }) {
       <div className="modal-row">
         <label className="modal-field">
           <span>
-            Shelter / Organization name
+            Shelter name
             <span className="required-indicator">*</span>
           </span>
           <input
             type="text"
-            placeholder="e.g. Hope Animal Haven"
+            placeholder="Pawloc Shelter"
             value={form.shelterName}
             onChange={update('shelterName')}
             required
@@ -438,12 +435,12 @@ function ShelterForm({ onClose }) {
         </label>
         <label className="modal-field">
           <span>
-            Authorized representative
+            Owner name
             <span className="required-indicator">*</span>
           </span>
           <input
             type="text"
-            placeholder="Director / Head Manager"
+            placeholder="RJ Molene S. Socias"
             value={form.representative}
             onChange={update('representative')}
             required
@@ -458,7 +455,7 @@ function ShelterForm({ onClose }) {
         </span>
         <input
           type="text"
-          placeholder="Street address, City, State / Province"
+          placeholder="Delgado Animal Day Care & Rescue Center, Zone 2, Santa Barbara, 5002 Iloilo"
           value={form.address}
           onChange={update('address')}
           required
@@ -467,13 +464,13 @@ function ShelterForm({ onClose }) {
 
       <label className="modal-field">
         <span>
-          Official organization email
+          Official email
           <span className="required-indicator">*</span>
         </span>
         <span className="modal-inline">
           <input
             type="email"
-            placeholder="admin@shelter.org"
+            placeholder="Pawloc@gmail.com"
             value={form.email}
             onChange={update('email')}
             required
@@ -533,7 +530,8 @@ function ShelterForm({ onClose }) {
       </div>
 
       <fieldset className="modal-docs">
-        <legend>Legal verification documents</legend>
+        <legend>Legal verification documents <span className="required-indicator">*</span></legend>
+        <p className="modal-docs-required">Both uploads are required. PNG, JPG, or PDF up to 10 MB each.</p>
         <div className="modal-uploads">
           <button
             type="button"
@@ -541,11 +539,12 @@ function ShelterForm({ onClose }) {
             onClick={() => birRef.current?.click()}
           >
             <UploadIcon />
-            <strong>{birFile ? birFile.name : 'Upload BIR Registration'}</strong>
+            <strong>{birFile ? birFile.name : 'Upload Shelter Image *'}</strong>
             <span>PDF, PNG, JPG up to 10MB</span>
           </button>
           <input
             ref={birRef}
+            aria-label="Shelter image (required)"
             type="file"
             accept=".pdf,.png,.jpg,.jpeg"
             hidden
@@ -558,12 +557,13 @@ function ShelterForm({ onClose }) {
           >
             <FileIcon />
             <strong>
-              {permitFile ? permitFile.name : 'Upload Business / Mayor’s Permit'}
+              {permitFile ? permitFile.name : 'Upload Business Permit *'}
             </strong>
             <span>PDF, PNG, JPG up to 10MB</span>
           </button>
           <input
             ref={permitRef}
+            aria-label="Business or Mayor permit (required)"
             type="file"
             accept=".pdf,.png,.jpg,.jpeg"
             hidden
@@ -591,79 +591,47 @@ function ShelterForm({ onClose }) {
 
 export default function CreateAccountModal({ onClose }) {
   const [role, setRole] = useState('adopter');
-
+  const [success, setSuccess] = useState(null);
+  const [loginError, setLoginError] = useState('');
+  const [leaving, setLeaving] = useState(false);
+  const dialog = useRef(null);
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    const onKey = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [onClose]);
-
-  return (
-    <div className="modal-backdrop" onClick={onClose} role="presentation">
-      <div
-        className="modal-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="create-account-title"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
-          ×
-        </button>
-
-        <div className="modal-icon">
-          <PawIcon />
-        </div>
-        <h2 id="create-account-title">Create Account</h2>
-        <p className="modal-subtitle">
-          Join the network to help lost paws find their way home.
-        </p>
-
-        <div className="modal-tabs" role="tablist">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={role === 'adopter'}
-            className={`modal-tab${role === 'adopter' ? ' modal-tab--active' : ''}`}
-            onClick={() => setRole('adopter')}
-          >
-            <UserIcon />
-            Pet Adopter / User
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={role === 'shelter'}
-            className={`modal-tab${role === 'shelter' ? ' modal-tab--active' : ''}`}
-            onClick={() => setRole('shelter')}
-          >
-            <BuildingIcon />
-            Shelter Owner / Partner
-          </button>
-        </div>
-
-        <div className="modal-body">
-          {role === 'adopter' ? (
-            <AdopterForm onClose={onClose} />
-          ) : (
-            <ShelterForm onClose={onClose} />
-          )}
-        </div>
-
-        <p className="modal-footer-text">
-          Already have an account?{' '}
-          <button type="button" className="modal-login-link" onClick={onClose}>
-            Log in
-          </button>
-        </p>
+    const element = dialog.current;
+    const focus = document.activeElement;
+    element.showModal();
+    return () => { element.close(); focus?.focus(); };
+  }, []);
+  useEffect(() => { if (dialog.current) dialog.current.scrollTop = 0; }, [success, role]);
+  async function proceedToLogin() {
+    setLeaving(true);
+    setLoginError('');
+    const { error } = await supabase.auth.signOut();
+    if (error) { setLoginError(error.message); setLeaving(false); return; }
+    onClose();
+  }
+  return <dialog ref={dialog} className={`modal-dialog create-account-dialog${success ? ' account-success-dialog' : ''}`} aria-labelledby="create-account-title" onCancel={event => { event.preventDefault(); onClose(); }}>
+    <button type="button" className="modal-close" onClick={onClose} aria-label="Close create account">&times;</button>
+    {success ? <>
+      <div className="account-success-check" aria-hidden="true">&#10003;</div>
+      <h2 id="create-account-title">{success.role === 'shelter' ? 'Registration Submitted!' : 'Account Created Successfully!'}</h2>
+      <p className="modal-subtitle">{success.role === 'shelter' ? 'Welcome to the PAWLOC Rescue Network. Your journey to helping lost paws find their way home starts here.' : `Welcome to PawLoc, ${success.name}! Your community profile is now active. Share, connect, and help pets find their way home.`}</p>
+      <dl className="account-success-summary">
+        <div><dt>{success.role === 'shelter' ? 'Registered Shelter' : 'Registered Member'}</dt><dd>{success.name}{success.role === 'shelter' && success.owner ? ` (${success.owner})` : ''}</dd></div>
+        <div><dt>{success.role === 'shelter' ? 'Contact Email' : 'Account Email'}</dt><dd>{success.email}</dd></div>
+        <div><dt>Account Type</dt><dd>{success.role === 'shelter' ? 'Shelter Partner Application' : 'Pet Owner / Adopter'}</dd></div>
+        <div><dt>Security Status</dt><dd className="account-verified">&#10003; Email Verified via OTP</dd></div>
+        {success.role === 'shelter' && <div><dt>Legal Verification</dt><dd>{success.documents ? 'Documents Uploaded' : 'Not all documents uploaded'}</dd></div>}
+      </dl>
+      {loginError && <p role="alert" className="modal-status modal-status--error">{loginError}</p>}
+      <button className="btn btn-primary btn-full" onClick={proceedToLogin} disabled={leaving}>{leaving ? 'Please wait?' : 'Proceed to Login'}</button>
+    </> : <>
+      <h2 id="create-account-title">Create Account</h2>
+      <p className="modal-subtitle">Join the network to help lost paws find their way home.</p>
+      <div className="modal-tabs" aria-label="Account type">
+        <button type="button" aria-pressed={role === 'adopter'} className={`modal-tab${role === 'adopter' ? ' modal-tab--active' : ''}`} onClick={() => setRole('adopter')}><UserIcon />User</button>
+        <button type="button" aria-pressed={role === 'shelter'} className={`modal-tab${role === 'shelter' ? ' modal-tab--active' : ''}`} onClick={() => setRole('shelter')}><BuildingIcon />Shelter</button>
       </div>
-    </div>
-  );
+      <div className="modal-body">{role === 'adopter' ? <AdopterForm onSuccess={setSuccess} /> : <ShelterForm onSuccess={setSuccess} />}</div>
+    </>}
+  </dialog>;
 }

@@ -1,0 +1,14 @@
+.delete-post-modal { width: min(512px, calc(100% - 28px)); padding: 32px; border: 1px solid #f3f4f6; border-radius: 24px; background: white; color: #142033; text-align: center; }
+.delete-post-modal::backdrop { background: #11182766; }
+.delete-post-badge { width: 48px; height: 48px; margin: 0 auto 16px; display: grid; place-items: center; background: #fff1f2; color: #df6669; border-radius: 16px; }
+.delete-post-badge svg { width: 24px; height: 24px; }
+.delete-post-badge-success { width: 60px; height: 60px; border-radius: 50%; background: #e6f0dc; color: #689d4b; font-size: 30px; }
+.delete-post-modal h2 { font-size: 25px; margin-bottom: 16px; }
+.delete-post-modal h3 { font-size: 17px; margin-bottom: 12px; }
+.delete-post-modal p { color: #7b899c; font-size: 14px; line-height: 1.6; }
+.delete-post-modal .delete-post-name { color: #475569; font-weight: 600; margin-bottom: 8px; overflow-wrap: anywhere; }
+.delete-post-actions { display: flex; justify-content: center; gap: 14px; margin-top: 22px; }
+.delete-post-actions button { padding: 12px 28px; border: 1px solid #94a3b8; border-radius: 9px; background: white; color: #142033; }
+.delete-post-actions button:last-child { background: #df6669; border-color: #df6669; color: white; }
+.delete-post-done { width: 100%; padding: 13px; margin-top: 24px; border: 0; border-radius: 12px; color: white; background: #689d4b; }
+.delete-post-modal button { cursor: pointer; }

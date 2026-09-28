@@ -6,3 +6,6 @@ export function getPreviewPosts(account = 'demo') {
 export function addPreviewPost(account = 'demo', post) {
   postsByAccount.set(account, [post, ...getPreviewPosts(account)]);
 }
+export function updatePreviewPost(account = 'demo', post) {
+  postsByAccount.set(account, getPreviewPosts(account).map(current => current.id === post.id ? post : current));
+}

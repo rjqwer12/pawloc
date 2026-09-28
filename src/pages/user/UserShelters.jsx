@@ -1,10 +1,17 @@
+import { useEffect, useState } from 'react';
 import UserLayout from '../../components/UserLayout';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/UserIcon';
-import { shelters } from '../../data/shelters';
+import { shelters as sampleListings } from '../../data/shelters';
+import { useAuth } from '../../lib/AuthContext';
+import { listRecords } from '../../lib/userData';
 import './UserShelters.css';
 
 export default function UserShelters() {
+  const { user } = useAuth();
+  const [shelters, setListings] = useState(() => user ? [] : sampleListings);
+  const [error, setError] = useState('');
+  useEffect(() => { let active = true; if (user) listRecords('shelter').then(rows => { if (active) setListings(rows); }).catch(error => { if (active) setError(error.message); }); return () => { active = false; }; }, [user]);
   return (
     <UserLayout>
       <main className="user-shelters-main">
@@ -33,7 +40,7 @@ export default function UserShelters() {
             </article>
           ))}
         </div>
-        <p className="user-shelter-preview">Sample listings for preview. Shelter details are not live.</p>
+        {error && <p role="alert">{error}</p>}{!user && <p>Preview listings. Sign in with a real account for database features.</p>}
       </main>
     </UserLayout>
   );

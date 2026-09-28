@@ -1,0 +1,14 @@
+.shelter-pending-modal { width: min(512px, calc(100% - 28px)); padding: 32px; border: 1px solid #f3f4f6; border-radius: 18px; background: white; color: #142033; text-align: center; }
+.shelter-pending-modal::backdrop { background: #11182766; }
+.shelter-pending-close { position: absolute; top: 14px; right: 18px; border: 0; background: transparent; color: #94a3b8; font-size: 22px; cursor: pointer; }
+.shelter-pending-clock { display: grid; place-items: center; width: 72px; height: 72px; margin: 0 auto 22px; border: 1px solid #fef0c8; border-radius: 50%; background: #fffbeb; color: #d98d22; font-size: 36px; }
+.shelter-pending-modal h2 { font-size: 22px; line-height: 1.4; margin-bottom: 10px; }
+.shelter-pending-modal > p { font-size: 13px; line-height: 1.65; color: #7b8490; }
+.shelter-pending-summary { margin: 24px 0; padding: 18px; border: 1px solid #e9eeeb; border-radius: 12px; background: #fafcf9; text-align: left; }
+.shelter-pending-summary header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 10px; }
+.shelter-pending-summary header span { background: #fff3d6; color: #b77b22; border-radius: 20px; padding: 5px 9px; }
+.shelter-pending-summary dl > div { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; font-size: 12px; }
+.shelter-pending-summary dt { color: #89919e; }
+.shelter-pending-summary dd { margin: 0; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+.shelter-pending-login { width: 100%; padding: 12px; border: 0; border-radius: 8px; background: #689d4b; color: white; cursor: pointer; font-weight: 600; }
+@media (max-width: 480px) { .shelter-pending-modal { padding: 32px 20px 24px; } }

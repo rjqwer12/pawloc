@@ -11,7 +11,7 @@ const navLinks = [
   { label: 'Reunited Stories', to: '/stories' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ informational = false }) {
   const { pathname } = useLocation();
   const { user } = useAuth();
   const isHome = pathname === '/';
@@ -36,7 +36,7 @@ export default function Navbar() {
         ))}
       </nav>
 
-      {isHome ? (
+      {isHome || informational ? (
         <span className="nav-login-spacer" aria-hidden="true" />
       ) : user ? (
         <LogoutButton className="nav-login-btn">Log out</LogoutButton>

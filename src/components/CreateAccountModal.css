@@ -9,6 +9,20 @@
   padding: 1.5rem;
 }
 
+.modal-dialog.create-account-dialog { width: min(672px, calc(100% - 28px)); padding: 36px; border: 1px solid #f3f4f6; border-radius: 16px; color: #142033; }
+.create-account-dialog::backdrop { background: #11182766; }
+.create-account-dialog .modal-tab--active { color: #689d4b; }
+.create-account-dialog .btn-full { border-radius: 8px; }
+.create-account-dialog .modal-close { background: #f3f4f6; border-radius: 50%; width: 24px; height: 24px; font-size: 18px; }
+.modal-dialog.account-success-dialog { width: min(512px, calc(100% - 28px)); }
+.account-success-check { display: grid; place-items: center; width: 80px; height: 80px; margin: 0 auto 24px; border-radius: 50%; background: #edf9eb; color: #689d4b; font-size: 38px; }
+.account-success-summary { border: 1px solid #edf0e9; border-radius: 12px; padding: 20px; margin: 24px 0; }
+.account-success-summary > div { display: flex; justify-content: space-between; gap: 20px; margin: 10px 0; font-size: 12px; }
+.account-success-summary dt { color: #89919e; }
+.account-success-summary dd { text-align: right; overflow-wrap: anywhere; min-width: 0; }
+.account-verified { color: #4f9645; }
+@media (max-width: 540px) { .modal-dialog.create-account-dialog { padding: 30px 20px 24px; } }
+
 .modal-dialog {
   position: relative;
   width: min(560px, 100%);
@@ -336,3 +350,4 @@
     flex-direction: column;
   }
 }
+.modal-docs-required { color: #6b7280; font-size: 12px; margin: 6px 0 12px; }

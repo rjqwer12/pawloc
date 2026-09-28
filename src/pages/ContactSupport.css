@@ -5,8 +5,8 @@
 
 .support-page {
   position: relative;
-  min-height: 100vh;
-  padding: 6.5rem 1.5rem 4rem;
+  flex: 1;
+  padding: 3rem 1.5rem 4rem;
   background: #fafafa;
 }
 
@@ -41,7 +41,7 @@
   margin: 0 auto;
   color: #5c6068;
   font-size: 1rem;
-  line-height: 1.25;
+  line-height: 1.6;
 }
 
 .support-title {
@@ -56,6 +56,7 @@
 .support-section {
   margin-bottom: 1.25rem;
 }
+.support-intro { margin-bottom: 1.25rem; }
 
 .support-section h2 {
   margin-bottom: 0.2rem;
@@ -90,7 +91,7 @@
 
 @media (max-width: 640px) {
   .support-page {
-    padding: 5.5rem 1.25rem 2.5rem;
+    padding: 2.5rem 1.25rem;
   }
 
   .support-back {

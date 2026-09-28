@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { saveProfile, currentUser, deleteAccount } from '../../lib/userData';
+import { supabase } from '../../lib/supabase';
 import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
 import { useAuth } from '../../lib/AuthContext';
@@ -9,6 +11,7 @@ function SettingsForm({ user }) {
   const [draft, setDraft] = useState(saved);
   const [tab, setTab] = useState('profile');
   const [notice, setNotice] = useState('');
+  const [saving, setSaving] = useState(false);
   const [reading, setReading] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [modal, setModal] = useState(null);
@@ -55,18 +58,18 @@ function SettingsForm({ user }) {
     fileInput.current.value = '';
     setNotice('Changes discarded.');
   }
-  function save(event) {
+  async function save(event) {
     event.preventDefault();
     if (!draft.firstName.trim() || !draft.lastName.trim()) { setNotice('Please enter your first and last names.'); return; }
     const next = { ...draft, firstName: draft.firstName.trim(), middleName: draft.middleName.trim(), lastName: draft.lastName.trim() };
-    setSaved(next); setDraft(next); setNotice('Profile saved for this preview only. Your account has not been changed.');
+    setSaving(true); try { const result = await saveProfile(next); setSaved(result); setDraft(result); setNotice('Profile saved.'); } catch(error) { setNotice(error.message); } finally { setSaving(false); }
   }
-  function previewPassword(event) {
+  async function previewPassword(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     if (data.get('password').length < 8) { setPasswordError('Use at least 8 characters.'); return; }
     if (data.get('password') !== data.get('confirm')) { setPasswordError('Passwords do not match.'); return; }
-    event.currentTarget.reset(); setModal(null); setNotice('Password form checked. No password was changed in this preview.');
+    setSaving(true); try { await currentUser(); const { error } = await supabase.auth.updateUser({ password: data.get('password') }); if (error) throw error; setModal(null); setNotice('Password updated.'); } catch(error) { setPasswordError(error.message); } finally { setSaving(false); }
   }
 
   const security = <>
@@ -86,7 +89,7 @@ function SettingsForm({ user }) {
           <form onSubmit={save}>
             <section className="settings-profile-card">
               <header><div><h2>Personal Profile &amp; Verification Status</h2><p>Your identity helps verified animal rescues and neighbors coordinate reunification quickly.</p></div><span className="settings-verification">{verified ? '✓ Email verified' : user ? 'Email unverified' : 'Preview'}</span></header>
-              <div className="settings-photo-row"><div className="settings-avatar">{draft.photo ? <img src={draft.photo} alt="Profile preview" /> : (draft.firstName[0] || 'R').toUpperCase()}</div><div><div className="settings-photo-actions"><button type="button" onClick={() => fileInput.current.click()} disabled={reading}>Change Photo</button><button type="button" disabled={!draft.photo || reading} onClick={() => { setDraft(current => ({ ...current, photo: '' })); fileInput.current.value = ''; }}>Remove</button></div><p>Accepted formats: JPG, PNG. Max size 3MB.</p><input ref={fileInput} type="file" accept="image/jpeg,image/png" onChange={choosePhoto} hidden /></div></div>
+              <div className="settings-photo-row"><div className="settings-avatar">{draft.photo ? <img src={draft.photo} alt="Profile preview" /> : (draft.firstName[0] || 'R').toUpperCase()}</div><div><div className="settings-photo-actions"><button type="button" onClick={() => fileInput.current.click()} disabled={reading || saving}>Change Photo</button><button type="button" disabled={!draft.photo || reading} onClick={() => { setDraft(current => ({ ...current, photo: '' })); fileInput.current.value = ''; }}>Remove</button></div><p>Accepted formats: JPG, PNG. Max size 3MB.</p><input ref={fileInput} type="file" accept="image/jpeg,image/png" onChange={choosePhoto} hidden /></div></div>
               <div className="settings-fields">
                 <label>Last Name<input value={draft.lastName} onChange={change('lastName')} autoComplete="family-name" maxLength={100} required /></label>
                 <label>First Name<input value={draft.firstName} onChange={change('firstName')} autoComplete="given-name" maxLength={100} required /></label>
@@ -94,17 +97,17 @@ function SettingsForm({ user }) {
                 <div className="settings-email"><div><span>Email Address</span>{verified && <span className="settings-verification">Verified Email</span>}</div><p>{user?.email || 'No email — demo account'}</p></div>
               </div>
             </section>
-            <div className="settings-save-actions"><button type="button" onClick={discard} disabled={!dirty && !reading}>Discard Changes</button><button type="submit" disabled={!dirty || reading}>{reading ? 'Reading photo…' : 'Save Changes'}</button></div>
+            <div className="settings-save-actions"><button type="button" onClick={discard} disabled={!dirty && !reading}>Discard Changes</button><button type="submit" disabled={!dirty || reading || saving}>{reading ? 'Reading photo…' : 'Save Changes'}</button></div>
           </form>
           <aside className="settings-security-stack">{security}</aside>
         </div>
         {tab === 'security' && <div id="security-panel" role="tabpanel" aria-labelledby="security-tab" className="settings-security-panel">{security}</div>}
         {notice && <p className="settings-notice" role="status">{notice}</p>}
-        <p className="settings-preview-note">Settings preview: changes are local to this page and reset when you leave or reload.</p>
+        <p className="settings-preview-note">{user ? "Changes are saved to your account." : "Sign in with a real account to save settings."}</p>
       </main>
       {modal && <dialog ref={dialog} className="settings-dialog" aria-labelledby="settings-dialog-title" onCancel={event => { event.preventDefault(); setModal(null); }}>
         <h2 id="settings-dialog-title">{modal === 'password' ? 'Update Password' : 'Delete Account'}</h2>
-        {modal === 'password' ? <form onSubmit={previewPassword}><p>Preview only. This form will not change your account password.</p><label>New password<input name="password" type="password" autoComplete="new-password" required minLength={8} /></label><label>Confirm password<input name="confirm" type="password" autoComplete="new-password" required minLength={8} /></label>{passwordError && <p role="alert">{passwordError}</p>}<div><button type="button" onClick={() => setModal(null)}>Cancel</button><button type="submit">Check password</button></div></form> : <><p>Account deletion is not connected yet. Your account and data have not been changed.</p><button type="button" onClick={() => setModal(null)}>Close</button></>}
+        {modal === 'password' ? <form onSubmit={previewPassword}><p>Choose a new password for your account.</p><label>New password<input name="password" type="password" autoComplete="new-password" required minLength={8} /></label><label>Confirm password<input name="confirm" type="password" autoComplete="new-password" required minLength={8} /></label>{passwordError && <p role="alert">{passwordError}</p>}<div><button type="button" onClick={() => setModal(null)}>Cancel</button><button type="submit" disabled={saving}>Update password</button></div></form> : <><p>Permanently delete your account and your database records? This cannot be undone.</p>{passwordError && <p role="alert">{passwordError}</p>}<button disabled={saving} onClick={async () => { setSaving(true); try { await deleteAccount(); window.location.hash = '/'; } catch(error) { setPasswordError(error.message); } finally { setSaving(false); } }}>Permanently Delete Account</button><button type="button" onClick={() => setModal(null)}>Cancel</button></>}
       </dialog>}
     </UserLayout>
   );

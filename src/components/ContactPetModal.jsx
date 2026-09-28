@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { saveRecord } from '../lib/userData';
 import Icon from './UserIcon';
 import './ContactPetModal.css';
 
 export default function ContactPetModal({ post, onClose }) {
   const dialog = useRef(null);
   const successHeading = useRef(null);
+  const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
   const isFound = post.category === 'found';
@@ -20,7 +22,7 @@ export default function ContactPetModal({ post, onClose }) {
   }, []);
   useEffect(() => { if (sent) successHeading.current?.focus(); }, [sent]);
 
-  function submit(event) {
+  async function submit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const fields = isFound ? ['fullName', 'phone', 'facebook', 'petName', 'location', 'description'] : ['fullName', 'phone', 'facebook', 'description'];
@@ -41,7 +43,8 @@ export default function ContactPetModal({ post, onClose }) {
       setError('Please enter a Facebook profile link, such as facebook.com/yourname.');
       return;
     }
-    setSent(true);
+    setBusy(true);
+    try { if (post.database) await saveRecord('contact', { ...Object.fromEntries(data), postId: post.id, postTitle: post.title }, null, post.ownerId, post.id); setSent(true); } catch(error) { setError(error.message); } finally { setBusy(false); }
   }
 
   return (
@@ -50,7 +53,7 @@ export default function ContactPetModal({ post, onClose }) {
         <button className="contact-pet-close" type="button" onClick={onClose} aria-label="Close contact confirmation"><Icon name="close" /></button>
         <span className="contact-pet-check" aria-hidden="true">✓</span>
         <h2 id="contact-pet-title" ref={successHeading} tabIndex={-1}>Information Sent</h2>
-        <p>Preview complete. Your details have not been sent to the {isFound ? 'finder' : 'owner'}.</p>
+        <p>{post.database ? 'Your details have been saved to the post owner’s inbox.' : 'Preview only. Your details have not been sent.'}</p>
         <button className="contact-pet-send" type="button" onClick={onClose}>Done</button>
       </div> : <>
         <header className="contact-pet-header"><h2 id="contact-pet-title">Contact Pet {isFound ? 'Finder' : 'Owner'}</h2><span className={`contact-pet-tag${isFound ? ' contact-pet-tag-found' : ''}`}><Icon name="warning" />{isFound ? 'Found Pet' : 'Lost Pet'}</span><button type="button" className="contact-pet-close" onClick={onClose} aria-label="Close contact form"><Icon name="close" /></button></header>
@@ -68,7 +71,7 @@ export default function ContactPetModal({ post, onClose }) {
             <label>{isFound ? 'Description of the Pet' : `Have you spotted ${petName}? (Location & Details)`} <span>*</span><textarea name="description" rows={3} required maxLength={2000} placeholder={isFound ? 'Distinct collar tags, markings, coat color, size, temperament, or answers to finder questions...' : 'Where and when did you spot the pet? Include nearby landmarks, appearance, and direction of travel.'} /></label>
             {error && <p className="contact-pet-error" role="alert">{error}</p>}
           </div>
-          <footer className="contact-pet-actions"><button type="button" onClick={onClose}>Cancel</button><button className="contact-pet-send" type="submit">Send</button></footer>
+          <footer className="contact-pet-actions"><button type="button" onClick={onClose}>Cancel</button><button className="contact-pet-send" type="submit" disabled={busy}>Send</button></footer>
         </form>
       </>}
     </dialog>
