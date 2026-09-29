@@ -1,7 +1,6 @@
 import PasswordResetModal from './PasswordResetModal';
-import LogoutButton from './LogoutButton';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ShelterPendingModal from './ShelterPendingModal';
 import CreateAccountModal from './CreateAccountModal';
 import {
@@ -31,7 +30,7 @@ function EyeIcon({ open }) {
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
   const [pendingShelter, setPendingShelter] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
@@ -52,13 +51,21 @@ export default function LoginForm() {
       setPendingShelter(pending);
       return;
     }
-    navigate(account.user_metadata?.role === 'adopter' ? '/user/home' : '/adoptable');
+    navigate(account.user_metadata?.role === 'shelter' ? '/shelter/home' : '/user/home');
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!agreed) {
       setStatus({ type: 'error', text: 'Please agree to the Terms of Service.' });
+      return;
+    }
+    if (import.meta.env.DEV && email.trim() === 'shelter') {
+      if (password !== 'shelter') {
+        setStatus({ type: 'error', text: 'The shelter preview password is shelter.' });
+        return;
+      }
+      navigate('/shelter/home');
       return;
     }
     if (import.meta.env.DEV && email.trim() === 'shelter-test') {
@@ -92,26 +99,6 @@ export default function LoginForm() {
     setShowForgotPassword(true);
   };
 
-  if (user && !showForgotPassword && !showCreateAccount) {
-    const name =
-      user.user_metadata?.first_name ||
-      user.user_metadata?.shelter_name ||
-      user.email;
-
-    return (
-      <section className="login-section">
-        <div className="login-form">
-          <h2 className="login-title">Welcome back</h2>
-          <p className="login-status login-status--success">Signed in as {name}</p>
-          <button type="button" className="btn btn-primary btn-full" disabled={loading} onClick={async () => { setLoading(true); try { await continueAccount(user); } catch (error) { setStatus({ type: 'error', text: error.message }); } finally { setLoading(false); } }}>
-            Continue
-          </button>
-          {status && <p role="alert" className="login-status">{status.text}</p>}
-          <LogoutButton className="btn btn-outline btn-full">Log out</LogoutButton>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="login-section" aria-labelledby="login-heading">
@@ -126,7 +113,7 @@ export default function LoginForm() {
           </label>
           <input
             id="email"
-            type={import.meta.env.DEV && ['test', 'shelter-test'].includes(email.trim()) ? 'text' : 'email'}
+            type={import.meta.env.DEV && ['test', 'shelter-test', 'shelter'].includes(email.trim()) ? 'text' : 'email'}
             placeholder={import.meta.env.DEV ? 'Email address or test' : 'Email address'}
             autoComplete="email"
             value={email}
@@ -165,7 +152,7 @@ export default function LoginForm() {
               checked={agreed}
               onChange={(e) => setAgreed(e.target.checked)}
             />
-            <span>I agree to pawloc&apos;s Terms of Service.</span>
+            <span>I agree to pawloc&apos;s <Link to="/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</Link>.</span>
           </label>
           <a href="#forgot-password" className="forgot-link" onClick={handleForgotPasswordClick}>
             Forgot password?

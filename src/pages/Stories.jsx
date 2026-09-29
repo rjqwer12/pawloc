@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { storyFilters } from '../data/stories';
 import usePublicRecords from '../lib/usePublicRecords';
 import './Stories.css';
 
@@ -15,17 +13,6 @@ function ClockIcon() {
 export default function Stories() {
   const { records, loading, error } = usePublicRecords('post');
   const stories = records.filter(post => post.category === 'reunited');
-  const [activeFilter, setActiveFilter] = useState('All Pets');
-
-  const filterMap = {
-    'All Pets': () => true,
-    Dogs: (story) => story.type === 'dog',
-    Cats: (story) => story.type === 'cat',
-    Birds: (story) => story.type === 'bird',
-    Hamsters: (story) => story.type === 'hamster',
-  };
-
-  const visibleStories = stories.filter(filterMap[activeFilter]);
 
   return (
     <main className="stories-page">
@@ -45,25 +32,14 @@ export default function Stories() {
               Stories shared by community members
             </p>
           </div>
-          <div className="stories-filters" role="group" aria-label="Filter reunions">
-            {storyFilters.map((filter) => (
-              <button
-                key={filter}
-                type="button"
-                className={`stories-filter${activeFilter === filter ? ' stories-filter--active' : ''}`}
-                onClick={() => setActiveFilter(filter)}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+
         </div>
 
         <div className="stories-grid">
           {loading && <p role="status">Loading stories...</p>}
           {error && <p role="alert">{error}</p>}
-          {!loading && !error && !visibleStories.length && <p>No reunited stories in this category yet.</p>}
-          {visibleStories.map((story) => (
+          {!loading && !error && !stories.length && <p>No reunited stories yet.</p>}
+          {stories.map((story) => (
             <article key={story.id} className="story-card">
               <img
                 src={story.image}

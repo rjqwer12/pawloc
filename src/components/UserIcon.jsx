@@ -1,5 +1,7 @@
 export default function UserIcon({ name, ...props }) {
   const paths = {
+    check: 'M5 12l4 4L19 6',
+    clock: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M12 6v6l4 2',
     edit: 'M14 4H4v16h16V10 M10 14l1-4 8-8 3 3-8 8z M17 4l3 3',
     profile: 'M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M4 21v-3a8 6 0 0 1 16 0v3z',
     delete: 'M3 6h18 M9 6V3h6v3 M5 6l1 15h12l1-15 M10 10v7 M14 10v7',

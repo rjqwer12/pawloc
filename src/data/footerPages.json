@@ -138,5 +138,70 @@
         "text": "For privacy-related questions or concerns, contact: Email: pawloc2026@gmail.com"
       }
     ]
+  },
+  "terms-of-service": {
+    "title": "Terms and Services",
+    "intro": "Welcome to Pawloc. By accessing or using Pawloc, you agree to follow these Terms and Services.",
+    "sections": [
+      {
+        "heading": "About Pawloc",
+        "text": "Pawloc is a web application designed to help users report lost and found pets, organize pet-related information, support rescue activities, and assist communities in reconnecting pets with their owners."
+      },
+      {
+        "heading": "User Accounts",
+        "text": "Some Pawloc features may require an account.\nYou agree to provide accurate information when creating an account and to keep your login credentials secure.\nYou are responsible for activity performed through your account."
+      },
+      {
+        "heading": "Pet Reports",
+        "text": "Users are responsible for the information they submit in lost and found pet reports. You agree not to intentionally submit:",
+        "items": [
+          "False or misleading reports",
+          "Fraudulent ownership claims",
+          "Spam",
+          "Abusive or threatening content",
+          "Content unrelated to the purpose of Pawloc"
+        ]
+      },
+      {
+        "heading": "Communication",
+        "text": "Pawloc may provide platform features that allow users to communicate regarding pet reports. Users should communicate respectfully and avoid sharing unnecessary sensitive personal information."
+      },
+      {
+        "heading": "Shelters and Rescuers",
+        "text": "Shelters and community rescuers may use Pawloc to monitor reports and update pet statuses, including rescued or adoptable statuses, where applicable. Information submitted by shelters or rescuers should be accurate and relevant to their activities."
+      },
+      {
+        "heading": "Prohibited Use",
+        "text": "You may not use Pawloc to:",
+        "items": [
+          "Harass or threaten other users",
+          "Conduct scams or fraudulent activities",
+          "Impersonate another person or organization",
+          "Misuse another user's information",
+          "Submit deliberately false pet reports",
+          "Attempt to interfere with or damage the platform"
+        ]
+      },
+      {
+        "heading": "Content and Reports",
+        "text": "Pawloc may review, restrict, or remove content that violates these Terms, the Community Guidelines, or applicable rules."
+      },
+      {
+        "heading": "Service Availability",
+        "text": "We aim to keep Pawloc available and reliable, but we cannot guarantee that the service will always be uninterrupted, error-free, or available. Features may be changed, updated, suspended, or discontinued as the platform develops."
+      },
+      {
+        "heading": "Limitation of Responsibility",
+        "text": "Pawloc provides tools to help communities coordinate lost and found pet information. Pawloc does not guarantee that a lost pet will be found, that an ownership claim is legitimate, or that a pet report will result in a successful reunion. Users should exercise appropriate caution when interacting with other users."
+      },
+      {
+        "heading": "Changes to These Terms",
+        "text": "These Terms and Services may be updated as Pawloc evolves. Continued use of the platform after changes are published may constitute acceptance of the updated Terms."
+      },
+      {
+        "heading": "Contact",
+        "text": "If you have questions about these Terms and Services, contact:\nEmail: pawloc2026@gmail.com"
+      }
+    ]
   }
 }

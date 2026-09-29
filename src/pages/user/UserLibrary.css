@@ -1,5 +1,5 @@
 .user-library-main { margin-left: var(--user-sidebar); padding: 44px 32px; color: #0f172a; }
-.user-library-main h1 { font-size: 32px; line-height: 1.2; letter-spacing: -.6px; margin-bottom: 28px; }
+.user-library-main h1 { font-family: 'Work Sans', 'Segoe UI', sans-serif; font-size: 32px; font-weight: 750; line-height: 1.3; letter-spacing: -.7px;    margin-bottom: 28px; }
 .user-library-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; }
 .user-library-filters button { display: flex; align-items: center; gap: 8px; border-radius: 30px; padding: 9px 14px; background: white; color: #475569; font-size: 12px; }
 .user-library-filters button span { min-width: 19px; height: 19px; display: grid; place-items: center; border-radius: 50%; background: #edf0e9; font-size: 10px; }
@@ -45,12 +45,12 @@
 .user-library-editor button { padding: 10px 16px; border-radius: 8px; background: #edf0e9; }
 .user-library-editor button[type='submit'] { background: #689d4b; color: white; }
 @media (max-width: 1150px) { .user-library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 700px) { .user-library-main { padding: 28px 16px; } .user-library-main h1 { font-size: 26px; } .user-library-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) { .user-library-main { padding: 28px 16px; }  .user-library-grid { grid-template-columns: minmax(0, 1fr); } }
 .user-library-card-selected { outline: 2px solid #689d4b; outline-offset: 3px; }
 .user-library-post-location { padding: 10px 18px 0; font-size: 12px; color: #63735c; overflow-wrap: anywhere; }
 
 .user-library-main { padding-top: 28px; }
-.user-library-main h1 { font-size: 28px; margin-bottom: 20px; }
+.user-library-main h1 {  margin-bottom: 20px; }
 .user-library-filters { margin-bottom: 24px; }
 .user-library-filters button { padding: 6px 12px; }
 .user-library-grid { gap: 14px 20px; }
@@ -102,3 +102,5 @@
 .user-library-card > footer .user-library-pending { width: 100%; background: #fffced; border-color: #e9d56a; color: #9a8420; }
 .user-library-reservation-cancelled { display: block; width: 100%; padding: 9px 12px; border: 1px solid #cf5155; border-radius: 9px; background: #df6669; color: white; text-align: center; font-size: 12px; }
 @media (max-width: 540px) { .reservation-modal-body { padding: 18px; } .reservation-receipt dl { grid-template-columns: 1fr 1fr; } .reservation-map { flex-wrap: wrap; padding: 12px 0; } .reservation-schedule { flex-wrap: wrap; padding: 14px; } }
+.reservation-receipt > header > span { display: inline-flex; align-items: center; gap: 5px; }
+.reservation-receipt > header > span > svg { width: 14px; height: 14px; flex-shrink: 0; }

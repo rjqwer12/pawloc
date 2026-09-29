@@ -41,12 +41,14 @@ export default function UserNotifications() {
     setRead(user?.user_metadata?.notification_reads || {});
     if (!user) { setItems(sampleItems()); setLoading(false); return; }
     setLoading(true);
-    Promise.all([listRecords('contact'), listRecords('reservation', true), listRecords('post', true)]).then(([contacts, reservations, posts]) => {
+    const refresh = () => Promise.all([listRecords('contact'), listRecords('reservation', true), listRecords('post', true)]).then(([contacts, reservations, posts]) => {
       if (!active) return;
       const inquiries = contacts.filter(item => item.recipientId === user.id).map(item => ({ ...item, category: posts.find(post => post.id === item.postId)?.category || 'found', postLocation: posts.find(post => post.id === item.postId)?.location, breed: posts.find(post => post.id === item.postId)?.breed }));
       setItems([...inquiries, ...reservations].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
     }).catch(error => { if (active) setError(error.message); }).finally(() => { if (active) setLoading(false); });
-    return () => { active = false; };
+    void refresh();
+    const timer = setInterval(() => { if (!document.hidden) void refresh(); }, 15000);
+    return () => { active = false; clearInterval(timer); };
   }, [user, authLoading]);
   async function markRead(targets) {
     const next = { ...read };

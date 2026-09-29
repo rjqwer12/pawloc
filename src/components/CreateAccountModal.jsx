@@ -303,7 +303,7 @@ function AdopterForm({ onSuccess }) {
       <label className="modal-check">
         <input type="checkbox" required />
         <span>
-          I agree to the <a href="#terms">Terms of Service</a> and acknowledge
+          I agree to the <Link to="/terms-of-service" target="_blank" rel="noopener noreferrer">Terms of Service</Link> and acknowledge
           PAWLOC’s <Link to="/privacy-policy" target="_blank" rel="noreferrer">Privacy Policy</Link>
         </span>
       </label>
@@ -623,7 +623,7 @@ export default function CreateAccountModal({ onClose }) {
         {success.role === 'shelter' && <div><dt>Legal Verification</dt><dd>{success.documents ? 'Documents Uploaded' : 'Not all documents uploaded'}</dd></div>}
       </dl>
       {loginError && <p role="alert" className="modal-status modal-status--error">{loginError}</p>}
-      <button className="btn btn-primary btn-full" onClick={proceedToLogin} disabled={leaving}>{leaving ? 'Please wait?' : 'Proceed to Login'}</button>
+      <button className="btn btn-primary btn-full" onClick={proceedToLogin} disabled={leaving}>{leaving ? 'Please wait...' : 'Proceed to Login'}</button>
     </> : <>
       <h2 id="create-account-title">Create Account</h2>
       <p className="modal-subtitle">Join the network to help lost paws find their way home.</p>

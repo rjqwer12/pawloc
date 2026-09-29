@@ -48,7 +48,7 @@ export function ReservationDetails({ entry, onClose, onCancelReservation }) {
     </div> : <>
       <header className="reservation-modal-header"><Icon name={approved ? 'shelter' : 'calendar'} /><div><h2 id="reservation-details-title">{approved ? 'Approved' : 'Pending'} Reservation Details</h2><p>{approved ? 'Verified adoption and scheduled sanctuary visit' : 'Adoption visit request is currently awaiting shelter verification'}</p></div></header>
       <div className="reservation-modal-body">
-        <section className="reservation-receipt"><header><strong>RESERVATION</strong><span>{approved ? '? Verified & Reserved' : '? Pending Review'}</span></header>
+        <section className="reservation-receipt"><header><strong>RESERVATION</strong><span><Icon name={approved ? 'check' : 'clock'} />{approved ? 'Verified & Reserved' : 'Pending Review'}</span></header>
           <dl><div><dt>Pet Name</dt><dd>{petName}<small>{entry.title.match(/\((.*)\)/)?.[1]}</small></dd></div><div><dt>Shelter</dt><dd>{entry.shelter || 'Iloilo City Dog Pound and Animal Shelter'}</dd></div><div><dt>Applicant Name</dt><dd>{entry.fullName || 'Randolph Calambro'}</dd></div><div><dt>Contact Number</dt><dd>{entry.phone || '09171234567'}</dd></div></dl>
         </section>
         {approved && <section className="reservation-schedule"><Icon name="calendar" /><div><strong>VISIT SCHEDULE</strong><p>{entry.database ? entry.visitSchedule || 'Awaiting schedule from shelter' : 'SATURDAY, NOV 2, 2024 AT 10:00 AM'}</p></div><span>Confirmed</span></section>}

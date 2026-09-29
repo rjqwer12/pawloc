@@ -1,0 +1,14 @@
+dialog.story-comments-modal { width: min(680px, calc(100vw - 32px)); max-height: min(820px, calc(100dvh - 48px)); padding: 0; border: 0; border-radius: 16px; background: white; color: #142033; overflow-y: auto; }
+.story-comments-modal::backdrop { background: #111827b3; }
+.story-comments-photo { display: flex; justify-content: center; background: #edf0e9; }
+.story-comments-photo img { display: block; max-width: 100%; width: auto; height: auto; max-height: 40dvh; object-fit: contain; }
+.story-comments-modal .story-comments-close { position: absolute; right: 12px; top: 12px; width: 34px; height: 34px; border-radius: 50%; background: #111827cc; color: white; font-size: 26px; }
+.story-comments-content { padding: 20px 24px 24px; }
+.story-comments-content h3 { font-size: 18px; margin-bottom: 18px; }
+.story-comments-content h2 { font-size: 16px; margin-bottom: 12px; }
+.story-comments-content p { font-size: 13px; line-height: 1.6; margin: 8px 0; overflow-wrap: anywhere; }
+.story-comments-content article { padding: 12px 0; border-bottom: 1px solid #edf0e9; }
+.story-comments-content strong, .story-comments-content label { font-size: 13px; }
+.story-comments-content form { margin-top: 18px; }
+.story-comments-content textarea { display: block; width: 100%; min-height: 72px; padding: 10px; margin-top: 8px; border: 1px solid #ccd4c7; border-radius: 8px; font: inherit; resize: vertical; }
+.story-comments-content button { margin-top: 12px; padding: 10px 16px; border-radius: 8px; background: #689d4b; color: white; }

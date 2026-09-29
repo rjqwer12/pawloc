@@ -42,9 +42,9 @@ export default function PetDetailsModal({ pet, onClose }) {
       </section> : <>
         <header className="pet-details-header"><Icon name="paw" /><div><h2 id="pet-details-heading" ref={heading} tabIndex={-1}>{step === 'details' ? 'Pet Details' : 'Adoption Reservation'}</h2><p>{step === 'details' ? 'Detailed profile and adoption information' : <>Reserve a meet-and-greet to adopt <strong>{pet.name}</strong></>}</p></div></header>
         {step === 'details' ? <>
-          <div className="pet-details-photo">{photoFailed ? <div className="pet-details-photo-fallback"><Icon name="paw" />Photo unavailable</div> : <img src={pet.image} alt={`Sample photo of ${pet.name}`} onError={() => setPhotoFailed(true)} />}<span className="pet-details-status">● {pet.status}</span></div>
+          <div className="pet-details-photo">{photoFailed ? <div className="pet-details-photo-fallback"><Icon name="paw" />Photo unavailable</div> : <img src={pet.image} alt={`Sample photo of ${pet.name}`} onError={() => setPhotoFailed(true)} />}<span className="pet-details-status">● {pet.status === 'Senior Gentle' ? 'Available' : pet.status}</span></div>
           <h3 className="pet-details-name">{pet.name}</h3>
-          <dl className="pet-details-facts"><div><Icon name="paw" /><dt>Species</dt><dd>{pet.type === 'dog' ? 'Dog' : 'Cat'}</dd></div><div><Icon name="shelter" /><dt>Breed</dt><dd>{pet.breed}</dd></div><div><Icon name="calendar" /><dt>Age &amp; Gender</dt><dd>{pet.age} · {pet.gender}</dd></div></dl>
+          <dl className="pet-details-facts"><div><Icon name="paw" /><dt>Species</dt><dd>{pet.species || pet.type || 'Not specified'}</dd></div><div><Icon name="shelter" /><dt>Breed</dt><dd>{pet.breed}</dd></div><div><Icon name="calendar" /><dt>Age &amp; Gender</dt><dd>{pet.age} · {pet.gender}</dd></div></dl>
           <section className="pet-details-about"><h3>About {pet.name}</h3><p>{pet.description}</p></section>
           <footer className="pet-details-footer"><button className="pet-details-primary" onClick={() => setStep('reservation')}>Adopt {pet.name}</button></footer>
         </> : <form className="pet-reservation-form" onSubmit={reserve}>

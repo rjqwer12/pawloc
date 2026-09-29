@@ -1,0 +1,7 @@
+dialog.post-image-modal { padding: 0; border: 0; background: transparent; width: fit-content; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); overflow: visible; }
+.post-image-modal::backdrop { background: rgb(0 0 0 / 85%); }
+.post-image-modal > img { display: block; width: auto; height: auto; max-width: calc(100vw - 32px); max-height: calc(100dvh - 32px); object-fit: contain; border-radius: 8px; }
+.post-image-modal .post-image-close { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border-radius: 50%; background: #111827cc; color: white; font-size: 28px; line-height: 1; }
+.user-post-photo > .user-post-photo-open { display: block; width: 100%; padding: 0; background: transparent; cursor: zoom-in; }
+dialog.post-image-modal { max-width: min(820px, calc(100vw - 48px)); max-height: 75dvh; }
+.post-image-modal > img { max-width: min(820px, calc(100vw - 48px)); max-height: 75dvh; }

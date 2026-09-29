@@ -35,8 +35,7 @@ export default function ReportPostModal({ post, onClose }) {
       {sent ? <section className="report-post-success">
         <span className="report-post-check" aria-hidden="true">✓</span>
         <h2 ref={heading} tabIndex={-1} id="report-post-title">Report Submitted Successfully</h2>
-        <p>Report for <strong>{post.title}</strong>: <strong>{reasons.find(item => item[0] === reason)[1]}</strong>.</p>
-        <p>{post.database ? 'Your report has been saved for administrator review.' : 'Preview only. This report has not been submitted.'}</p>
+        <p>{post.database ? <>Thank you for helping keep our community safe. Our moderation team has received your report regarding {post.author ? `${post.author}'s post` : 'this post'} and will investigate it shortly.</> : 'Preview only. This report has not been submitted.'}</p>
         <button className="report-post-primary" onClick={onClose}>Done</button>
       </section> : <>
         <header className="report-post-header"><span className="report-post-icon"><Icon name="flag" /></span><div><h2 id="report-post-title">Report Post</h2><p>Help us keep PawLoc safe, accurate, and trustworthy for urgent animal rescues. Let us know what is wrong with this post.</p></div></header>

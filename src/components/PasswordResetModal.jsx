@@ -40,9 +40,8 @@ function CheckBadge({ active }) {
 
 export default function PasswordResetModal({ onClose, account = null }) {
   const dialog = useRef(null);
-  const closeTimer = useRef(null);
   const [cooldown, setCooldown] = useState(0);
-  useEffect(() => { const element = dialog.current; const focus = document.activeElement; element.showModal(); return () => { clearTimeout(closeTimer.current); element.close(); focus?.focus(); }; }, []);
+  useEffect(() => { const element = dialog.current; const focus = document.activeElement; element.showModal(); return () => { element.close(); focus?.focus(); }; }, []);
   useEffect(() => { if (!cooldown) return; const timer = setTimeout(() => setCooldown(value => value - 1), 1000); return () => clearTimeout(timer); }, [cooldown]);
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState(account?.email || '');
@@ -141,7 +140,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
       if (account) { const current = await currentUser(); if (current.id !== account.id) throw new Error('Your signed-in account changed. Please reopen Settings.'); }
       await updatePassword(password);
       setStatus({ type: 'success', text: 'Password updated successfully.' });
-      if (account) { setPassword(''); setConfirmPassword(''); setStep('success'); } else closeTimer.current = setTimeout(onClose, 1200);
+      setPassword(''); setConfirmPassword(''); setStep('success');
     } catch (err) {
       setStatus({ type: 'error', text: err.message || 'Unable to update password.' });
     } finally {
@@ -162,7 +161,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
           <CloseIcon />
         </button>
 
-        {step === 'success' ? <section className="settings-password-success"><div className="settings-password-check" aria-hidden="true">&#10003;</div><h2>Password Updated Successfully</h2><p>Your password has been securely updated. You can now use your new credentials to sign in to your account.</p><p className="settings-password-confirmed">Account updated: {account.email}</p>{status?.type === 'error' && <p role="alert">{status.text}</p>}<button className="forgot-primary-btn" disabled={loading} onClick={returnToLogin}>Sign in to account</button></section> : <div className="forgot-progress">
+        {step === 'success' ? <section className="settings-password-success"><div className="settings-password-check" aria-hidden="true">&#10003;</div><h2>{account ? 'Password Updated Successfully' : 'Password reset successful'}</h2><p>Your password has been securely updated. You can now use your new credentials to sign in to your account.</p><p className="settings-password-confirmed"><span aria-hidden="true" className="password-confirmed-icon">&#10003;</span> Account updated: {email}</p>{status?.type === 'error' && <p role="alert">{status.text}</p>}<button className="forgot-primary-btn" disabled={loading} onClick={returnToLogin}>Sign in to account</button></section> : <div className="forgot-progress">
           {progressSteps.map((label, index) => {
             const isDone = index < activeIndex;
             const isActive = index === activeIndex;

@@ -455,3 +455,10 @@ dialog.forgot-password-modal .forgot-progress { background: transparent; padding
 dialog.forgot-password-modal .forgot-step-pill--active { color: #df6669; box-shadow: none; }
 dialog.forgot-password-modal .forgot-step-pill--active .step-badge { background: #df6669; border-color: #df6669; }
 dialog.forgot-password-modal .forgot-form-actions { order: 5; }
+.settings-password-success { text-align: center; display: flex; flex-direction: column; gap: 20px; }
+.settings-password-check { width: 72px; height: 72px; margin: 0 auto; display: grid; place-items: center; border-radius: 50%; background: #f2f7ec; color: #689d4b; font-size: 32px; }
+.settings-password-success h2 { margin: 0; font-size: 23px; line-height: 1.25; }
+.settings-password-success p { margin: 0; font-size: 13px; line-height: 1.65; color: #7b8490; overflow-wrap: anywhere; }
+.settings-password-success .settings-password-confirmed { padding: 12px; background: #f7f8fa; border: 1px solid #eef1f6; border-radius: 8px; font-size: 12px; }
+.settings-password-confirmed { text-align: left; }
+.password-confirmed-icon { display: inline-grid; place-items: center; width: 14px; height: 14px; margin-right: 6px; border-radius: 50%; background: #00a779; color: white; font-size: 10px; }

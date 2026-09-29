@@ -19,8 +19,8 @@ import './App.css';
 
 function AppContent() {
   const { pathname } = useLocation();
-  const isContactSupport = ['/contact-support', '/about-us', '/privacy-policy', '/community-guidelines'].includes(pathname);
-  const isUserPage = pathname.startsWith('/user/');
+  const isContactSupport = ['/contact-support', '/about-us', '/privacy-policy', '/community-guidelines', '/terms-of-service'].includes(pathname);
+  const isUserPage = pathname.startsWith('/user/') || pathname.startsWith('/shelter/');
 
   return (
     <AuthProvider>
@@ -28,6 +28,9 @@ function AppContent() {
         {!isUserPage && <Navbar informational={isContactSupport} />}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/shelter/home" element={<UserHome shelterView />} />
+          <Route path="/shelter/settings" element={<UserSettings />} />
+          <Route path="/shelter/notifications" element={<UserNotifications />} />
           <Route path="/user/home" element={<UserHome />} />
           <Route path="/user/shelters" element={<UserShelters />} />
           <Route path="/user/map" element={<UserMap />} />
@@ -39,6 +42,7 @@ function AppContent() {
           <Route path="/stories" element={<Stories />} />
           <Route path="/shelters" element={<Shelters />} />
           <Route path="/contact-support" element={<ContactSupport />} />
+          <Route path="/terms-of-service" element={<FooterPage page="terms-of-service" />} />
           <Route path="/about-us" element={<FooterPage page="about-us" />} />
           <Route path="/privacy-policy" element={<FooterPage page="privacy-policy" />} />
           <Route path="/community-guidelines" element={<FooterPage page="community-guidelines" />} />
