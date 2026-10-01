@@ -4,6 +4,10 @@ let lastRequest = 0;
 
 // Cache and serialize lookups, including React's development remounts.
 export function findShelter(shelter) {
+  if (shelter.latitude !== '' && shelter.longitude !== '' && shelter.latitude != null && shelter.longitude != null) {
+    const point = [Number(shelter.latitude), Number(shelter.longitude)];
+    if (point.every(Number.isFinite) && Math.abs(point[0]) <= 90 && Math.abs(point[1]) <= 180) return Promise.resolve(point);
+  }
   const query = `${shelter.name}, ${shelter.landmark}`;
   if (searches.has(query)) return searches.get(query);
   const task = queue.then(async () => {

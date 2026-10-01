@@ -8,6 +8,7 @@ import {
   getShelterApproval,
 } from '../lib/auth';
 import { useAuth } from '../lib/AuthContext';
+import { supabase } from '../lib/supabase';
 import './LoginForm.css';
 
 function EyeIcon({ open }) {
@@ -65,6 +66,8 @@ export default function LoginForm() {
         setStatus({ type: 'error', text: 'The shelter preview password is shelter.' });
         return;
       }
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      if (error) { setStatus({ type: 'error', text: error.message }); return; }
       navigate('/shelter/home');
       return;
     }
@@ -79,6 +82,8 @@ export default function LoginForm() {
         setStatus({ type: 'error', text: 'The preview password is test.' });
         return;
       }
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+      if (error) { setStatus({ type: 'error', text: error.message }); return; }
       navigate('/user/home');
       return;
     }

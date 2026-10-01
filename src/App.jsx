@@ -10,6 +10,8 @@ import FooterPage from './pages/FooterPage';
 import UserHome from './pages/user/UserHome';
 import ShelterDashboard from './pages/shelter/ShelterDashboard';
 import ShelterPets from './pages/shelter/ShelterPets';
+import ShelterSettings from './pages/shelter/ShelterSettings';
+import ShelterNotifications from './pages/shelter/ShelterNotifications';
 import UserShelters from './pages/user/UserShelters';
 import UserMap from './pages/user/UserMap';
 import UserAdoptable from './pages/user/UserAdoptable';
@@ -34,8 +36,8 @@ function AppContent() {
           <Route path="/shelter/dashboard" element={<ShelterDashboard />} />
           <Route path="/shelter/adoption-requests" element={<ShelterDashboard requestsPage />} />
           <Route path="/shelter/pets" element={<ShelterPets />} />
-          <Route path="/shelter/settings" element={<UserSettings />} />
-          <Route path="/shelter/notifications" element={<UserNotifications />} />
+          <Route path="/shelter/settings" element={<ShelterSettings />} />
+          <Route path="/shelter/notifications" element={<ShelterNotifications />} />
           <Route path="/user/home" element={<UserHome />} />
           <Route path="/user/shelters" element={<UserShelters />} />
           <Route path="/user/map" element={<UserMap />} />

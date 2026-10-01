@@ -57,7 +57,7 @@ export default function ShelterPets() {
       const shelters = await listRecords('shelter',true); const shelter = shelters[0];
       next = { ...next, image: await uploadImage(next.image), shelter: shelter?.name || user.user_metadata?.shelter_name || 'Shelter', shelterId: shelter?.id || next.shelterId, shelterLocation: shelter?.landmark || next.shelterLocation };
       next = await saveRecord('pet',next,draft.id);
-    } else next = { ...next, id: draft.id || crypto.randomUUID() };
+    } else next = { ...next, id: draft.id || `preview-${Date.now()}-${Array.from(crypto.getRandomValues(new Uint32Array(2))).join('-')}` };
     setPets(current => draft.id ? current.map(pet => pet.id===draft.id ? next : pet) : [next,...current]);
   }
   const visible = pets.filter(pet => matches(pet,filter));
