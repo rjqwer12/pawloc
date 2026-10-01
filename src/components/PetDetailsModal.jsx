@@ -46,7 +46,7 @@ export default function PetDetailsModal({ pet, onClose }) {
           <h3 className="pet-details-name">{pet.name}</h3>
           <dl className="pet-details-facts"><div><Icon name="paw" /><dt>Species</dt><dd>{pet.species || pet.type || 'Not specified'}</dd></div><div><Icon name="shelter" /><dt>Breed</dt><dd>{pet.breed}</dd></div><div><Icon name="calendar" /><dt>Age &amp; Gender</dt><dd>{pet.age} · {pet.gender}</dd></div></dl>
           <section className="pet-details-about"><h3>About {pet.name}</h3><p>{pet.description}</p></section>
-          <footer className="pet-details-footer"><button className="pet-details-primary" onClick={() => setStep('reservation')}>Adopt {pet.name}</button></footer>
+          <footer className="pet-details-footer"><button className="pet-details-primary" disabled={pet.status === 'Adopted'} onClick={() => setStep('reservation')}>{pet.status === 'Adopted' ? 'Already Adopted' : `Adopt ${pet.name}`}</button></footer>
         </> : <form className="pet-reservation-form" onSubmit={reserve}>
           <div className="pet-reservation-row"><label>Full Name <span>*</span><input value={draft.fullName} onChange={update('fullName')} autoComplete="name" required maxLength={100} placeholder="Your full name" /></label><label>Phone Number <span>*</span><input value={draft.phone} onChange={update('phone')} type="tel" autoComplete="tel" required maxLength={24} placeholder="e.g., 09300016564" /></label></div>
           <label>Address <span>*</span><input value={draft.address} onChange={update('address')} autoComplete="street-address" required maxLength={300} placeholder="Street, barangay, city" /></label>

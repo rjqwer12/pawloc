@@ -46,6 +46,14 @@ export async function reservePet(pet, details) {
 export async function cancelReservation(id) {
   const { error } = await supabase.rpc('cancel_user_reservation', { reservation_id: id }); check(error);
 }
+export async function reviewReservation(id, decision, visitAt, rejectionReason) {
+  const { data, error } = await supabase.rpc('review_shelter_reservation', {
+    reservation_id: id, decision, visit_at: visitAt || null, rejection_reason: rejectionReason || null,
+  });
+  if (error && /schema cache|does not exist|could not find.*function/i.test(error.message)) throw new Error('Run supabase/shelter-reservations.sql in the Supabase SQL Editor to enable shelter decisions.');
+  check(error);
+  return unpack(data);
+}
 export async function saveProfile(profile) {
   const user = await currentUser();
   const photo = await uploadImage(profile.photo);

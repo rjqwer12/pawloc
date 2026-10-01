@@ -8,6 +8,8 @@ import Shelters from './pages/Shelters';
 import ContactSupport from './pages/ContactSupport';
 import FooterPage from './pages/FooterPage';
 import UserHome from './pages/user/UserHome';
+import ShelterDashboard from './pages/shelter/ShelterDashboard';
+import ShelterPets from './pages/shelter/ShelterPets';
 import UserShelters from './pages/user/UserShelters';
 import UserMap from './pages/user/UserMap';
 import UserAdoptable from './pages/user/UserAdoptable';
@@ -29,6 +31,9 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shelter/home" element={<UserHome shelterView />} />
+          <Route path="/shelter/dashboard" element={<ShelterDashboard />} />
+          <Route path="/shelter/adoption-requests" element={<ShelterDashboard requestsPage />} />
+          <Route path="/shelter/pets" element={<ShelterPets />} />
           <Route path="/shelter/settings" element={<UserSettings />} />
           <Route path="/shelter/notifications" element={<UserNotifications />} />
           <Route path="/user/home" element={<UserHome />} />

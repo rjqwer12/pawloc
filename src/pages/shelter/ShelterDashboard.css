@@ -1,0 +1,30 @@
+.shelter-dashboard { color: #142033; }
+.shelter-dashboard > h1 { font-size: 28px; letter-spacing: -.7px; margin-bottom: 26px; }
+.dashboard-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+.dashboard-stat { border: 1px solid #e4e9ef; border-radius: 14px; padding: 22px 18px; min-height: 136px; }
+.dashboard-stat > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.dashboard-stat h2 { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #8594ab; font-weight: 500; }
+.dashboard-stat svg { color: #008879; background: #effbf7; border-radius: 8px; padding: 3px; width: 27px; height: 27px; }
+.dashboard-stat strong { display: block; font-size: 26px; margin-top: 16px; }
+.stat-1 svg { color: #3976ff; background: #eff3ff; }.stat-2 svg { color: #8dc783; }.stat-3 svg { color: #ef9f21; background: #fff9ed; }
+.dashboard-requests { background: white; border: 1px solid #f0f2f5; border-radius: 14px; min-height: 430px; overflow: hidden; }
+.dashboard-requests > h2 { font-size: 20px; font-weight: 500; padding: 24px 18px 18px; }
+.dashboard-requests > p { padding: 18px; }
+.dashboard-table-scroll { overflow-x: auto; }
+.dashboard-requests table { border-collapse: collapse; width: 100%; min-width: 690px; text-align: left; }
+.dashboard-requests th { background: #eff5ed; padding: 10px 18px; font-size: 10px; text-transform: uppercase; font-weight: 500; letter-spacing: .5px; }
+.dashboard-requests td { padding: 18px; font-size: 12px; color: #56625b; }
+.dashboard-requests td strong { display: block; font-size: 12px; font-weight: 500; color: #1c2821; }
+.dashboard-requests td small { display: block; font-size: 11px; margin-top: 3px; }
+.dashboard-pet { display: flex; align-items: center; gap: 8px; }.dashboard-pet img { width: 44px; height: 44px; object-fit: cover; border-radius: 8px; }
+.dashboard-status { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 14px; background: #e8ece7; color: #54625c; font-size: 10px; white-space: nowrap; }
+.dashboard-status svg { width: 12px; height: 12px; }.status-approved,.status-accepted { background: #92b16e; color: white; }.status-cancelled { background: #f2f3f7; color: #748095; }.status-rejected { background: #ffe2df; color: #df6669; }
+.dashboard-review-button { display: inline-flex; align-items: center; gap: 4px; padding: 7px 10px; background: #689d4b; border-radius: 8px; color: white; font-size: 10px; }.dashboard-review-button svg { width: 12px; height: 12px; }
+.dashboard-preview { margin-top: 16px; color: #7b8797; font-size: 12px; }
+.dashboard-review { width: min(520px, calc(100vw - 32px)); border: 0; border-radius: 16px; padding: 24px; color: #142033; }.dashboard-review::backdrop { background: #14203380; }.dashboard-review header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }.dashboard-review h2 { font-size: 20px; }.dashboard-review header button { padding: 8px; background: #eff3e9; border-radius: 50%; }.dashboard-review dl > div { padding: 12px 0; border-bottom: 1px solid #edf0e9; }.dashboard-review dt { font-size: 11px; color: #7b8797; }.dashboard-review dd { margin-top: 5px; font-size: 14px; overflow-wrap: anywhere; }.dashboard-review p { margin-top: 12px; font-size: 12px; }.dashboard-review-done { padding: 10px 24px; border-radius: 8px; background: #689d4b; color: white; margin-top: 20px; }
+@media(max-width: 1000px) { .dashboard-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width: 480px) { .dashboard-stats { gap: 10px; }.dashboard-stat { padding: 14px 10px; min-height: 110px; }.dashboard-stat h2 { font-size: 9px; letter-spacing: .3px; }.shelter-dashboard > h1 { font-size: 24px; } }
+.reservation-list-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 24px 18px 18px; }.reservation-list-heading h2 { font-size: 20px; font-weight: 500; }
+.reservation-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }.reservation-filters button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border: 1px solid #e5e9ed; border-radius: 20px; background: white; color: #61708a; font-size: 11px; }.reservation-filters button[aria-pressed=true] { color: white; background: #689d4b; }.reservation-filters span { display: grid; place-items: center; min-width: 15px; height: 15px; background: #edf3e8; color: #689d4b; border-radius: 50%; font-size: 9px; }
+.shelter-adoption-requests .dashboard-requests { min-height: 540px; }.shelter-adoption-requests .reservation-list-heading { background: #eff5ed; padding: 12px 16px; margin-bottom: 10px; }.shelter-adoption-requests .reservation-list-heading h2 { font-size: 13px; font-weight: 600; }.reservation-list-heading button { background: transparent; color: #689d4b; font-size: 11px; }.shelter-adoption-requests .dashboard-requests td { padding-top: 28px; padding-bottom: 28px; border-bottom: 1px solid #f3f5f7; }.shelter-adoption-requests .dashboard-requests th { background: #eaf0e9; padding-top: 15px; padding-bottom: 15px; }
+.reservation-applicant { display: flex; align-items: center; gap: 10px; }.reservation-initials { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: #e2edda; color: #668e4c; font-size: 10px; }.shelter-adoption-requests tbody tr:nth-child(2n) .reservation-initials { background: #ffe8d4; color: #b27d4e; }
