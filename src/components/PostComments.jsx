@@ -1,3 +1,4 @@
+import AppIcon from './UserIcon';
 import { useEffect, useRef, useState } from 'react';
 import { currentUser, listRecords, saveRecord } from '../lib/userData';
 import { fullPhoto } from '../lib/fullPhoto';
@@ -16,7 +17,7 @@ export default function PostComments({ post, onClose }) {
     return () => { active = false; element.close(); focus?.focus(); };
   }, [post.id]);
   return <dialog ref={dialog} className="story-comments-modal" aria-labelledby="comments-title" onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === event.currentTarget) { const bounds = event.currentTarget.getBoundingClientRect(); if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) onClose(); } }}>
-    <button className="story-comments-close" onClick={onClose} aria-label="Close story" autoFocus>&times;</button>
+    <button className="story-comments-close" onClick={onClose} aria-label="Close story" autoFocus><AppIcon name="close" /></button>
     {post.image && <div className="story-comments-photo"><img src={fullPhoto(post.image)} alt={post.alt || post.title} /></div>}
     <section className="story-comments-content">
     <h3>{post.title}</h3>

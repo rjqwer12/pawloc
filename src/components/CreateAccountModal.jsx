@@ -1,3 +1,4 @@
+import AppIcon from './UserIcon';
 import { useEffect, useRef, useState } from 'react';
 import {
   completeSignup,
@@ -8,60 +9,15 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import './CreateAccountModal.css';
 
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
+function UserIcon() { return <AppIcon name="profile" />; }
 
-function BuildingIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="4" y="2" width="16" height="20" rx="2" />
-      <path d="M9 22v-4h6v4M8 6h.01M12 6h.01M16 6h.01M8 10h.01M12 10h.01M16 10h.01" />
-    </svg>
-  );
-}
+function BuildingIcon() { return <AppIcon name="building" />; }
 
-function EyeIcon({ open }) {
-  if (open) {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    );
-  }
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-      <line x1="1" y1="1" x2="23" y2="23" />
-    </svg>
-  );
-}
+function EyeIcon({ open }) { return <AppIcon name={open ? 'eye' : 'eye-off'} />; }
 
-function UploadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="17 8 12 3 7 8" />
-      <line x1="12" y1="3" x2="12" y2="15" />
-    </svg>
-  );
-}
+function UploadIcon() { return <AppIcon name="upload" />; }
 
-function FileIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-      <polyline points="14 2 14 8 20 8" />
-    </svg>
-  );
-}
+function FileIcon() { return <AppIcon name="file" />; }
 
 function formatTime(seconds) {
   const m = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -322,6 +278,7 @@ function ShelterForm({ onSuccess }) {
     shelterName: '',
     representative: '',
     address: '',
+    phone: '',
     email: '',
     otp: '',
     password: '',
@@ -367,6 +324,12 @@ function ShelterForm({ onSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    const phone = form.phone.trim();
+    if (!/^[+\d\s().-]+$/.test(phone) || phone.replace(/\D/g, '').length < 10 || phone.replace(/\D/g, '').length > 15) {
+      setStatus({ type: 'error', text: 'Enter a valid phone number with 10 to 15 digits.' });
+      return;
+    }
     if (!birFile || !permitFile) {
       setStatus({ type: 'error', text: 'Upload both your shelter image and business permit before registering.' });
       return;
@@ -389,12 +352,14 @@ function ShelterForm({ onSuccess }) {
         metadata: {
           role: 'shelter',
           shelter_name: form.shelterName,
+          phone, 
         },
         profile: {
           role: 'shelter',
           shelter_name: form.shelterName,
           representative: form.representative,
           address: form.address,
+          phone,
         },
       });
 
@@ -460,6 +425,11 @@ function ShelterForm({ onSuccess }) {
           onChange={update('address')}
           required
         />
+      </label>
+
+      <label className="modal-field">
+        <span>Phone number <span className="required-indicator">*</span></span>
+        <input type="tel" autoComplete="tel" placeholder="09123456789" value={form.phone} onChange={update('phone')} maxLength={25} required />
       </label>
 
       <label className="modal-field">
@@ -610,16 +580,16 @@ export default function CreateAccountModal({ onClose }) {
     onClose();
   }
   return <dialog ref={dialog} className={`modal-dialog create-account-dialog${success ? ' account-success-dialog' : ''}`} aria-labelledby="create-account-title" onCancel={event => { event.preventDefault(); onClose(); }}>
-    <button type="button" className="modal-close" onClick={onClose} aria-label="Close create account">&times;</button>
+    <button type="button" className="modal-close" onClick={onClose} aria-label="Close create account"><AppIcon name="close" /></button>
     {success ? <>
-      <div className="account-success-check" aria-hidden="true">&#10003;</div>
+      <div className="account-success-check" aria-hidden="true"><AppIcon name="check" /></div>
       <h2 id="create-account-title">{success.role === 'shelter' ? 'Registration Submitted!' : 'Account Created Successfully!'}</h2>
       <p className="modal-subtitle">{success.role === 'shelter' ? 'Welcome to the PAWLOC Rescue Network. Your journey to helping lost paws find their way home starts here.' : `Welcome to PawLoc, ${success.name}! Your community profile is now active. Share, connect, and help pets find their way home.`}</p>
       <dl className="account-success-summary">
         <div><dt>{success.role === 'shelter' ? 'Registered Shelter' : 'Registered Member'}</dt><dd>{success.name}{success.role === 'shelter' && success.owner ? ` (${success.owner})` : ''}</dd></div>
         <div><dt>{success.role === 'shelter' ? 'Contact Email' : 'Account Email'}</dt><dd>{success.email}</dd></div>
         <div><dt>Account Type</dt><dd>{success.role === 'shelter' ? 'Shelter Partner Application' : 'Pet Owner / Adopter'}</dd></div>
-        <div><dt>Security Status</dt><dd className="account-verified">&#10003; Email Verified via OTP</dd></div>
+        <div><dt>Security Status</dt><dd className="account-verified"><AppIcon name="check" /> Email Verified via OTP</dd></div>
         {success.role === 'shelter' && <div><dt>Legal Verification</dt><dd>{success.documents ? 'Documents Uploaded' : 'Not all documents uploaded'}</dd></div>}
       </dl>
       {loginError && <p role="alert" className="modal-status modal-status--error">{loginError}</p>}

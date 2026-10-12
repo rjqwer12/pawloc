@@ -2,7 +2,7 @@
 .user-settings-main > h1 { font-size: 28px; font-weight: 750; margin-bottom: 20px; letter-spacing: -.6px; }
 .settings-tabs { display: flex; gap: 24px; border-bottom: 1px solid #e5e7eb; margin-bottom: 30px; }
 .settings-tabs button { display: flex; align-items: center; gap: 7px; padding: 12px 0; background: transparent; border-bottom: 2px solid transparent; color: #8a929f; font-size: 13px; }
-.settings-tabs button[aria-selected='true'] { color: #689d4b; border-bottom-color: #689d4b; font-weight: 600; }
+.settings-tabs button[aria-pressed='true'] { color: #689d4b; border-bottom-color: #689d4b; font-weight: 600; }
 .settings-tabs svg { width: 16px; height: 16px; }
 .settings-columns { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(250px, 1fr); gap: 32px; }
 .settings-columns[hidden] { display: none; }
@@ -48,3 +48,10 @@
 .settings-dialog form > div { display: flex; justify-content: flex-end; gap: 12px; }
 @media (max-width: 1100px) { .settings-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; } .settings-profile-card { min-height: 400px; } .settings-security-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 650px) { .user-settings-main { padding: 28px 16px; } .user-settings-main > h1 { font-size: 24px; } .settings-fields, .settings-security-stack, .settings-security-panel { grid-template-columns: minmax(0, 1fr); } .settings-profile-card { padding: 18px; } .settings-profile-card header { flex-wrap: wrap; } .settings-tabs { gap: 14px; } .settings-tabs button { font-size: 11px; } .settings-photo-row { gap: 12px; } .settings-photo-actions { flex-wrap: wrap; } .settings-save-actions { gap: 8px; } .settings-save-actions button { padding: 10px 12px; } }
+
+.settings-profile-card { min-height: 0; }
+.settings-profile-card header { padding-bottom: 16px; }
+.settings-verification { border: 0; border-radius: 0; background: transparent; padding: 3px 0; color: #689d4b; }
+.settings-photo-row { border-bottom: 0; margin: 0; padding: 24px 0 12px; }
+.settings-security-card h2 { border-bottom: 1px solid #f2f4f6; padding-bottom: 12px; margin-bottom: 14px; }
+.settings-columns { gap: 32px; }

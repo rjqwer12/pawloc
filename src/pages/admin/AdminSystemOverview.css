@@ -1,0 +1,11 @@
+.admin-system-overview > h1 { margin-bottom:34px; }
+.admin-system-overview > section { margin-bottom:42px; }
+.admin-system-overview > section > h2 { margin:0 0 24px; padding-bottom:14px; border-bottom:1px solid #e1e8ef; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:#4c5b54; }
+.overview-stat-grid { display:grid; gap:24px; }
+.overview-pets { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.overview-accounts { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.overview-stat-grid article { min-width:0; padding:32px 28px 24px; min-height:128px; background:#fff; border:1px solid #edf1f6; border-radius:14px; }
+.overview-stat-grid h3 { color:#7b8880; font-size:11px; font-weight:700; }
+.overview-stat-grid strong { display:block; margin-top:6px; font-size:48px; font-weight:800; line-height:1.15; overflow-wrap:anywhere; }
+@media(max-width:1100px) { .overview-pets { grid-template-columns:repeat(2,minmax(0,1fr)); } .overview-stat-grid { gap:16px; } .overview-stat-grid article { padding:24px 18px; } }
+@media(max-width:620px) { .admin-system-overview > h1 { margin-bottom:28px; } .overview-accounts { grid-template-columns:1fr; } .overview-stat-grid { gap:10px; } .overview-stat-grid article { padding:20px 14px; min-height:110px; } .overview-stat-grid strong { font-size:36px; } }

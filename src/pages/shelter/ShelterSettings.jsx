@@ -43,12 +43,12 @@ export default function ShelterSettings() {
   useEffect(() => () => reader.current?.abort(),[]);
   useEffect(() => {
     if(authLoading)return; let active=true;
-    if(!user){setDraft({name:'North Valley Animal Sanctuary',landmark:'Mandurriao, Iloilo City, Philippines',phone:'',species:'Dogs, Cats',image:'',latitude:'',longitude:'',operatingHours:initialHours});setLoading(false);return;}
+    if(!user){setDraft(null);setNotice('Sign in to view your shelter settings.');setLoading(false);return;}
     setLoading(true);
-    Promise.all([listRecords('shelter',true),supabase.from('profiles').select('shelter_name,address').eq('id',user.id).maybeSingle(),supabase.from('shelter_approvals').select('status').eq('user_id',user.id).maybeSingle()]).then(([records,profile,approval])=>{
+    Promise.all([listRecords('shelter',true),supabase.from('profiles').select('shelter_name,address,phone').eq('id',user.id).maybeSingle(),supabase.from('shelter_approvals').select('status').eq('user_id',user.id).maybeSingle()]).then(([records,profile,approval])=>{
       if(profile.error)throw profile.error;if(approval.error)throw approval.error;if(!active)return;
       const record=records[0];
-      setDraft({name:profile.data?.shelter_name || user.user_metadata?.shelter_name || '',landmark:profile.data?.address || '',phone:'',species:'',image:'',latitude:'',longitude:'',...record,operatingHours:record?.operatingHours || initialHours.map(row=>({...row,status:'Closed'}))});setVerified(approval.data?.status==='approved');
+      setDraft({name:profile.data?.shelter_name || user.user_metadata?.shelter_name || '',landmark:profile.data?.address || '',phone:profile.data?.phone || user.user_metadata?.phone || '',species:'',image:'',latitude:'',longitude:'',...record,operatingHours:record?.operatingHours || initialHours.map(row=>({...row,status:'Closed'}))});setVerified(approval.data?.status==='approved');
     }).catch(error=>{if(active)setNotice(error.message);}).finally(()=>{if(active)setLoading(false);});return()=>{active=false;};
   },[user?.id,authLoading]);
   function photo(event){const file=event.target.files?.[0];if(!file)return;reader.current?.abort();setReading(false);if(!['image/jpeg','image/png'].includes(file.type)||!file.size||file.size>10*1024*1024){setNotice('Choose a JPG or PNG image up to 10 MB.');event.target.value='';return;}setReading(true);const next=new FileReader();reader.current=next;next.onload=()=>{setDraft(current=>({...current,image:next.result}));setReading(false);};next.onerror=()=>{setReading(false);setNotice('Unable to read image.');};next.readAsDataURL(file);}

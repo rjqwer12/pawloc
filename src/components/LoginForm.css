@@ -43,7 +43,7 @@
 
 .form-group input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(21, 71, 185, 0.1);
+  box-shadow: none;
 }
 
 .password-group input {
@@ -154,7 +154,7 @@
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 18px;
-  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.14);
+  box-shadow: none;
   padding: 1.4rem 1.4rem 1.3rem;
   backdrop-filter: blur(8px);
 }
@@ -188,7 +188,7 @@
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+  background: #eef4ff;
   color: var(--color-primary);
   display: flex;
   align-items: center;
@@ -228,7 +228,7 @@
 .forgot-step-pill--active {
   background: #fff;
   color: var(--color-text);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  box-shadow: none;
 }
 
 .forgot-step-pill--done {
@@ -295,7 +295,7 @@
 
 .forgot-field input:focus {
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(21, 71, 185, 0.1);
+  box-shadow: none;
 }
 
 .forgot-field--with-button .forgot-password-wrap {
@@ -350,7 +350,7 @@
 .forgot-primary-btn {
   border: none;
   border-radius: 10px;
-  background: linear-gradient(135deg, #1d4ed8, #0d47a1);
+  background: #689d4b;
   color: #fff;
   padding: 0.9rem 1rem;
   font-size: 0.9rem;
@@ -462,3 +462,25 @@ dialog.forgot-password-modal .forgot-form-actions { order: 5; }
 .settings-password-success .settings-password-confirmed { padding: 12px; background: #f7f8fa; border: 1px solid #eef1f6; border-radius: 8px; font-size: 12px; }
 .settings-password-confirmed { text-align: left; }
 .password-confirmed-icon { display: inline-grid; place-items: center; width: 14px; height: 14px; margin-right: 6px; border-radius: 50%; background: #00a779; color: white; font-size: 10px; }
+
+/* Flat password recovery steps. */
+dialog.forgot-password-modal .step-badge { background: transparent; border: 0; color: #8393a8; border-radius: 0; }
+dialog.forgot-password-modal .step-badge--active { color: #689d4b; }
+.step-badge svg, .password-check-mark svg { width: 13px; height: 13px; }
+dialog.forgot-password-modal .forgot-step-pill { position: relative; gap: 8px; font-weight: 400; }
+dialog.forgot-password-modal .forgot-step-pill:not(:last-child)::after { content: ''; position: absolute; right: -8px; width: 18px; height: 1px; background: #dce5f5; }
+dialog.forgot-password-modal .forgot-modal-close { background: transparent; }
+dialog.forgot-password-modal .password-checklist { background: #f0f3ff; border-radius: 8px; padding: 12px; }
+dialog.forgot-password-modal .forgot-field input:focus { outline: 2px solid #689d4b; outline-offset: 2px; }
+.password-match { color: #427b65; font-size: 12px; }
+.password-confirmed-icon svg { width: 12px; height: 12px; }
+/* Active password step uses a circular number badge. */
+dialog.forgot-password-modal .forgot-step-pill--active .step-badge {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #df6669;
+  color: #fff;
+  border: 0;
+}

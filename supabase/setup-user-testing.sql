@@ -10,6 +10,7 @@ create table if not exists public.profiles (
   shelter_name text,
   representative text,
   address text,
+  phone text,
   bir_path text,
   permit_path text,
   created_at timestamptz not null default now(),

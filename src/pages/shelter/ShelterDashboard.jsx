@@ -4,15 +4,8 @@ import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
 import { useAuth } from '../../lib/AuthContext';
 import { listRecords } from '../../lib/userData';
-import { userPets } from '../../data/userPets';
 import './ShelterDashboard.css';
 
-const samples = [
-  ['Emily Watson', 'emily.w@example.com', 'Bella', 'Golden Retriever', 'pending', '2024-10-23'],
-  ['Marcus Vance', 'm.vance@example.com', 'Milo', 'Domestic Shorthair', 'approved', '2024-10-22'],
-  ['David Kowalski', 'dkowalski@firmdesigns.com', 'Cleo', 'Calico Cat', 'cancelled', '2024-10-20'],
-  ['Sophia Martinez', 's.martinez@university.edu', 'Barnaby', 'Shepherd Mix', 'rejected', '2024-10-19'],
-].map(([fullName, email, name, breed, status, createdAt], index) => ({ id: `sample-${index}`, fullName, email, title: `${name} (${breed})`, status, createdAt, image: userPets[index]?.image }));
 const statusLabels = { pending: 'Pending Review', approved: 'Accepted', accepted: 'Accepted', cancelled: 'Cancelled', rejected: 'Rejected' };
 function Status({ value }) { return <span className={`dashboard-status status-${value}`}><Icon name={value === 'pending' ? 'clock' : ['approved', 'accepted'].includes(value) ? 'check' : 'close'} />{statusLabels[value] || value || 'Unknown'}</span>; }
 
@@ -27,7 +20,7 @@ export default function ShelterDashboard({ requestsPage = false }) {
   useEffect(() => {
     if (authLoading) return;
     let active = true;
-    if (!user) { setData({ pets: [], requests: samples }); setLoading(false); return; }
+    if (!user) { setData({ pets: [], requests: [] }); setLoading(false); return; }
     setLoading(true); setError('');
     Promise.all([listRecords('pet', true), listRecords('reservation')]).then(([pets, requests]) => {
       if (active) setData({ pets, requests: requests.filter(item => item.recipientId === user.id) });
@@ -54,6 +47,6 @@ export default function ShelterDashboard({ requestsPage = false }) {
         {!visible.length && !error && <tr><td colSpan={5}>No adoption requests in this category.</td></tr>}
       </tbody></table></div>}
     </section>
-    {!user && !authLoading && <p className="dashboard-preview">Preview with sample requests. Sign in with an approved shelter account to view your records.</p>}
+    {!user && !authLoading && <p className="dashboard-preview">Sign in with an approved shelter account to view your records.</p>}
   </main>{selected && <ShelterReservationModal request={selected} requests={data.requests} onSaved={next => setData(current => ({ ...current, requests: current.requests.map(item => item.id === next.id ? next : item) }))} onClose={() => setSelected(null)} />}</UserLayout>;
 }

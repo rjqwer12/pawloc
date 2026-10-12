@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { isTestListing } from './testListings';
 
 function check(error) {
   if (error?.code === '23505') throw new Error('You already have an active request or reaction for this item. Refresh to see its status.');
@@ -13,7 +14,7 @@ const unpack = row => ({ ...row.data, id: row.id, ownerId: row.owner_id, recipie
 export async function listRecords(kind, mine = false) {
   let query = supabase.from('user_records').select('*').eq('kind', kind).order('created_at', { ascending: false });
   if (mine) query = query.eq('owner_id', (await currentUser()).id);
-  const { data, error } = await query; check(error); return data.map(unpack);
+  const { data, error } = await query; check(error); return data.filter(row => !isTestListing(row)).map(unpack);
 }
 export async function saveRecord(kind, payload, id, recipientId = null, parentId = null) {
   const user = await currentUser();

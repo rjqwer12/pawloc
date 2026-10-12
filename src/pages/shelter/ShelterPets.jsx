@@ -4,10 +4,8 @@ import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
 import { useAuth } from '../../lib/AuthContext';
 import { listRecords, saveRecord, uploadImage } from '../../lib/userData';
-import { userPets } from '../../data/userPets';
 import './ShelterPets.css';
 
-const samples = [userPets[0], userPets[1], userPets[0], userPets[1]].map((pet,index) => ({ ...pet, id: `shelter-preview-${index}`, name: index % 2 ? 'Luna' : 'Cooper', species: pet.type, age: index % 2 ? '1 yr' : '2 yrs', breed: index % 2 ? 'Calico Cat' : 'Golden Retriever', description: index % 2 ? 'Spayed, indoor only, microchipped, gentle temperament.' : 'Friendly, energetic, vaccinated, leash trained.' }));
 const groups = [['all','All'], ['dog','Dogs'], ['cat','Cats'], ['other','Others']];
 const species = pet => (pet.species || pet.type || '').trim().toLowerCase();
 const matches = (pet, group) => group === 'all' || (group === 'other' ? !['dog','cat'].includes(species(pet)) : species(pet) === group);
@@ -50,7 +48,7 @@ export default function ShelterPets() {
   const { user, loading: authLoading } = useAuth();
   const [pets,setPets] = useState([]); const [loading,setLoading] = useState(true); const [error,setError] = useState('');
   const [filter,setFilter] = useState('all'); const [editor,setEditor] = useState(null); const [adopting,setAdopting] = useState(null);
-  useEffect(() => { if (authLoading) return; let active = true; setLoading(true); setError(''); if (!user) { setPets(samples); setLoading(false); return; } listRecords('pet',true).then(rows => { if (active) setPets(rows); }).catch(err => { if (active) setError(err.message); }).finally(() => { if (active) setLoading(false); }); return () => { active=false; }; }, [user?.id,authLoading]);
+  useEffect(() => { if (authLoading) return; let active = true; setLoading(true); setError(''); if (!user) { setPets([]); setLoading(false); return; } listRecords('pet',true).then(rows => { if (active) setPets(rows); }).catch(err => { if (active) setError(err.message); }).finally(() => { if (active) setLoading(false); }); return () => { active=false; }; }, [user?.id,authLoading]);
   async function save(draft) {
     let next = { ...draft, type: draft.species.toLowerCase(), species: draft.species.toLowerCase(), status: draft.status || 'Available' };
     if (user) {

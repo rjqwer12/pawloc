@@ -1,39 +1,17 @@
+import AppIcon from './UserIcon';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { sendPasswordResetCode, verifyPasswordResetCode, updatePassword } from '../lib/auth';
 import { currentUser } from '../lib/userData';
 import { supabase } from '../lib/supabase';
 import './LoginForm.css';
-function EyeIcon({ open }) {
-  if (open) {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-    );
-  }
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-      <line x1="1" y1="1" x2="23" y2="23" />
-    </svg>
-  );
-}
+function EyeIcon({ open }) { return <AppIcon name={open ? 'eye' : 'eye-off'} />; }
 
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
+function CloseIcon() { return <AppIcon name="close" />; }
 
-function CheckBadge({ active }) {
+function CheckBadge({ active, number }) {
   return (
     <span className={`step-badge${active ? ' step-badge--active' : ''}`} aria-hidden="true">
-      {active ? '✓' : ''}
+      {active ? <AppIcon name="check" /> : number}
     </span>
   );
 }
@@ -161,7 +139,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
           <CloseIcon />
         </button>
 
-        {step === 'success' ? <section className="settings-password-success"><div className="settings-password-check" aria-hidden="true">&#10003;</div><h2>{account ? 'Password Updated Successfully' : 'Password reset successful'}</h2><p>Your password has been securely updated. You can now use your new credentials to sign in to your account.</p><p className="settings-password-confirmed"><span aria-hidden="true" className="password-confirmed-icon">&#10003;</span> Account updated: {email}</p>{status?.type === 'error' && <p role="alert">{status.text}</p>}<button className="forgot-primary-btn" disabled={loading} onClick={returnToLogin}>Sign in to account</button></section> : <div className="forgot-progress">
+        {step === 'success' ? <section className="settings-password-success"><div className="settings-password-check" aria-hidden="true"><AppIcon name="check" /></div><h2>{account ? 'Password Updated Successfully' : 'Password reset successful'}</h2><p>Your password has been securely updated. You can now use your new credentials to sign in to your account.</p><p className="settings-password-confirmed"><span aria-hidden="true" className="password-confirmed-icon"><AppIcon name="check" /></span> Account updated: {email}</p>{status?.type === 'error' && <p role="alert">{status.text}</p>}<button className="forgot-primary-btn" disabled={loading} onClick={returnToLogin}>Sign in to account</button></section> : <div className="forgot-progress">
           {progressSteps.map((label, index) => {
             const isDone = index < activeIndex;
             const isActive = index === activeIndex;
@@ -173,7 +151,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
                 className={`forgot-step-pill${isActive ? ' forgot-step-pill--active' : ''}${isDone ? ' forgot-step-pill--done' : ''}`}
                 disabled
               >
-                <CheckBadge active={isDone} />
+                <CheckBadge active={isDone} number={index + 1} />
                 <span>{label}</span>
               </button>
             );
@@ -270,7 +248,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
             <div className="password-checklist" aria-live="polite">
               {passwordChecks.map(({ label, valid }) => (
                 <div key={label} className={`password-check${valid ? ' password-check--valid' : ''}`}>
-                  <span className="password-check-mark">{valid ? '✓' : '○'}</span>
+                  <span className="password-check-mark">{valid ? <AppIcon name="check" /> : <AppIcon name="circle" />}</span>
                   <span>{label}</span>
                 </div>
               ))}
@@ -292,6 +270,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
               </div>
             </label>
 
+            {confirmPassword && <p className="password-match" role="status">{password === confirmPassword ? 'Passwords match' : 'Passwords do not match yet'}</p>}
             {status ? <p className={`forgot-status forgot-status--${status.type}`}>{status.text}</p> : null}
 
             <button type="submit" className="forgot-primary-btn" disabled={loading}>

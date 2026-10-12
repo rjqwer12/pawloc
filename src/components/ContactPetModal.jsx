@@ -51,17 +51,17 @@ export default function ContactPetModal({ post, onClose }) {
     <dialog ref={dialog} className={`contact-pet-modal${sent ? ' contact-pet-modal-sent' : ''}`} aria-labelledby="contact-pet-title" onCancel={event => { event.preventDefault(); onClose(); }}>
       {sent ? <div className="contact-pet-success">
         <button className="contact-pet-close" type="button" onClick={onClose} aria-label="Close contact confirmation"><Icon name="close" /></button>
-        <span className="contact-pet-check" aria-hidden="true">✓</span>
+        <span className="contact-pet-check" aria-hidden="true"><Icon name="check" /></span>
         <h2 id="contact-pet-title" ref={successHeading} tabIndex={-1}>Information Sent</h2>
-        <p>{post.database ? 'Your details have been saved to the post owner’s inbox.' : 'Preview only. Your details have not been sent.'}</p>
+        <p>{post.database ? 'Your details have been successfully submitted and forwarded. The responder will get in touch with you shortly.' : 'Preview only. Your details have not been sent.'}</p>
         <button className="contact-pet-send" type="button" onClick={onClose}>Done</button>
       </div> : <>
-        <header className="contact-pet-header"><h2 id="contact-pet-title">Contact Pet {isFound ? 'Finder' : 'Owner'}</h2><span className={`contact-pet-tag${isFound ? ' contact-pet-tag-found' : ''}`}><Icon name="warning" />{isFound ? 'Found Pet' : 'Lost Pet'}</span><button type="button" className="contact-pet-close" onClick={onClose} aria-label="Close contact form"><Icon name="close" /></button></header>
+        <header className="contact-pet-header"><h2 id="contact-pet-title">Contact Pet {isFound ? 'Finder' : 'Owner'}</h2><button type="button" className="contact-pet-close" onClick={onClose} aria-label="Close contact form"><Icon name="close" /></button></header>
         <form onSubmit={submit}>
           <div className="contact-pet-fields">
             <div className="contact-pet-row">
               <label>Full Name <span>*</span><input name="fullName" autoComplete="name" placeholder="e.g., Kez Nabajo" required maxLength={100} /></label>
-              <label>Contact Number <span>*</span><input name="phone" type="tel" autoComplete="tel" placeholder="e.g., +63 9XX XXX XXXX" required maxLength={24} /></label>
+              <label>Contact Number <span>*</span><input name="phone" type="tel" autoComplete="tel" placeholder={isFound ? '09123456789' : '+63 918 222 1094'} required maxLength={24} /></label>
             </div>
             <div className={isFound ? 'contact-pet-row' : ''}>
               <label>{isFound ? 'Facebook Profile / Link' : 'Facebook'} <span>*</span><input name="facebook" placeholder="e.g., facebook.com/KezNabajo" required maxLength={300} /></label>
@@ -71,7 +71,7 @@ export default function ContactPetModal({ post, onClose }) {
             <label>{isFound ? 'Description of the Pet' : `Have you spotted ${petName}? (Location & Details)`} <span>*</span><textarea name="description" rows={3} required maxLength={2000} placeholder={isFound ? 'Distinct collar tags, markings, coat color, size, temperament, or answers to finder questions...' : 'Where and when did you spot the pet? Include nearby landmarks, appearance, and direction of travel.'} /></label>
             {error && <p className="contact-pet-error" role="alert">{error}</p>}
           </div>
-          <footer className="contact-pet-actions"><button type="button" onClick={onClose}>Cancel</button><button className="contact-pet-send" type="submit" disabled={busy}>Send</button></footer>
+          <footer className="contact-pet-actions"><button type="button" onClick={onClose}>Cancel</button><button className="contact-pet-send" type="submit" disabled={busy}>{busy ? 'Sending...' : 'Send'}</button></footer>
         </form>
       </>}
     </dialog>

@@ -11,6 +11,7 @@ import UserHome from './pages/user/UserHome';
 import ShelterDashboard from './pages/shelter/ShelterDashboard';
 import ShelterPets from './pages/shelter/ShelterPets';
 import ShelterSettings from './pages/shelter/ShelterSettings';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import ShelterNotifications from './pages/shelter/ShelterNotifications';
 import UserShelters from './pages/user/UserShelters';
 import UserMap from './pages/user/UserMap';
@@ -24,7 +25,7 @@ import './App.css';
 function AppContent() {
   const { pathname } = useLocation();
   const isContactSupport = ['/contact-support', '/about-us', '/privacy-policy', '/community-guidelines', '/terms-of-service'].includes(pathname);
-  const isUserPage = pathname.startsWith('/user/') || pathname.startsWith('/shelter/');
+  const isUserPage = pathname.startsWith('/user/') || pathname.startsWith('/shelter/') || pathname.startsWith('/admin/');
 
   return (
     <AuthProvider>
@@ -32,6 +33,10 @@ function AppContent() {
         {!isUserPage && <Navbar informational={isContactSupport} />}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminDashboard usersPage />} />
+          <Route path="/admin/reports" element={<AdminDashboard reportsPage />} />
+          <Route path="/admin/system-overview" element={<AdminDashboard overviewPage />} />
           <Route path="/shelter/home" element={<UserHome shelterView />} />
           <Route path="/shelter/dashboard" element={<ShelterDashboard />} />
           <Route path="/shelter/adoption-requests" element={<ShelterDashboard requestsPage />} />

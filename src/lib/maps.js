@@ -3,13 +3,15 @@ let queue = Promise.resolve();
 let lastRequest = 0;
 
 // Cache and serialize lookups, including React's development remounts.
-export function findShelter(shelter) {
+export function findShelter(shelter, { addressOnly = false } = {}) {
   if (shelter.latitude !== '' && shelter.longitude !== '' && shelter.latitude != null && shelter.longitude != null) {
     const point = [Number(shelter.latitude), Number(shelter.longitude)];
     if (point.every(Number.isFinite) && Math.abs(point[0]) <= 90 && Math.abs(point[1]) <= 180) return Promise.resolve(point);
   }
-  const query = `${shelter.name}, ${shelter.landmark}`;
-  if (searches.has(query)) return searches.get(query);
+  const query = addressOnly ? shelter.landmark?.trim() : `${shelter.name}, ${shelter.landmark}`;
+  if (!query) return Promise.resolve(null);
+  const cacheKey = `${addressOnly ? 'address' : 'shelter'}:${query}`;
+  if (searches.has(cacheKey)) return searches.get(cacheKey);
   const task = queue.then(async () => {
     await new Promise(resolve => setTimeout(resolve, Math.max(0, 1100 - (Date.now() - lastRequest))));
     lastRequest = Date.now();
@@ -18,13 +20,13 @@ export function findShelter(shelter) {
     if (!response.ok) throw new Error('Shelter lookup is unavailable. You can choose the destination on the map.');
     const results = await response.json();
     const result = results[0];
-    if (!result || !['amenity', 'building'].includes(result.category)) return null;
+    if (!result || (!addressOnly && !['amenity', 'building'].includes(result.category))) return null;
     const point = [Number(result.lat), Number(result.lon)];
-    return point.every(Number.isFinite) ? point : null;
+    return point.every(Number.isFinite) && Math.abs(point[0]) <= 90 && Math.abs(point[1]) <= 180 ? point : null;
   });
-  searches.set(query, task);
+  searches.set(cacheKey, task);
   queue = task.catch(() => {});
-  task.catch(() => searches.delete(query));
+  task.catch(() => searches.delete(cacheKey));
   return task;
 }
 

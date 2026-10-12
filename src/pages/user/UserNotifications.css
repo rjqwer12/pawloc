@@ -4,7 +4,7 @@
 .notifications-heading button, .notification-row button { border: 1px solid #e5e7eb; background: white; color: #334155; border-radius: 8px; padding: 7px 14px; font-size: 11px; white-space: nowrap; }
 .notifications-heading button:disabled { opacity: .5; }
 .notifications-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-.notifications-filters button { font-size: 11px; padding: 5px 10px; border-radius: 16px; }
+.notifications-filters button { font-size: 11px; padding: 5px 10px; border-radius: 6px; }
 .notification-filter-lost { background: #ffe5e7; color: #d75e65; }
 .notification-filter-found { background: #e4eaff; color: #476ad1; }
 .notification-filter-reservation { background: #fff1c6; color: #9d8133; }
@@ -12,8 +12,8 @@
 .notification-group { margin-bottom: 38px; }
 .notification-group > header { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin: 12px 0; }
 .notification-group h2 { font-size: 12px; }
-.notification-group > header span { font-size: 10px; color: #148569; border-radius: 12px; background: #e1f7ed; padding: 4px 9px; }
-.notification-row { display: flex; align-items: center; gap: 14px; padding: 16px 20px; margin-bottom: 12px; background: white; border: 1px solid #edf0f3; border-radius: 12px; }
+.notification-group > header span { font-size: 10px; color: #148569; background: transparent; padding: 0; }
+.notification-row { display: flex; align-items: center; gap: 14px; padding: 12px 20px; margin-bottom: 10px; background: white; border: 1px solid #f3f4f6; border-radius: 10px; }
 .notification-row > div { flex: 1; min-width: 0; }
 .notification-row p { font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
 .notification-row small { display: block; margin-top: 5px; color: #94a3b8; font-size: 11px; }

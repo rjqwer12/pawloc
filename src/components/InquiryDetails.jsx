@@ -30,15 +30,16 @@ export default function InquiryDetails({ item, onClose }) {
   return <dialog ref={dialog} className={`inquiry-details${found ? ' inquiry-details-found' : ''}`} aria-labelledby="inquiry-heading" onCancel={event => { event.preventDefault(); onClose(); }}>
     <header className="inquiry-header"><h2 id="inquiry-heading">{cancelled ? 'Reservation Cancelled' : found ? 'Found Pet Inquiry' : 'Lost Pet Inquiry'}</h2><button onClick={onClose} aria-label="Close inquiry"><Icon name="close" /></button></header>
     {cancelled ? <p>{item.postTitle || item.title}</p> : <>
-      {found && <div className="inquiry-highlights"><div><span className="inquiry-highlight-icon"><Icon name="paw" /></span><div><small>Reported name of pet</small><strong>{item.petName || 'Not provided'}</strong></div></div><div><span className="inquiry-highlight-icon"><Icon name="pin" /></span><div><small>Last seen location</small><strong>{item.location || 'Not provided'}</strong></div></div></div>}
-      <section className="inquiry-description"><h3><Icon name="comment" />{found ? 'Description' : 'Sighting Details'}</h3><blockquote>{item.description || 'No description provided.'}</blockquote>
+      {found && <div className="inquiry-highlights"><div><div><small>Reported name of pet</small><strong>{item.petName || 'Not provided'}</strong></div></div><div><div><small>Last seen location</small><strong>{item.location || 'Not provided'}</strong></div></div></div>}
+      <section className="inquiry-contacts"><h3>{found ? 'Finder Contact Information' : 'Inquiry Information'}</h3><div className="inquiry-contact-grid">
+        <div><small>Full Name</small><strong>{item.fullName || 'Not provided'}</strong></div>
+        <div><div className="inquiry-phone-heading"><small>{found ? 'Contact Number' : 'Phone Number'}</small>{item.phone && <button onClick={copyPhone} aria-label="Copy phone number"><Icon name="copy" />Copy</button>}</div>{item.phone ? <a href={`tel:${item.phone.replace(/[^+\d]/g, '')}`}>{item.phone}</a> : <strong>Not provided</strong>}</div>
+        <div><small>{found ? 'Facebook Profile' : 'Facebook Contact'}</small>{facebook ? <a className="inquiry-facebook" href={facebook} target="_blank" rel="noopener noreferrer" title={item.facebook}>{item.facebook.replace(/^https?:\/\//i, '')}</a> : <strong>{item.facebook || 'Not provided'}</strong>}</div>
+      </div></section>
+      <section className="inquiry-description"><h3>{found ? 'Description' : 'Sighting Details'}</h3><blockquote>{item.description || 'No description provided.'}</blockquote>
         {!found && (item.location || item.postLocation) && <p className="inquiry-location"><Icon name="pin" />{!item.location && 'Post location: '}{item.location || item.postLocation}</p>}
       </section>
-      <section className="inquiry-contacts"><h3><Icon name="profile" />{found ? 'Finder Contact Information' : 'Inquiry Information'}</h3><div className="inquiry-contact-grid">
-        <div><small><Icon name="profile" />Full Name</small><strong>{item.fullName || 'Not provided'}</strong></div>
-        <div><div className="inquiry-phone-heading"><small><Icon name="phone" />{found ? 'Contact Number' : 'Phone Number'}</small>{item.phone && <button onClick={copyPhone}>Copy</button>}</div>{item.phone ? <a href={`tel:${item.phone.replace(/[^+\d]/g, '')}`}>{item.phone}</a> : <strong>Not provided</strong>}</div>
-        <div><small><Icon name="comment" />{found ? 'Facebook Profile' : 'Facebook Contact'}</small>{facebook ? <a className="inquiry-facebook" href={facebook} target="_blank" rel="noopener noreferrer" title={item.facebook}>{item.facebook.replace(/^https?:\/\//i, '')}</a> : <strong>{item.facebook || 'Not provided'}</strong>}</div>
-      </div></section>
+
       {item.phone && <input ref={phoneInput} className={copyStatus.startsWith('Select') ? 'inquiry-copy-fallback' : 'inquiry-copy-hidden'} aria-label="Phone number to copy" value={item.phone} readOnly tabIndex={-1} />}
       {copyStatus && <p className="inquiry-copy-status" role="status">{copyStatus}</p>}
       {!found && <footer className="inquiry-pet-recall"><strong>Lost Pet: {item.petName || item.postTitle?.split(' (')[0] || 'Pet'}</strong><p>{item.breed || item.postTitle?.match(/\((.*)\)/)?.[1]}</p></footer>}

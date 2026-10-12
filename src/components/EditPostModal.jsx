@@ -15,8 +15,8 @@ export default function EditPostModal({ post, onClose, onSave }) {
     element.showModal();
     return () => { element.close(); document.body.style.overflow = overflow; focus?.focus(); };
   }, []);
-  return <dialog ref={dialog} className="create-post-modal create-post-modal-lost edit-post-modal" aria-labelledby="edit-post-title" onCancel={event => { event.preventDefault(); onClose(); }}>
-    <header className="create-post-header"><span className="create-post-heading-icon"><Icon name="edit" /></span><h2 id="edit-post-title">{titles[post.category]}</h2><button className="create-post-close" type="button" onClick={onClose} aria-label="Close edit post"><Icon name="close" /></button></header>
+  return <dialog ref={dialog} className={`create-post-modal create-post-modal-lost edit-post-modal edit-post-modal-${post.category}`} aria-labelledby="edit-post-title" onCancel={event => { event.preventDefault(); onClose(); }}>
+    <header className="create-post-header"><h2 id="edit-post-title">{titles[post.category]}</h2><button className="create-post-close" type="button" onClick={onClose} aria-label="Close edit post"><Icon name="close" /></button></header>
     <LostPetForm category={post.category} initialPost={post} onBack={onClose} onSubmit={async changes => await onSave({ ...post, image: undefined, attachment: undefined, ...changes })} />
   </dialog>;
 }

@@ -33,17 +33,17 @@ export default function ReportPostModal({ post, onClose }) {
     <dialog ref={dialog} className={`report-post-modal${sent ? ' report-post-modal-success' : ''}`} aria-labelledby="report-post-title" onCancel={event => { event.preventDefault(); onClose(); }}>
       <button className="report-post-close" onClick={onClose} aria-label="Close report"><Icon name="close" /></button>
       {sent ? <section className="report-post-success">
-        <span className="report-post-check" aria-hidden="true">✓</span>
+        <span className="report-post-check" aria-hidden="true"><Icon name="check" /></span>
         <h2 ref={heading} tabIndex={-1} id="report-post-title">Report Submitted Successfully</h2>
         <p>{post.database ? <>Thank you for helping keep our community safe. Our moderation team has received your report regarding {post.author ? `${post.author}'s post` : 'this post'} and will investigate it shortly.</> : 'Preview only. This report has not been submitted.'}</p>
         <button className="report-post-primary" onClick={onClose}>Done</button>
       </section> : <>
-        <header className="report-post-header"><span className="report-post-icon"><Icon name="flag" /></span><div><h2 id="report-post-title">Report Post</h2><p>Help us keep PawLoc safe, accurate, and trustworthy for urgent animal rescues. Let us know what is wrong with this post.</p></div></header>
-        <form onSubmit={async event => { event.preventDefault(); setBusy(true); try { if (post.database) await saveRecord('report', { postId: post.id, reason }, null, null, post.id); setSent(true); } catch(error) { setError(error.message); } finally { setBusy(false); } }}>
-          <fieldset><legend>Reason for Reporting <span>*</span></legend><p className="report-post-hint">Select one option</p>
-            <div className="report-post-options">{reasons.map(([value, label, description, icon], index) => <label className={`report-post-option${reason === value ? ' report-post-option-selected' : ''}`} key={value}><input type="radio" name="reportReason" value={value} checked={reason === value} onChange={() => setReason(value)} required /><span><strong>{label}</strong><small>{description}</small></span><Icon name={icon} className={index > 2 ? 'report-post-danger-icon' : ''} /></label>)}</div>
+        <header className="report-post-header"><h2 id="report-post-title">Report Post</h2></header>
+        <form onSubmit={async event => { event.preventDefault(); if (busy) return; setError(''); setBusy(true); try { if (post.database) await saveRecord('report', { postId: post.id, reason }, null, null, post.id); setSent(true); } catch(error) { setError(error.message); } finally { setBusy(false); } }}>
+          <fieldset><legend><span>Reason for Reporting <em>*</em></span><small className="report-post-hint">Select one option</small></legend>
+            <div className="report-post-options">{reasons.map(([value, label, description]) => <label className={`report-post-option${reason === value ? ' report-post-option-selected' : ''}`} key={value}><input type="radio" name="reportReason" value={value} checked={reason === value} onChange={() => setReason(value)} required /><span><strong>{label}</strong><small>{description}</small></span></label>)}</div>
           </fieldset>
-          {error && <p role="alert">{error}</p>}<div className="report-post-actions"><button type="button" onClick={onClose}>Cancel</button><button className="report-post-primary" type="submit" disabled={busy}>Report</button></div>
+          {error && <p role="alert">{error}</p>}<div className="report-post-actions"><button type="button" onClick={onClose}>Cancel</button><button className="report-post-primary" type="submit" disabled={busy}>{busy ? 'Reporting...' : 'Report'}</button></div>
         </form>
       </>}
     </dialog>

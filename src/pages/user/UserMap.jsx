@@ -1,3 +1,5 @@
+import heartIcon from '@iconify-icons/lucide/heart';
+import AppIcon from '../../components/UserIcon';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import L from 'leaflet';
@@ -6,7 +8,6 @@ import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
 import { listRecords } from '../../lib/userData';
 import { useAuth } from '../../lib/AuthContext';
-import { shelters as sampleShelters } from '../../data/shelters';
 import { drivingRoute, findShelter } from '../../lib/maps';
 import './UserMap.css';
 
@@ -16,7 +17,7 @@ export default function UserMap() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [cardOpen, setCardOpen] = useState(true);
   const { user } = useAuth();
-  const [shelters, setShelters] = useState(() => user ? [] : sampleShelters);
+  const [shelters, setShelters] = useState([]);
   const shelter = params.has('shelter') ? shelters.find(item => String(item.id) === params.get('shelter')) : shelters[0];
   const results = shelters.filter(item => [item.name, item.landmark].some(value => value?.toLowerCase().includes(search.trim().toLowerCase())));
   function selectShelter(item) { setParams({ shelter: item.id }); setSearch(item.name); setSearchOpen(false); setCardOpen(true); }
@@ -85,7 +86,7 @@ export default function UserMap() {
     const layers = L.layerGroup().addTo(map.current);
     if (start) L.circleMarker(start, { radius: 9, color: '#2674cf', fillOpacity: 1 }).bindTooltip('Starting point').addTo(layers);
     if (end) {
-      const icon = L.divIcon({ className: 'map-shelter-pin', html: '<span aria-hidden="true">&#9829;</span>', iconSize: [36, 42], iconAnchor: [18, 42] });
+      const icon = L.divIcon({ className: 'map-shelter-pin', html: `<span aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18">${heartIcon.body}</svg></span>`, iconSize: [36, 42], iconAnchor: [18, 42] });
       const label = document.createElement('span');
       label.textContent = shelter?.name || 'Destination';
       L.marker(end, { icon, title: shelter?.name || 'Destination' }).bindTooltip(label).on('click', () => setCardOpen(true)).addTo(layers);
@@ -162,7 +163,7 @@ export default function UserMap() {
         {shelter && cardOpen && <aside className="map-place-card" aria-label="Shelter details">
           <div className="map-place-photo">
             {shelter.image ? <img src={shelter.image} alt={shelter.name} /> : <div className="map-place-placeholder"><Icon name="shelter" /><span>Shelter photo unavailable</span></div>}
-            <button className="map-place-close" aria-label="Close shelter details" onClick={() => setCardOpen(false)}>&times;</button>
+            <button className="map-place-close" aria-label="Close shelter details" onClick={() => setCardOpen(false)}><AppIcon name="close" /></button>
           </div>
           <div className="map-place-content">
             <h2>{shelter.name}</h2>

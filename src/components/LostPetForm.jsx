@@ -69,10 +69,9 @@ export default function LostPetForm({ onBack, onSubmit, category = 'lost', initi
         <h3>{isReunited ? isEditing ? 'Update Photos' : 'Upload Reunion / Homecoming Photos' : isFound ? 'Found Pet Photos' : 'Pet Photos'}</h3>
         <label className={`lost-pet-upload${upload ? ' lost-pet-upload-selected' : ''}`}>
           <input type="file" accept="image/png,image/jpeg" onChange={chooseFile} aria-label="Upload pet photo" required={!upload} aria-describedby="lost-upload-help" />
-          {upload?.type.startsWith('image/') ? <img src={upload.url} alt="Selected pet photo" /> : <span className="lost-pet-camera"><Icon name="camera" /></span>}
-          <strong>{reading ? 'Reading file…' : isEditing ? 'Replace or Upload Photo' : upload ? 'Change file' : <>Upload Photo <span className="lost-pet-required">*</span></>}</strong>
-          <span className="lost-pet-required">Photo required *</span>
-          <span id="lost-upload-help">{upload ? upload.name : 'PNG, JPG up to 10MB'}</span>
+          {upload?.type.startsWith('image/') && upload.name !== 'Current photo' ? <img src={upload.url} alt="Selected pet photo" /> : <span className="lost-pet-camera"><Icon name="camera" /></span>}
+          <strong>{reading ? 'Reading file…' : isEditing ? <>Replace or Upload Photo <span className="lost-pet-required">*</span></> : upload ? 'Change file' : <>Upload Photo <span className="lost-pet-required">*</span></>}</strong>
+          <span id="lost-upload-help">{upload && upload.name !== 'Current photo' ? upload.name : 'PNG, JPG up to 10MB'}</span>
         </label>
       </div>
       <div className="lost-pet-field-row">
@@ -82,7 +81,7 @@ export default function LostPetForm({ onBack, onSubmit, category = 'lost', initi
       {!isReunited && <label><span>{isFound ? 'Found / Location' : 'Last Seen Location'} <span className="lost-pet-required">*</span></span><input name="location" defaultValue={initialPost?.location || ''} required maxLength={200} placeholder={isFound ? 'e.g., Pavia, Iloilo' : 'e.g., Rob Pavia'} /></label>}
       <label><span>{isReunited ? 'Story Description' : 'Description'} <span className="lost-pet-required">*</span></span><textarea name="description" defaultValue={initialPost?.description || ''} required maxLength={2000} rows={isFound || isReunited ? 3 : 2} placeholder={isReunited ? 'Share how they were found, thank dispatch spotters, volunteers, shelters, or veterinary clinics who assisted, and describe the happy homecoming moment...' : isFound ? 'Describe physical condition, tag engravings or phone numbers, temperament (friendly, nervous), where currently being kept safely...' : 'Red nylon collar with silver bell. Very food-motivated, timid around loud delivery trucks. Call name softly...'} /></label>
       {error && <p className="lost-pet-error" role="alert">{error}</p>}
-      <div className="lost-pet-actions"><button type="button" onClick={onBack}>{isEditing ? 'Cancel' : 'Back to Categories'}</button><button type="submit" disabled={reading || saving}>{reading ? 'Loading…' : isEditing ? 'Save Changes' : 'Post'}</button></div>
+      <div className="lost-pet-actions"><button type="button" onClick={onBack}>{isEditing ? 'Cancel' : 'Back to Categories'}</button><button type="submit" disabled={reading || saving}>{reading ? 'Loading…' : saving ? 'Saving...' : isEditing ? 'Save Changes' : 'Post'}</button></div>
     </form>
   );
 }

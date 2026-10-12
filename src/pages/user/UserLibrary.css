@@ -10,7 +10,7 @@
 .user-library-filters button[aria-pressed='true'] { color: white; background: #689d4b; }
 .user-library-filters button[aria-pressed='true'] span { color: #56843d; background: white; }
 .user-library-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
-.user-library-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid #e5e7eb; border-radius: 16px; background: white; box-shadow: 0 2px 10px #00000008; }
+.user-library-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 1px solid #e5e7eb; border-radius: 16px; background: white; box-shadow: none; }
 .user-library-card > header { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 12px; padding: 18px 18px 0; }
 .user-library-author { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .user-library-author strong { font-size: 12px; overflow-wrap: anywhere; }
@@ -104,3 +104,33 @@
 @media (max-width: 540px) { .reservation-modal-body { padding: 18px; } .reservation-receipt dl { grid-template-columns: 1fr 1fr; } .reservation-map { flex-wrap: wrap; padding: 12px 0; } .reservation-schedule { flex-wrap: wrap; padding: 14px; } }
 .reservation-receipt > header > span { display: inline-flex; align-items: center; gap: 5px; }
 .reservation-receipt > header > span > svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+/* Compact library cards from the updated design. */
+.user-library-filters button { border: 1px solid #e5e7eb; }
+.user-library-filters button[aria-pressed='true'] { border-color: #689d4b; }
+.user-library-card > header { padding: 18px 18px 0; gap: 8px; }
+.user-library-author { flex: 1; }
+.user-library-author strong { font-size: 11px; }
+.user-library-author p { font-size: 10px; }
+.user-library-tag { padding: 0; border-radius: 0; background: transparent; font-size: 9px; align-self: center; }
+.user-library-tag-reservation { color: #dd744b; }
+.user-library-copy { padding-top: 16px; }
+.user-library-copy h2 { font-size: 13px; }
+.user-library-copy p { font-size: 11px; line-height: 1.55; }
+.user-library-photo { aspect-ratio: 1.6; }
+.user-library-card > footer button { font-size: 11px; }
+.user-library-card > footer .user-library-reservation-approved,
+.user-library-card > footer .user-library-reservation-rejected,
+.user-library-card > footer .user-library-pending { padding: 7px 6px; }
+@media (min-width: 1151px) and (max-width: 1450px) { .user-library-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* Reservation receipt layout. */
+.reservation-receipt dl { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.reservation-receipt dl > div { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.reservation-receipt dd { text-align: right; }
+.reservation-receipt small { display: inline; margin-left: 4px; }
+.reservation-receipt header { border-bottom: 0; }
+.reservation-modal-header { gap: 0; }
+.reservation-receipt header > span { font-size: 11px; }
+.reservation-schedule { padding: 16px; }
+.reservation-rejection > svg { width: 22px; height: 22px; }
+@media (max-width: 540px) { .reservation-receipt dl { grid-template-columns: minmax(0, 1fr); } .reservation-receipt { padding: 16px; } .reservation-receipt header { flex-wrap: wrap; } }

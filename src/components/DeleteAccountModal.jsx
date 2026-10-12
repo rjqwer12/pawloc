@@ -28,13 +28,13 @@ export default function DeleteAccountModal({ onClose }) {
     catch (err) { setError(err.message || 'Unable to delete your account. Please try again.'); }
     finally { setBusy(false); }
   }
-  return <dialog ref={dialog} className="delete-account-modal" aria-labelledby="delete-account-title" aria-describedby="delete-account-description" onCancel={event => { event.preventDefault(); close(); }}>
-    <div className={`delete-account-badge${success ? ' is-success' : ''}`} aria-hidden="true">{success ? '\u2713' : <Icon name="delete" />}</div>
+  return <dialog ref={dialog} className={`delete-account-modal${success ? ' delete-account-modal-success' : ''}`} aria-labelledby="delete-account-title" aria-describedby="delete-account-description" onCancel={event => { event.preventDefault(); close(); }}>
+    <div className={`delete-account-badge${success ? ' is-success' : ''}`} aria-hidden="true">{success ? <Icon name="check" /> : <Icon name="delete" />}</div>
     <h2 id="delete-account-title">{success ? 'Account Deleted Successfully' : 'Delete Account'}</h2>
     {!success && <h3>Are you sure you want to delete this account?</h3>}
     <p id="delete-account-description">{success ? "Your account and all associated personal data have been permanently removed. We're sorry to see you go." : 'This action cannot be undone. Once deleted, this account will be permanently removed.'}</p>
     {error && <p className="delete-account-error" role="alert">{error}</p>}
-    {success ? <button className="delete-account-return" onClick={close}>Return to Sign In</button> : <div className="delete-account-actions">
+    {success ? <><p className="delete-account-signed-out">You have been signed out of your account.</p><button className="delete-account-return" onClick={close}>Return to Sign In</button></> : <div className="delete-account-actions">
       <button onClick={close} disabled={busy} autoFocus>Cancel</button>
       <button className="delete-account-confirm" onClick={confirm} disabled={busy}>{busy ? 'Deleting...' : 'Delete Account'}</button>
     </div>}

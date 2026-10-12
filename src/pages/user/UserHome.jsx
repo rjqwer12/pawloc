@@ -9,36 +9,13 @@ import UserLayout from '../../components/UserLayout';
 import Icon from '../../components/UserIcon';
 import { useAuth } from '../../lib/AuthContext';
 import { listRecords, savePost, saveRecord, deleteRecord } from '../../lib/userData';
-import { addPreviewPost, getPreviewPosts } from '../../lib/previewPosts';
+import { addPreviewPost } from '../../lib/previewPosts';
 
 import './UserHome.css';
 
 const categories = [
   ['all', 'All Posts'], ['lost', 'Lost Pets'], ['found', 'Found Pets'],
   ['reunited', 'Reunited Stories'], ['adoptable', 'Adoptable Pets'],
-];
-const initialPosts = [
-  {
-    id: 1, category: 'reunited', author: 'RJ Molene Socias', time: 'Just now · Mandurriao District',
-    title: 'Barnaby is finally home safe!',
-    description: 'Barnaby was found safe in Mandurriao thanks to our community responders and flyers. Thank you to everyone who shared sightings and assisted with veterinary checkups during his recovery!',
-    image: 'https://images.unsplash.com/photo-1601758124510-164b0a0a1d1f?w=1200&h=500&fit=crop',
-    alt: 'People spending time outdoors with a dog',
-  },
-  {
-    id: 2, category: 'lost', author: 'RJ Molene Socias', time: '35 mins ago · Pavia Plaza, Iloilo',
-    title: 'Barbilat (Golden Retriever mix)',
-    description: 'Red nylon collar with silver bell. Very food-motivated, timid around loud delivery trucks. Call name softly…',
-    image: 'https://images.unsplash.com/photo-1633722715463-d30f4f325e24?w=1200&h=500&fit=crop',
-    alt: 'Golden retriever with a red collar', location: 'Rob Pavia, Iloilo',
-  },
-  {
-    id: 3, category: 'found', author: 'RJ Molene Socias', time: '2 hours ago · Pavia, Iloilo',
-    title: 'Dog (Golden Retriever / Labrador mix)',
-    description: 'Found wandering near the plaza with no collar. Healthy, calm, and friendly golden retriever mix. Kept safe with water and temporary shelter at community outpost. Awaiting verification from owner.',
-    image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=1200&h=500&fit=crop',
-    alt: 'Golden retriever resting outside', location: 'Pavia, Iloilo',
-  },
 ];
 
 function PostCard({ post, highlighted }) {
@@ -67,7 +44,7 @@ function PostCard({ post, highlighted }) {
       <header className="user-post-author">
         <span className="user-avatar" aria-hidden="true">{authorPhoto ? <img src={authorPhoto} alt="" /> : post.author.split(' ').map(word => word[0]).slice(0, 2).join('')}</span>
         <div><strong>{post.author}</strong><p>{post.time}</p></div>
-        <span className={`user-badge user-tone-${post.category}`}><Icon name={post.category === 'reunited' ? 'paw' : 'pin'} />{labels[post.category]}</span>
+        <span className={`user-badge user-tone-${post.category}`}>{labels[post.category]}</span>
       </header>
       <h2>{post.category === 'lost' && <span className="user-lost-title">Missing: </span>}{post.category === 'found' && <span className="user-found-title">Found: </span>}{post.title}</h2>
       <p className="user-post-description">{post.description}</p>{!post.image && post.dateFound && <p className="user-post-description">Date found: {post.dateFound}</p>}
@@ -79,7 +56,7 @@ function PostCard({ post, highlighted }) {
           <button className="user-reaction" aria-pressed={post.database ? Boolean(ownLike) : liked} disabled={busy} onClick={toggleLike}><Icon name="heart" />{post.database ? postLikes.length : liked ? 1 : 0} Heart</button>
           <button className="user-reaction" onClick={() => setComments(true)}><Icon name="comment" />Comments</button>
         </> : <button className="user-contact" onClick={() => setShowContact(true)}><Icon name="phone" />{post.category === 'lost' ? 'Contact Owner' : 'Contact'}</button>}
-        <button className="user-report" onClick={() => setShowReport(true)}><Icon name="flag" />Report</button>
+        <button className="user-report" onClick={() => setShowReport(true)}>Report</button>
       </footer>
       {actionError && <p role="alert">{actionError}</p>}
       {(comments || (showImage && post.category === 'reunited')) && <PostComments post={post} onClose={() => { setComments(false); setShowImage(false); }} />}
@@ -97,7 +74,7 @@ export default function UserHome({ shelterView = false }) {
   useEffect(() => { if (selectedPost) document.getElementById('feed-post-' + selectedPost)?.scrollIntoView({ block: 'start' }); }, [selectedPost]);
 
   const [filter, setFilter] = useState('all');
-  const [posts, setPosts] = useState(() => user ? [] : [...getPreviewPosts(user?.id), ...initialPosts]);
+  const [posts, setPosts] = useState([]);
   const [loadError, setLoadError] = useState('');
   useEffect(() => { let active = true; if (user) listRecords('post').then(rows => { if (active) setPosts(rows); }).catch(error => { if (active) setLoadError(error.message); }); return () => { active = false; }; }, [user]);
 

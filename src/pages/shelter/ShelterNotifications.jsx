@@ -1,3 +1,4 @@
+import AppIcon from '../../components/UserIcon';
 import { useEffect, useState } from 'react';
 import UserLayout from '../../components/UserLayout';
 import ShelterReservationModal from '../../components/ShelterReservationModal';
@@ -14,9 +15,6 @@ function groupFor(item) {
   if (date === new Date(Date.now() - 86400000).toDateString()) return 'Yesterday';
   return new Date(timestamp(item)).toLocaleDateString(undefined, { month:'short', day:'numeric', year:'numeric' });
 }
-function sampleItems() {
-  return [12,42,60,1440].map((minutes,index)=>({id:`notification-preview-${index}`,fullName:index===2?'Elena Morales':'Sarah Jenkins',title:index===2?'Barnaby':'Cooper',status:index===2?'cancelled':'pending',createdAt:new Date(Date.now()-minutes*60000).toISOString()}));
-}
 export default function ShelterNotifications() {
   const { user, loading: authLoading } = useAuth();
   const [items,setItems]=useState([]), [read,setRead]=useState({}), [selected,setSelected]=useState(null);
@@ -26,7 +24,7 @@ export default function ShelterNotifications() {
     if(authLoading)return;
     let active=true, pending=false;
     setError('');setLoading(true);setSelected(null);
-    if(!user){setItems(sampleItems());setLoading(false);return;}
+    if(!user){setItems([]);setLoading(false);return;}
     async function refresh(){
       if(pending)return;pending=true;
       try { const rows=await listRecords('reservation'); if(active){setItems(rows.filter(item=>item.recipientId===user.id));setError('');} }
@@ -45,13 +43,13 @@ export default function ShelterNotifications() {
   }
   const sorted=[...items].sort((a,b)=>new Date(timestamp(b))-new Date(timestamp(a)));
   const groups=[...new Set(sorted.map(groupFor))];
-  return <UserLayout><main className="shelter-notifications"><header className="shelter-notifications-heading"><h1>Notifications</h1><button disabled={loading||saving||!items.some(item=>!read[keyFor(item)])} onClick={()=>markRead(items)}>&#10003; Mark All as Read</button></header>
+  return <UserLayout><main className="shelter-notifications"><header className="shelter-notifications-heading"><h1>Notifications</h1><button disabled={loading||saving||!items.some(item=>!read[keyFor(item)])} onClick={()=>markRead(items)}><AppIcon name="check" /> Mark All as Read</button></header>
     {error&&<p role="alert">{error}</p>}{loading&&<p role="status">Loading notifications...</p>}
     {!loading&&!error&&!items.length&&<p>No notifications yet.</p>}
     {!loading&&groups.map(group=><section className="shelter-notification-group" key={group} aria-label={group}><h2>{group}</h2>{sorted.filter(item=>groupFor(item)===group).map(item=>{
       const cancelled=item.status==='cancelled';const name=item.fullName||'Applicant';
       return <article key={item.id} className={`shelter-notification-row${cancelled?' is-cancelled':''}`}><span className="shelter-notification-avatar" aria-hidden="true">{name.split(' ').map(word=>word[0]).slice(0,2).join('')}</span><div className="shelter-notification-copy"><p><strong>{name}</strong> {cancelled?'cancelled reservation for': 'applied to adopt'} <strong>{item.title?.split(' (')[0]||'a pet'}</strong>.</p><small><time dateTime={timestamp(item)}>{new Date(timestamp(item)).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}</time> &bull; {cancelled?'Reservations':'Adoptions'}</small></div><button disabled={saving} aria-label={`Review request from ${name}`} onClick={()=>{setSelected(item);void markRead([item]);}}>Review</button><span className={`shelter-notification-dot${read[keyFor(item)]?' is-read':''}`} aria-label={read[keyFor(item)]?'Read':'Unread'}/></article>;
     })}</section>)}
-    {!user&&!authLoading&&<p className="shelter-notifications-preview">Sample notifications. Sign in with an approved shelter account to view your updates.</p>}
+    {!user&&!authLoading&&<p className="shelter-notifications-preview">Sign in to view your notifications.</p>}
   </main>{selected&&<ShelterReservationModal request={selected} requests={items} onSaved={next=>setItems(current=>current.map(item=>item.id===next.id?next:item))} onClose={()=>setSelected(null)}/>}</UserLayout>;
 }

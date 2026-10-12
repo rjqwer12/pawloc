@@ -1,4 +1,4 @@
-.create-post-modal { width: min(580px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; overscroll-behavior: contain; border: 0; border-radius: 16px; background: #fafafa; color: #162130; box-shadow: 0 25px 30px -5px #0000001f; }
+.create-post-modal { width: min(580px, calc(100% - 24px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; overscroll-behavior: contain; border: 0; border-radius: 16px; background: #fafafa; color: #162130; box-shadow: none; }
 .create-post-modal::backdrop { background: #14203366; }
 .create-post-modal svg { width: 22px; height: 22px; }
 .create-post-header { display: flex; align-items: center; gap: 8px; padding: 24px 24px 14px; background: #fefefe; }
@@ -39,4 +39,21 @@
   .create-post-option-heading { align-items: flex-start; flex-direction: column; }
   .create-post-option-heading strong { font-size: 15px; }
   .create-post-form { padding: 14px 16px 20px; }
+}
+
+/* Flat category picker and form headers. */
+.create-post-header { min-height: 81px; padding: 24px 24px 8px; align-items: center; }
+.create-post-header h2 { font-size: 24px; }
+.create-post-close { background: transparent; border-radius: 0; color: #66736d; align-self: center; }
+.create-post-modal .create-post-option { align-items: center; min-height: 106px; padding: 24px; }
+.create-post-option-heading { margin: 0; align-items: center; }
+.create-post-option-badge,
+.create-post-option-lost .create-post-option-badge,
+.create-post-option-reunited .create-post-option-badge { background: transparent; padding: 0; border-radius: 0; }
+@media(max-width:480px) {
+  .create-post-header { padding: 18px 16px 10px; min-height: 64px; }
+  .create-post-modal .create-post-option { padding: 18px; }
+  .create-post-option-heading { flex-direction: row; }
+  .create-post-option-heading strong { font-size: 14px; }
+  .create-post-option-badge { font-size: 10px; }
 }

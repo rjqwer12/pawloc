@@ -1,14 +1,8 @@
+import AppIcon from '../components/UserIcon';
 import usePublicRecords from '../lib/usePublicRecords';
 import './Stories.css';
 
-function ClockIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
-    </svg>
-  );
-}
+function ClockIcon() { return <AppIcon name="clock" />; }
 
 export default function Stories() {
   const { records, loading, error } = usePublicRecords('post');
