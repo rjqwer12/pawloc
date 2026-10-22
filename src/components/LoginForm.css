@@ -484,3 +484,25 @@ dialog.forgot-password-modal .forgot-step-pill--active .step-badge {
   color: #fff;
   border: 0;
 }
+
+/* Shelter password flow: flat cards with the existing verified reset process. */
+dialog.shelter-password-modal { width: min(530px,calc(100vw - 28px)); padding: 64px 40px 30px; max-height: calc(100dvh - 28px); overflow-y: auto; box-shadow: none; }
+.shelter-password-modal .forgot-progress { margin-bottom: 28px; }
+.shelter-password-modal .forgot-title-wrap { text-align: left; }
+.shelter-password-modal .forgot-title-wrap h3 { font-size: 28px; line-height: 1.25; letter-spacing: -.8px; }
+.shelter-password-modal .forgot-title-wrap p { font-size: 14px; line-height: 1.5; }
+.shelter-password-modal .forgot-title-wrap small { font-size: 11px; }
+.shelter-password-modal .forgot-form { gap: 24px; }
+.shelter-password-modal .forgot-field { font-size: 12px; text-align: left; }
+.shelter-password-modal .forgot-primary-btn { min-height: 46px; font-size: 14px; box-shadow: none; }
+.forgot-otp-label { font-size: 12px; font-weight: 600; }
+.shelter-password-modal .forgot-otp-label { margin-bottom: -16px; }
+.shelter-password-modal.forgot-stage-otp .forgot-title-wrap { margin-top: 44px; }
+.shelter-password-modal .forgot-form-actions { border-bottom: 1px solid #eef1f6; padding-bottom: 20px; }
+.password-strength-label { float: right; color: #007b70; font-size: 11px; }
+.shelter-password-modal .settings-password-check { border: 1px solid #f0f3ff; background: transparent; }
+.shelter-password-modal .settings-password-success { gap: 26px; }
+.shelter-password-modal .settings-password-success h2 { font-size: 26px; }
+.shelter-password-modal .settings-password-success p { font-size: 14px; }
+.shelter-password-modal .settings-password-confirmed { text-align: left; }
+@media(max-width:500px) { dialog.shelter-password-modal { padding: 52px 20px 24px; } .shelter-password-modal .forgot-title-wrap h3 { font-size: 24px; } }

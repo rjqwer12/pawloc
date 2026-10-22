@@ -13,10 +13,10 @@ const times = ['08:30','09:00','09:30','10:00','10:30','11:00','11:30','13:30','
 const dateInManila = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 const scheduleLabel = value => new Date(value).toLocaleString('en-US', { timeZone: 'Asia/Manila', dateStyle: 'full', timeStyle: 'short' }) + ' (Philippine time)';
 
-export default function ShelterReservationModal({ request, requests, onClose, onSaved }) {
+export default function ShelterReservationModal({ request, requests, onClose, onSaved, notificationReview = false }) {
   const dialog = useRef(null);
   const [entry, setEntry] = useState(request);
-  const [step, setStep] = useState(['approved','accepted'].includes(request.status) ? 'approved' : request.status === 'rejected' ? 'rejected-review' : request.status === 'cancelled' ? 'cancelled-review' : 'review');
+  const [step, setStep] = useState(['approved','accepted'].includes(request.status) ? 'approved' : request.status === 'rejected' ? (notificationReview ? 'rejected' : 'rejected-review') : request.status === 'cancelled' ? 'cancelled-review' : 'review');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [reason, setReason] = useState(reasons[0]);
@@ -39,14 +39,14 @@ export default function ShelterReservationModal({ request, requests, onClose, on
     } catch(err) { setError(err.message); } finally { setBusy(false); }
   }
   function close() { if (!busy) onClose(); }
-  const details = <section className="srm-details"><h3><Icon name="profile" />Applicant Details</h3><dl>
+  const details = <section className="srm-details"><h3>Applicant Details</h3><dl>
     <div><dt>Full Name</dt><dd>{entry.fullName || 'Not provided'}</dd></div>
     <div><dt>Shelter Name</dt><dd>{entry.shelter || 'Not provided'}</dd></div>
     <div><dt>Contact Details</dt><dd>{entry.phone || 'Phone not provided'}<br />{entry.email || 'Email not provided'}</dd></div>
     {entry.address && <div><dt>Address</dt><dd>{entry.address}</dd></div>}
     {entry.experience && <div><dt>Experience with Pets</dt><dd>{entry.experience}</dd></div>}
   </dl></section>;
-  return <dialog ref={dialog} className={`srm-modal srm-${step}`} aria-labelledby="srm-title" onCancel={event => { event.preventDefault(); close(); }}>
+  return <dialog ref={dialog} className={`srm-modal srm-${step}${notificationReview ? ' srm-notification-review' : ''}`} aria-labelledby="srm-title" onCancel={event => { event.preventDefault(); close(); }}>
     <button className="srm-close" disabled={busy} onClick={close} aria-label="Close reservation"><Icon name="close" /></button>
     {step === 'rejected-review' || step === 'cancelled-review' ? <ReservationOutcomeReview entry={entry} cancelled={step === 'cancelled-review'} /> : step === 'approved' ? <AcceptedReservation entry={entry} onClose={close} /> : step === 'rejected' ? <><div className="srm-rejected-icon"><Icon name="close" /></div><h2 id="srm-title">Reservation Rejected</h2><p>The reservation request has been rejected.</p><section className="srm-reason-summary"><h3>Reason for Rejection</h3><p>{entry.rejectionReason || 'No reason provided.'}</p></section><footer><button className="srm-danger" onClick={close}>Done</button></footer></> : <>
       <header><h2 id="srm-title">{step === 'approved' ? 'Reservation Confirmed!' : step === 'reject' ? 'Reject Reservation Request' : 'Reservation'}</h2><p>{step === 'approved' ? 'The adoption visit has been confirmed by the shelter.' : step === 'reject' ? 'Select a reason to include in the applicant’s reservation update.' : `Requested on ${new Date(entry.createdAt).toLocaleDateString()}`}</p></header>
@@ -55,7 +55,7 @@ export default function ShelterReservationModal({ request, requests, onClose, on
         {step === 'approved' && <section className="srm-schedule"><Icon name="calendar" /><strong>{entry.visitAt ? scheduleLabel(entry.visitAt) : entry.visitSchedule || 'Visit schedule not provided'}</strong><small>30-minute appointment</small></section>}
         {details}
         {step === 'review' && entry.status === 'pending' && <section className="srm-booking">
-          <h3><Icon name="calendar" />Visit Schedule &amp; Appointment Slot</h3>
+          <h3>Visit Schedule &amp; Appointment Slot</h3>
           <div className="srm-booking-columns">
             <ReservationCalendar value={date} min={dateInManila()} disabled={busy} onChange={value => { setDate(value); setTime(''); }} />
             <div className="srm-time-panel"><header><span>Available Time</span><strong>30 min each</strong></header><div className="srm-times">

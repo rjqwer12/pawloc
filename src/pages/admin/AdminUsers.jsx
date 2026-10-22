@@ -1,3 +1,5 @@
+import ClientDetailsModal from './ClientDetailsModal';
+import VerifiedShelterModal from './VerifiedShelterModal';
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
@@ -5,7 +7,7 @@ import Icon from '../../components/UserIcon';
 import './AdminUsers.css';
 import AcceptShelterModal from './AcceptShelterModal';
 
-const statuses={pending:'Pending Approval',approved:'Verified Shelter',rejected:'Application Rejected',active:'Active',unconfirmed:'Email Unconfirmed'};
+const statuses={suspended:'Suspended',pending:'Pending Approval',approved:'Verified Shelter',rejected:'Application Rejected',active:'Active',unconfirmed:'Email Unconfirmed'};
 const tabs=[['all','All Users'],['clients','Regular Users'],['shelters','Pet Shelters'],['rejected','Rejected Applications'],['pending','Pending Shelters']];
 const matches=(row,tab)=>tab==='all'||(tab==='clients'?row.role==='adopter':tab==='shelters'?row.role==='shelter':row.role==='shelter'&&row.status===tab);
 function Details({row,onClose}){
@@ -25,6 +27,6 @@ export default function AdminUsers(){
     <div className="admin-users-toolbar"><div className="admin-users-tabs" aria-label="User categories">{tabs.map(([key,label])=><button key={key} aria-pressed={tab===key} onClick={()=>setParams(key==='all'?{}:{filter:key})}>{label}<span>{count(key)}</span></button>)}</div></div>
     {error&&<p role="alert" className="admin-error">Unable to load users: {error} <button onClick={()=>setRetry(value=>value+1)}>Retry</button></p>}
     <div className="admin-users-table-wrap" role="region" aria-label="Registered users" tabIndex={0}><table className="admin-users-table"><thead><tr>{['User / Entity','Role & Details','Account Status','Date Registered','Actions'].map(label=><th key={label} scope="col">{label}</th>)}</tr></thead><tbody>{loading?<tr><td colSpan={5}>Loading users...</td></tr>:filtered.map(row=><tr key={row.id}><td><div className="admin-user-identity"><span className={`admin-user-initials status-${row.status}`} aria-hidden="true">{row.name.split(' ').filter(Boolean).map(word=>word[0]).slice(0,2).join('')}</span><div><strong>{row.name}</strong><span>{row.email}</span></div></div></td><td>{row.role==='shelter'?'Shelter Owner':'User Account'}<small className="admin-user-address"><Icon name="pin"/>{row.address||'Address not provided'}</small></td><td><span className={`admin-user-status status-${row.status}`}>{statuses[row.status]||row.status}</span></td><td>{new Date(row.createdAt).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</td><td><button className={`admin-user-action status-${row.status}`} aria-label={`View details for ${row.name}`} onClick={()=>setSelected(row)}>View Details</button></td></tr>)}{!loading&&!error&&!filtered.length&&<tr><td colSpan={5}>No users match your filters.</td></tr>}</tbody></table></div>
-    {selected&&(selected.status==='pending'&&selected.role==='shelter'?<AcceptShelterModal row={selected} onClose={()=>setSelected(null)} onRejected={(id,reason)=>setRows(current=>current.map(row=>row.id===id?{...row,status:"rejected",rejectionReason:reason}:row))} onAccepted={id=>setRows(current=>current.map(row=>row.id===id?{...row,status:'approved'}:row))}/>:<Details row={selected} onClose={()=>setSelected(null)}/>)}
+    {selected&&(selected.status==='pending'&&selected.role==='shelter'?<AcceptShelterModal row={selected} onClose={()=>setSelected(null)} onRejected={(id,reason)=>setRows(current=>current.map(row=>row.id===id?{...row,status:"rejected",rejectionReason:reason}:row))} onAccepted={id=>setRows(current=>current.map(row=>row.id===id?{...row,status:'approved'}:row))}/>:selected.role==='shelter'&&['approved','suspended'].includes(selected.status)?<VerifiedShelterModal row={selected} onClose={()=>setSelected(null)} onSuspended={id=>setRows(current=>current.map(row=>row.id===id?{...row,status:'suspended'}:row))}/>:selected.role==='adopter'?<ClientDetailsModal row={selected} onClose={()=>setSelected(null)} onSuspended={id=>setRows(current=>current.map(row=>row.id===id?{...row,status:'suspended'}:row))}/>:<Details row={selected} onClose={()=>setSelected(null)}/>)}
   </>;
 }

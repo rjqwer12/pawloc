@@ -4,7 +4,7 @@ import { deleteAccount } from '../lib/userData';
 import Icon from './UserIcon';
 import './DeleteAccountModal.css';
 
-export default function DeleteAccountModal({ onClose }) {
+export default function DeleteAccountModal({ onClose, shelter = false }) {
   const dialog = useRef(null);
   const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
@@ -28,7 +28,7 @@ export default function DeleteAccountModal({ onClose }) {
     catch (err) { setError(err.message || 'Unable to delete your account. Please try again.'); }
     finally { setBusy(false); }
   }
-  return <dialog ref={dialog} className={`delete-account-modal${success ? ' delete-account-modal-success' : ''}`} aria-labelledby="delete-account-title" aria-describedby="delete-account-description" onCancel={event => { event.preventDefault(); close(); }}>
+  return <dialog ref={dialog} className={`delete-account-modal${shelter && !success ? ' shelter-delete-account-modal' : ''}${success ? ' delete-account-modal-success' : ''}`} aria-labelledby="delete-account-title" aria-describedby="delete-account-description" onCancel={event => { event.preventDefault(); close(); }}>
     <div className={`delete-account-badge${success ? ' is-success' : ''}`} aria-hidden="true">{success ? <Icon name="check" /> : <Icon name="delete" />}</div>
     <h2 id="delete-account-title">{success ? 'Account Deleted Successfully' : 'Delete Account'}</h2>
     {!success && <h3>Are you sure you want to delete this account?</h3>}

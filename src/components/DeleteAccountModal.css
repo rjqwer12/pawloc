@@ -17,3 +17,16 @@ dialog.delete-account-modal { width: min(567px, calc(100vw - 32px)); padding: 30
 .delete-account-badge.is-success svg { width: 32px; height: 32px; }
 dialog.delete-account-modal-success { padding: 48px 40px 40px; border-radius: 24px; }
 .delete-account-modal .delete-account-signed-out { background: #f0f3ff; border-radius: 16px; padding: 10px; margin-bottom: 10px; font-size: 11px; color: #3c4a42; }
+
+/* Shelter account confirmation. */
+dialog.shelter-delete-account-modal { padding: 32px 28px 20px; max-height: calc(100dvh - 32px); overflow-y: auto; border: 1px solid #f1f5f9; border-radius: 12px; background: #fafafa; color: #0f172a; }
+.shelter-delete-account-modal .delete-account-badge { width: 52px; height: 52px; border-color: #fef2f2; border-radius: 16px; color: #d96868; margin-bottom: 16px; }
+.shelter-delete-account-modal .delete-account-badge svg { width: 28px; height: 28px; }
+.shelter-delete-account-modal h2 { font-size: 28px; line-height: 35px; letter-spacing: -.56px; margin-bottom: 12px; }
+.shelter-delete-account-modal h3 { font-size: 20px; line-height: 32px; margin-bottom: 22px; }
+.shelter-delete-account-modal p { max-width: 484px; margin: 0 auto 28px; font-size: 16px; line-height: 26px; color: #64748b; }
+.shelter-delete-account-modal .delete-account-actions { gap: 15px; }
+.shelter-delete-account-modal .delete-account-actions button { width: 149px; min-height: 51px; padding: 12px 8px; border: 1px solid #475569; border-radius: 16px; background: transparent; color: #475569; font-size: 15px; line-height: 22px; font-weight: 700; box-shadow: none; }
+.shelter-delete-account-modal .delete-account-actions .delete-account-confirm { width: 178px; background: #d96868; border-color: #d96868; color: #fafafa; }
+.shelter-delete-account-modal .delete-account-error { color: #b42318; }
+@media(max-width:480px) { dialog.shelter-delete-account-modal { padding: 28px 20px 20px; } .shelter-delete-account-modal h2 { font-size: 26px; } .shelter-delete-account-modal h3 { font-size: 18px; line-height: 27px; } .shelter-delete-account-modal .delete-account-actions { gap: 10px; } .shelter-delete-account-modal .delete-account-actions button { max-width: 55%; } }

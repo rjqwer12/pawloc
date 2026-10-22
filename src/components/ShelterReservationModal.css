@@ -85,3 +85,52 @@ dialog.srm-cancelled-review { width: min(460px, calc(100vw - 28px)); padding: 40
 .cancelled-review-content { text-align: center; }.cancelled-review-icon { display: grid; place-items: center; width: 60px; height: 60px; margin: 4px auto 24px; border-radius: 50%; background: #f1f5f9; color: #667991; }.cancelled-review-icon svg { width: 28px; height: 28px; }.cancelled-review-content h2 { padding: 0; font-size: 25px; }.cancelled-review-content > p { margin: 16px auto 20px; max-width: 360px; line-height: 1.8; }
 .cancelled-review-details { background: #f8fafc; border: 1px solid #edf1f6; border-radius: 10px; padding: 18px; text-align: left; }.cancelled-review-details h3 { text-transform: uppercase; font-size: 10px; letter-spacing: .6px; color: #708099; margin-bottom: 12px; }.cancelled-review-details strong { font-size: 12px; }.cancelled-review-details p { font-size: 11px; }
 @media(max-width: 560px) { dialog.srm-rejected-review { padding: 26px 20px; }.rejected-review-meta { flex-direction: column; }.rejected-review-dates { align-items: flex-start; }.cancelled-review-content h2 { font-size: 22px; } }
+/* Updated pending and outcome review layouts. */
+dialog.srm-modal { max-height: calc(100dvh - 28px); overflow-y: auto; box-shadow: none; }
+dialog.srm-review { background: #fafafa; border-color: #f1f5f9; border-radius: 12px; }
+.srm-review > header { background: #fff; }
+.srm-review > .srm-pet { padding: 24px 28px; }
+.srm-review .srm-breed { background: transparent; padding: 0; color: #788598; font-size: 11px; }
+.srm-review > .srm-details, .srm-review > .srm-booking { background: #fff; }
+.srm-review .srm-details > h3, .srm-review .srm-booking > h3 { text-transform: none; letter-spacing: 0; font-size: 12px; }
+.srm-review .srm-details dl { gap: 18px 24px; }
+.srm-review .srm-time-panel { background: #f8fafc; }
+.srm-review > footer { border-top: 1px solid #edf1f5; }
+.srm-rejected-review .srm-breed { background: transparent; padding: 0; color: #689d4b; }
+.rejected-review-dates span { background: transparent; }
+.cancelled-review-icon { background: transparent; }
+.srm-cancelled-review .cancelled-review-details { background: #f8fafc; }
+@media(max-width:560px) { .srm-review > .srm-pet { padding: 20px; } }
+/* Acceptance and rejection follow-up screens. */
+dialog.srm-approved { border-radius: 14px; background: #fafafa; }
+.accepted-summary { background: #fff; padding-top: 24px; }
+.accepted-summary-header > span { background: transparent; padding: 0; border-radius: 0; }
+.accepted-date button { color: #689d4b; background: transparent; }
+.accepted-location-icon { background: transparent; padding: 0; }
+.accepted-guidelines { background: #f8fafc; }
+.srm-approved > footer { background: #fafafa; }
+dialog.srm-reject { width: min(760px, calc(100vw - 28px)); border-radius: 12px; background: #fafafa; }
+.srm-reject > header { padding-bottom: 20px; }
+.srm-reject .srm-application-date { background: transparent; border: 0; }
+.srm-reject .srm-breed { background: transparent; padding: 0; }
+.srm-reject .srm-reasons label:has(input:checked) { border-color: #689d4b; background: #fff; }
+.srm-reject .srm-reasons input { accent-color: #689d4b; }
+dialog.srm-rejected { background: #fafafa; border-radius: 14px; }
+.srm-rejected .srm-close { background: transparent; }
+.srm-rejected-icon { background: transparent; }
+.srm-rejected-icon svg { width: 28px; height: 28px; }
+.srm-rejected .srm-reason-summary { border: 0; background: #fff4f4; }
+.srm-rejected .srm-reason-summary h3 { color: #df6669; text-transform: uppercase; font-size: 10px; }
+.srm-rejected .srm-reason-summary p { color: #142033; font-weight: 600; }
+.srm-rejected > footer { border: 0; padding-top: 0; }
+
+/* Saved rejection opened from a notification. */
+dialog.srm-rejected.srm-notification-review { width: min(519px,calc(100vw - 28px)); max-width: 519px; padding: 48px 32px 32px; border-radius: 12px; background: #fafafa; box-shadow: none; }
+.srm-notification-review.srm-rejected .srm-rejected-icon { width: 64px; height: 64px; margin: 0 auto 26px; border: 1px solid #f0f3ff; border-radius: 50%; color: #df6669; }
+.srm-notification-review.srm-rejected > h2 { font-size: 32px; line-height: 40px; letter-spacing: -.8px; margin-bottom: 12px; }
+.srm-notification-review.srm-rejected > p { font-size: 15px; line-height: 24px; color: #64748b; }
+.srm-notification-review.srm-rejected .srm-reason-summary { margin: 24px 0; padding: 20px; }
+.srm-notification-review.srm-rejected .srm-reason-summary h3 { font-size: 12px; margin-bottom: 8px; }
+.srm-notification-review.srm-rejected .srm-reason-summary p { font-size: 14px; line-height: 20px; overflow-wrap: anywhere; }
+.srm-notification-review.srm-rejected > footer .srm-danger { min-height: 44px; border-radius: 12px; font-size: 16px; background: #d96868; }
+@media(max-width:480px) { dialog.srm-rejected.srm-notification-review { padding: 40px 20px 24px; } .srm-notification-review.srm-rejected > h2 { font-size: 26px; } }

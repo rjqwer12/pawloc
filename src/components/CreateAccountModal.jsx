@@ -1,3 +1,4 @@
+import { authMessage } from '../lib/authMessages';
 import AppIcon from './UserIcon';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -141,7 +142,7 @@ function AdopterForm({ onSuccess }) {
       });
       onSuccess({ role: 'adopter', name: [form.firstName, form.middleName, form.lastName].filter(Boolean).join(' '), email: form.email });
     } catch (err) {
-      setStatus({ type: 'error', text: err.message });
+      setStatus({ type: 'error', text: authMessage(err) });
     } finally {
       setLoading(false);
     }
@@ -376,7 +377,7 @@ function ShelterForm({ onSuccess }) {
 
       onSuccess({ role: 'shelter', name: form.shelterName, owner: form.representative, email: form.email, documents: Boolean(birPath && permitPath) });
     } catch (err) {
-      setStatus({ type: 'error', text: err.message });
+      setStatus({ type: 'error', text: authMessage(err) });
     } finally {
       setLoading(false);
     }
@@ -576,7 +577,7 @@ export default function CreateAccountModal({ onClose }) {
     setLeaving(true);
     setLoginError('');
     const { error } = await supabase.auth.signOut();
-    if (error) { setLoginError(error.message); setLeaving(false); return; }
+    if (error) { setLoginError(authMessage(error)); setLeaving(false); return; }
     onClose();
   }
   return <dialog ref={dialog} className={`modal-dialog create-account-dialog${success ? ' account-success-dialog' : ''}`} aria-labelledby="create-account-title" onCancel={event => { event.preventDefault(); onClose(); }}>

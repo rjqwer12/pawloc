@@ -28,3 +28,49 @@
 .reservation-filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }.reservation-filters button { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border: 1px solid #e5e9ed; border-radius: 20px; background: white; color: #61708a; font-size: 11px; }.reservation-filters button[aria-pressed=true] { color: white; background: #689d4b; }.reservation-filters span { display: grid; place-items: center; min-width: 15px; height: 15px; background: #edf3e8; color: #689d4b; border-radius: 50%; font-size: 9px; }
 .shelter-adoption-requests .dashboard-requests { min-height: 540px; }.shelter-adoption-requests .reservation-list-heading { background: #eff5ed; padding: 12px 16px; margin-bottom: 10px; }.shelter-adoption-requests .reservation-list-heading h2 { font-size: 13px; font-weight: 600; }.reservation-list-heading button { background: transparent; color: #689d4b; font-size: 11px; }.shelter-adoption-requests .dashboard-requests td { padding-top: 28px; padding-bottom: 28px; border-bottom: 1px solid #f3f5f7; }.shelter-adoption-requests .dashboard-requests th { background: #eaf0e9; padding-top: 15px; padding-bottom: 15px; }
 .reservation-applicant { display: flex; align-items: center; gap: 10px; }.reservation-initials { display: grid; place-items: center; flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; background: #e2edda; color: #668e4c; font-size: 10px; }.shelter-adoption-requests tbody tr:nth-child(2n) .reservation-initials { background: #ffe8d4; color: #b27d4e; }
+/* Flat dashboard summary and request table. */
+.shelter-dashboard:not(.shelter-adoption-requests) > h1 { font-size: 32px; margin-bottom: 30px; }
+.shelter-dashboard .dashboard-stats { gap: 18px; margin-bottom: 24px; }
+.shelter-dashboard .dashboard-stat { min-height: 100px; padding: 20px 18px; background: #fafafa; }
+.shelter-dashboard .dashboard-stat h2 { font-weight: 700; color: #94a3b8; }
+.shelter-dashboard .dashboard-stat strong { font-size: 28px; margin-top: 16px; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-requests { min-height: 500px; border-color: #f5f6f7; }
+.shelter-dashboard:not(.shelter-adoption-requests) .reservation-list-heading { padding: 26px 18px 20px; }
+.shelter-dashboard:not(.shelter-adoption-requests) .reservation-list-heading h2 { font-size: 22px; color: #242c26; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-requests th { font-size: 12px; color: #52605a; letter-spacing: 0; font-weight: 600; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-requests td { padding: 20px 18px; font-size: 14px; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-requests td strong { font-size: 14px; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-requests td small { font-size: 13px; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-status { padding: 0; border-radius: 0; background: transparent; font-size: 13px; font-weight: 500; }
+.shelter-dashboard:not(.shelter-adoption-requests) .status-pending { color: #c76615; }
+.shelter-dashboard:not(.shelter-adoption-requests) .status-approved,
+.shelter-dashboard:not(.shelter-adoption-requests) .status-accepted { color: #689d4b; }
+.shelter-dashboard:not(.shelter-adoption-requests) .status-cancelled,
+.shelter-dashboard:not(.shelter-adoption-requests) .status-rejected { color: #df6669; }
+.shelter-dashboard:not(.shelter-adoption-requests) .dashboard-review-button { padding: 9px 16px; border-radius: 12px; font-size: 12px; }
+@media(max-width:480px) { .shelter-dashboard:not(.shelter-adoption-requests) > h1 { font-size: 26px; } .shelter-dashboard .dashboard-stats { gap: 10px; } .shelter-dashboard .dashboard-stat { padding: 16px 12px; } }
+
+/* Adoption reservations use a flat, spacious list with plain status text. */
+.shelter-adoption-requests > h1 { font-size: 32px; margin-bottom: 38px; }
+.shelter-adoption-requests .reservation-filters { margin-bottom: 20px; }
+.shelter-adoption-requests .reservation-filters button { font-size: 12px; padding: 8px 16px; background: transparent; }
+.shelter-adoption-requests .reservation-filters button[aria-pressed=true] { background: #689d4b; border-color: #689d4b; }
+.shelter-adoption-requests .reservation-filters span { min-width: 20px; height: 20px; font-size: 10px; }
+.shelter-adoption-requests .dashboard-requests { min-height: 690px; }
+.shelter-adoption-requests .dashboard-requests table { min-width: 820px; }
+.shelter-adoption-requests .dashboard-requests th { padding: 18px 16px; font-size: 11px; font-weight: 700; color: #46534f; }
+.shelter-adoption-requests .dashboard-requests td { padding: 36px 16px; font-size: 13px; }
+.shelter-adoption-requests .dashboard-requests td strong { font-size: 14px; font-weight: 600; }
+.shelter-adoption-requests .dashboard-requests td small { font-size: 12px; line-height: 1.5; }
+.shelter-adoption-requests .dashboard-requests th:first-child { padding-left: 60px; width: 27%; }
+.shelter-adoption-requests .dashboard-requests th:nth-child(2) { width: 24%; }
+.shelter-adoption-requests .dashboard-requests th:last-child,.shelter-adoption-requests .dashboard-requests td:last-child { text-align: center; }
+.shelter-adoption-requests .reservation-initials { width: 36px; height: 36px; font-size: 12px; font-weight: 600; }
+.shelter-adoption-requests .dashboard-pet img { width: 46px; height: 46px; }
+.shelter-adoption-requests .reservation-submitted-date { font-weight: 600; color: #303a33; }
+.shelter-adoption-requests .dashboard-status { padding: 0; border-radius: 0; background: transparent; font-size: 12px; font-weight: 600; }
+.shelter-adoption-requests .status-pending { color: #c76615; }
+.shelter-adoption-requests .status-approved,.shelter-adoption-requests .status-accepted { color: #689d4b; }
+.shelter-adoption-requests .status-rejected,.shelter-adoption-requests .status-cancelled { color: #df6669; }
+.shelter-adoption-requests .dashboard-review-button { padding: 10px 20px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+@media(max-width:600px) { .shelter-adoption-requests > h1 { font-size: 26px; margin-bottom: 24px; } }

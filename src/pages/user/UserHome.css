@@ -141,3 +141,9 @@
 }
 
 .user-feed-heading > .user-create { margin-left: auto; }
+/* Keep third-party map controls flat in user and shelter layouts. */
+.user-home .leaflet-bar,
+.user-home .leaflet-control-layers,
+.user-home .leaflet-popup-content-wrapper,
+.user-home .leaflet-popup-tip,
+.user-home .leaflet-tooltip { box-shadow: none; }

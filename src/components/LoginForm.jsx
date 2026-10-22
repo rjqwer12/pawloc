@@ -1,3 +1,4 @@
+import { authMessage } from '../lib/authMessages';
 import AppIcon from './UserIcon';
 import PasswordResetModal from './PasswordResetModal';
 import { useState } from 'react';
@@ -53,7 +54,7 @@ export default function LoginForm() {
         return;
       }
       const { error } = await supabase.auth.signOut({ scope: 'local' });
-      if (error) { setStatus({ type: 'error', text: error.message }); return; }
+      if (error) { setStatus({ type: 'error', text: authMessage(error) }); return; }
       navigate('/shelter/home');
       return;
     }
@@ -69,7 +70,7 @@ export default function LoginForm() {
         return;
       }
       const { error } = await supabase.auth.signOut({ scope: 'local' });
-      if (error) { setStatus({ type: 'error', text: error.message }); return; }
+      if (error) { setStatus({ type: 'error', text: authMessage(error) }); return; }
       navigate('/user/home');
       return;
     }
@@ -79,7 +80,7 @@ export default function LoginForm() {
       const { user: signedInUser } = await signIn(email, password);
       await continueAccount(signedInUser);
     } catch (err) {
-      setStatus({ type: 'error', text: err.message });
+      setStatus({ type: 'error', text: authMessage(err) });
     } finally {
       setLoading(false);
     }

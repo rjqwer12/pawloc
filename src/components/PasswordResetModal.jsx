@@ -1,3 +1,4 @@
+import { authMessage } from '../lib/authMessages';
 import AppIcon from './UserIcon';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { sendPasswordResetCode, verifyPasswordResetCode, updatePassword } from '../lib/auth';
@@ -16,7 +17,7 @@ function CheckBadge({ active, number }) {
   );
 }
 
-export default function PasswordResetModal({ onClose, account = null }) {
+export default function PasswordResetModal({ onClose, account = null, shelter = false }) {
   const dialog = useRef(null);
   const [cooldown, setCooldown] = useState(0);
   useEffect(() => { const element = dialog.current; const focus = document.activeElement; element.showModal(); return () => { element.close(); focus?.focus(); }; }, []);
@@ -55,7 +56,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
       setStatus({ type: 'success', text: 'Code sent to your email.' });
       setStep('otp');
     } catch (err) {
-      setStatus({ type: 'error', text: err.message || 'Unable to send reset code.' });
+      setStatus({ type: 'error', text: authMessage(err) || 'Unable to send reset code.' });
     } finally {
       setLoading(false);
     }
@@ -88,7 +89,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
       if (account && result.user?.id !== account.id) throw new Error('The verification does not match your account.');
       setStep('password');
     } catch (err) {
-      setStatus({ type: 'error', text: err.message || 'Invalid or expired code.' });
+      setStatus({ type: 'error', text: authMessage(err) || 'Incorrect or expired code.' });
     } finally {
       setLoading(false);
     }
@@ -120,7 +121,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
       setStatus({ type: 'success', text: 'Password updated successfully.' });
       setPassword(''); setConfirmPassword(''); setStep('success');
     } catch (err) {
-      setStatus({ type: 'error', text: err.message || 'Unable to update password.' });
+      setStatus({ type: 'error', text: authMessage(err) || 'Unable to update password.' });
     } finally {
       setLoading(false);
     }
@@ -129,13 +130,13 @@ export default function PasswordResetModal({ onClose, account = null }) {
   async function returnToLogin() {
     setLoading(true); setStatus(null);
     try { const { error } = await supabase.auth.signOut(); if (error) throw error; window.location.hash = '/'; onClose(); }
-    catch(error) { setStatus({ type: 'error', text: error.message }); } finally { setLoading(false); }
+    catch(error) { setStatus({ type: 'error', text: authMessage(error) }); } finally { setLoading(false); }
   }
   const activeIndex = step === 'email' ? 0 : step === 'otp' ? 1 : 2;
 
   return (
-    <dialog ref={dialog} className="forgot-password-modal" aria-label={account ? "Update your password" : "Reset your password"} onCancel={event => { event.preventDefault(); onClose(); }}>
-        <button type="button" className="forgot-modal-close" onClick={onClose} aria-label="Close">
+    <dialog ref={dialog} className={`forgot-password-modal${shelter ? ' shelter-password-modal' : ''} forgot-stage-${step}`} aria-label={account ? "Update your password" : "Reset your password"} onCancel={event => { event.preventDefault(); if (!loading) onClose(); }}>
+        <button type="button" className="forgot-modal-close" disabled={loading} onClick={onClose} aria-label="Close">
           <CloseIcon />
         </button>
 
@@ -161,7 +162,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
         {step === 'email' && (
           <form className="forgot-form" onSubmit={handleEmailSubmit}>
             <div className="forgot-title-wrap">
-              <small>STEP 1 OF 3 &middot; ACCOUNT IDENTIFICATION</small><h3>{account ? 'Update your password' : 'Reset your password'}</h3><p>Enter your verified registration email and we will send a time-limited code for secure account access.</p>
+              <small>STEP 1 OF 3 &middot; ACCOUNT IDENTIFICATION</small><h3>{account ? 'Update your password' : 'Reset your password'}</h3><p>{shelter ? 'Enter your verified organization email and we will send a time-limited code for secure account access.' : 'Enter your verified registration email and we will send a time-limited code for secure account access.'}</p>
             </div>
 
             <label className="forgot-field">
@@ -189,7 +190,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
               <small>STEP 2 OF 3 &middot; SECURITY VERIFICATION</small><h3>Enter 8-digit security code</h3><p>We sent a one-time verification code to <strong>{email}</strong>.</p>
             </div>
 
-            <div className="otp-inputs">
+            <span className="forgot-otp-label">8-digit security code</span><div className="otp-inputs">
               {otp.map((digit, index) => (
                 <input
                   key={index}
@@ -210,7 +211,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
 
             {status ? <p className={`forgot-status forgot-status--${status.type}`}>{status.text}</p> : null}
 
-            <button type="button" className="forgot-resend" disabled={loading || cooldown > 0} onClick={handleEmailSubmit}>{cooldown > 0 ? `Resend in ${cooldown}s` : "Resend code"}</button>
+            <button type="button" className="forgot-resend" disabled={loading || cooldown > 0} onClick={handleEmailSubmit}>{cooldown > 0 ? `Resend in ${String(Math.floor(cooldown / 60)).padStart(2, '0')}:${String(cooldown % 60).padStart(2, '0')}` : "Resend code"}</button>
             <div className="forgot-form-actions">
               <button type="button" className="forgot-secondary-btn" onClick={() => { setStep('email'); setStatus(null); }}>
                 Back to email entry
@@ -230,7 +231,7 @@ export default function PasswordResetModal({ onClose, account = null }) {
             </div>
 
             <label className="forgot-field">
-              <span>New password</span>
+              <span>New password{shelter && password && <small className="password-strength-label">{passwordChecks.slice(0, 3).every(check => check.valid) ? 'Requirements met' : 'Keep improving'}</small>}</span>
               <div className="forgot-password-wrap">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -277,9 +278,9 @@ export default function PasswordResetModal({ onClose, account = null }) {
               {loading ? 'Resetting…' : 'Reset password'}
             </button>
 
-            <button type="button" className="forgot-cancel-btn" onClick={onClose}>
+            {!shelter && <button type="button" className="forgot-cancel-btn" onClick={onClose}>
               {account ? 'Cancel' : 'Cancel and return to login'}
-            </button>
+            </button>}
           </form>
         )}
     </dialog>

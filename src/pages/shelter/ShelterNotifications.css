@@ -19,3 +19,23 @@
 .shelter-notification-dot.is-read { visibility:hidden; }
 .shelter-notifications-preview { font-size:12px; color:#8491a4; }
 @media(max-width:560px){.shelter-notifications-heading h1{font-size:24px;}.shelter-notification-row{padding:12px;gap:8px;}.shelter-notification-avatar{width:32px;height:32px;}.shelter-notification-copy p{font-size:11px;}.shelter-notifications button{padding:6px 8px;font-size:10px;}}
+
+.shelter-notifications-heading { margin-bottom: 42px; }
+.shelter-notifications-heading h1 { font-size: 32px; letter-spacing: -.7px; }
+.shelter-notifications-heading button { padding: 11px 16px; font-size: 13px; font-weight: 600; border-color: #f0f2f4; border-radius: 9px; }
+.shelter-notification-group { margin: 0 16px 30px; }
+.shelter-notification-group + .shelter-notification-group { border-top: 1px solid #e6ebf1; padding-top: 28px; }
+.shelter-notification-group-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.shelter-notification-group-heading h2 { margin: 0; font-size: 16px; font-weight: 700; }
+.shelter-notification-group-heading > span { color: #71829c; font-size: 12px; }
+.shelter-notification-group[aria-label=Today] .shelter-notification-group-heading > span { text-transform: uppercase; font-weight: 700; letter-spacing: .5px; }
+.shelter-notification-row { padding: 16px; min-height: 78px; margin-bottom: 16px; }
+.shelter-notification-avatar { width: 44px; height: 44px; font-size: 13px; border: 1px solid #9ef0c7; }
+.is-cancelled .shelter-notification-avatar { border-color: transparent; }
+.shelter-notification-copy p { font-size: 14px; }
+.shelter-notification-copy strong { font-weight: 700; }
+.shelter-notification-copy small { font-size: 12px; }
+.shelter-notification-copy time { font-weight: 700; }
+.is-cancelled .shelter-notification-copy time { color: #71829c; font-weight: 400; }
+.shelter-notification-row > button { background: #689d4b; color: white; border-color: #689d4b; font-size: 12px; font-weight: 600; border-radius: 8px; padding: 7px 12px; }
+@media(max-width:560px) { .shelter-notifications-heading { gap: 10px; margin-bottom: 28px; } .shelter-notifications-heading h1 { font-size: 24px; } .shelter-notifications-heading button { font-size: 11px; padding: 9px; } .shelter-notification-group { margin-left: 0; margin-right: 0; } .shelter-notification-row { flex-wrap: wrap; gap: 10px; padding: 12px; } .shelter-notification-copy { flex-basis: calc(100% - 60px); } .shelter-notification-copy p { font-size: 13px; } .shelter-notification-row > button { margin-left: auto; } }

@@ -33,3 +33,25 @@
 .shelter-review-modal .leaflet-tooltip{background:#142033;color:#fff;border:0;border-radius:7px;padding:6px 10px;}
 .shelter-review-modal .leaflet-tooltip-top:before{border-top-color:#142033;}
 @media(max-width:600px){.shelter-review-modal>header{padding:20px;}.shelter-review-modal>header h2{font-size:18px;}.shelter-review-body{padding:20px;}.shelter-review-summary{grid-template-columns:1fr;gap:18px;padding:18px;}.shelter-review-modal footer{padding:16px 20px;flex-wrap:wrap;}.shelter-review-modal footer button{flex:1 1 100%;}.shelter-review-modal .accept-shelter-map{height:240px;}}
+
+.shelter-review-modal [hidden] { display: none !important; }
+.shelter-review-modal,.shelter-review-modal button,.shelter-review-modal .leaflet-bar,.shelter-review-modal .leaflet-tooltip,.shelter-review-modal .accept-shelter-pin span { box-shadow: none; }
+.accept-shelter-modal.shelter-review-rejecting { width: min(567px,calc(100vw - 32px)); border-radius: 12px; }
+.shelter-review-rejecting > header { padding: 18px 20px; border-bottom: 0; }
+.shelter-review-rejecting > header h2 { font-size: 18px; }
+.shelter-reject-options { border: 0; padding: 0; margin: 0 36px 20px; display: grid; gap: 10px; }
+.shelter-reject-options legend { padding: 0 0 10px; color: #738078; font-size: 12px; text-transform: uppercase; font-weight: 700; letter-spacing: .5px; }
+.shelter-reject-options label { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid #f1f5f9; border-radius: 7px; background: white; font-size: 14px; cursor: pointer; }
+.shelter-reject-options label:has(input:checked) { border-color: #ef8b8e; background: #fee2e2; }
+.shelter-reject-options input { accent-color: #dc2626; }
+.shelter-review-rejecting footer { padding: 16px 20px; }
+.shelter-review-modal .shelter-reject-submit { background: #df6669; border-color: #df6669; color: white; }
+.shelter-reject-error { padding: 0 36px 16px; }
+.accept-shelter-modal.shelter-review-complete { width: min(512px,calc(100vw - 32px)); border-radius: 24px; background: white; }
+.shelter-review-complete .accept-shelter-success { padding: 32px; }
+.shelter-review-complete .accept-shelter-success > span { width: 64px; height: 64px; border: 1px solid #e5edde; background: transparent; margin-bottom: 28px; }
+.shelter-review-complete .accept-shelter-success svg { width: 28px; height: 28px; }
+.shelter-review-complete h2 { font-size: 28px; margin-bottom: 24px; }
+.shelter-review-complete p { font-size: 14px; line-height: 24px; color: #738078; }
+.shelter-review-complete .accept-shelter-primary { min-height: 48px; font-size: 14px; font-weight: 600; border-radius: 12px; }
+@media(max-width:600px) { .shelter-review-rejecting footer button { flex: 0 1 auto; } .shelter-reject-options { margin: 0 20px 20px; } .shelter-review-complete .accept-shelter-success { padding: 28px 20px; } }
