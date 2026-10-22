@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql. Does not grant admin access to any user.
+-- Run after setup-database.sql. Does not grant admin access to any user.
 create or replace function public.admin_dashboard()
 returns jsonb language plpgsql security definer set search_path=public as $$
 declare result jsonb;

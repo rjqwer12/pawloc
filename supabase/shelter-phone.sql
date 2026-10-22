@@ -1,7 +1,7 @@
 -- Run once to add shelter registration phone numbers and update admin functions.
 begin;
 alter table public.profiles add column if not exists phone text;
--- Run after setup-user-testing.sql and shelter-profile.sql.
+-- Run after setup-database.sql and shelter-profile.sql.
 create or replace function public.admin_accept_shelter(shelter_user_id uuid, pin_latitude double precision, pin_longitude double precision)
 returns void language plpgsql security definer set search_path=public as $$
 declare applicant public.profiles; directory_id uuid; decision text;
@@ -30,7 +30,7 @@ $$;
 revoke all on function public.admin_accept_shelter(uuid,double precision,double precision) from public,anon;
 grant execute on function public.admin_accept_shelter(uuid,double precision,double precision) to authenticated;
 
--- Run after setup-user-testing.sql. Only trusted admins can read this directory.
+-- Run after setup-database.sql. Only trusted admins can read this directory.
 create or replace function public.admin_users()
 returns jsonb language plpgsql security definer set search_path=public as $$
 begin

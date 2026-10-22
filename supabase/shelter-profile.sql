@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql to enable public shelter profile updates.
+-- Run after setup-database.sql to enable public shelter profile updates.
 -- Admins set coordinates through a trusted service-role backend or SQL Editor.
 -- Reject coordinate changes from browser clients, including direct API calls.
 create or replace function public.protect_shelter_pin()

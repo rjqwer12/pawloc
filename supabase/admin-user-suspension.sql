@@ -42,7 +42,7 @@ drop policy if exists "Block suspended accounts" on public.user_records;
 create policy "Block suspended accounts" on public.user_records as restrictive for all to authenticated using(public.account_is_not_suspended()) with check(public.account_is_not_suspended());
 drop policy if exists "Block suspended storage access" on storage.objects;
 create policy "Block suspended storage access" on storage.objects as restrictive for all to authenticated using(public.account_is_not_suspended()) with check(public.account_is_not_suspended());
--- Run after setup-user-testing.sql. Only trusted admins can read this directory.
+-- Run after setup-database.sql. Only trusted admins can read this directory.
 create or replace function public.admin_users()
 returns jsonb language plpgsql security definer set search_path=public as $$
 begin

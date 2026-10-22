@@ -1,4 +1,4 @@
--- Run once in the SQL Editor after setup-user-testing.sql.
+-- Run once in the SQL Editor after setup-database.sql.
 create or replace function public.review_shelter_reservation(
   reservation_id uuid, decision text, visit_at timestamptz default null,
   rejection_reason text default null

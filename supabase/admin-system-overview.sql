@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql. Counts real records; excludes seeded test inventory.
+-- Run after setup-database.sql. Counts real records; excludes seeded test inventory.
 create or replace function public.admin_system_overview()
 returns jsonb language plpgsql security definer set search_path=public as $$
 begin

@@ -1,4 +1,4 @@
--- Remove only fixtures inserted by test-listings.sql and their linked test activity.
+-- Remove only fixtures inserted by the retired demo seed script and their linked test activity.
 -- Real shelter-owned listings are not selected.
 begin;
 create temporary table pawloc_test_ids on commit drop as

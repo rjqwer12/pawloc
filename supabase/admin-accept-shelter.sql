@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql and shelter-profile.sql.
+-- Run after setup-database.sql and shelter-profile.sql.
 create or replace function public.admin_accept_shelter(shelter_user_id uuid, pin_latitude double precision, pin_longitude double precision)
 returns void language plpgsql security definer set search_path=public as $$
 declare applicant public.profiles; directory_id uuid; decision text;

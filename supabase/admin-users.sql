@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql. Only trusted admins can read this directory.
+-- Run after setup-database.sql. Only trusted admins can read this directory.
 create or replace function public.admin_users()
 returns jsonb language plpgsql security definer set search_path=public as $$
 begin

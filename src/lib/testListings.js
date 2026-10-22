@@ -1,4 +1,4 @@
-// Exact IDs inserted by supabase/test-listings.sql, not names supplied by users.
+// Exact IDs inserted by the retired demo seed script, not names supplied by users.
 export const testListingIds = new Set([
   '10000000-0000-4000-8000-000000000001',
   ...[1,2,3,4,5,6].map(number => `20000000-0000-4000-8000-${String(number).padStart(12,'0')}`),

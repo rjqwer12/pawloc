@@ -1,4 +1,4 @@
--- Run after setup-user-testing.sql. Allows approved shelters to manage their own pet posts.
+-- Run after setup-database.sql. Allows approved shelters to manage their own pet posts.
 drop policy if exists "Shelters create pets" on public.user_records;
 create policy "Shelters create pets" on public.user_records for insert to authenticated with check (
   kind='pet' and owner_id=auth.uid() and recipient_id is null and parent_id is null
