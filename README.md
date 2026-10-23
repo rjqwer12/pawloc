@@ -14,7 +14,7 @@ Instead of relying on scattered social media posts and physical flyers, Pawloc p
 - Add last-seen or found locations
 - Search and filter pet reports
 - Update pet report status
-- Shelter and rescuer management
+- Shelter and adoptable pets
 - Secure storage of pet information
 - Location-based mapping
 
