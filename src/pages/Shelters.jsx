@@ -7,6 +7,23 @@ function PinIcon() { return <AppIcon name="pin" />; }
 
 function PhoneIcon() { return <AppIcon name="phone" />; }
 
+function VisitingHours({ hours }) {
+  const entries = hours?.split(';').map(part => part.trim()).filter(Boolean).map(part => {
+    const separator = part.indexOf(':');
+    return separator < 0 ? { day: '', time: part } : { day: part.slice(0, separator).trim(), time: part.slice(separator + 1).trim() };
+  }) || [];
+
+  return <section className="public-shelter-hours" aria-label="Visiting hours">
+    <h3>Visiting hours</h3>
+    {entries.length ? <div className="public-shelter-hours-grid">
+      {entries.map(({ day, time }, index) => <div className="public-shelter-hours-entry" key={`${day}-${index}`}>
+        {day && <span className="public-shelter-hours-day">{day}</span>}
+        <strong className={/^closed\b/i.test(time) ? 'is-closed' : 'is-open'}>{time}</strong>
+      </div>)}
+    </div> : <p>Visiting hours not listed.</p>}
+  </section>;
+}
+
 export default function Shelters() {
   const { records: shelters, loading, error } = usePublicRecords('shelter');
   return (
@@ -33,20 +50,16 @@ export default function Shelters() {
               <h2 className="shelter-name">{shelter.name}</h2>
               <p className="shelter-location">
                 <PinIcon />
-                <span>{shelter.distance}</span>
-                <span className="shelter-dot">•</span>
-                <span>{shelter.landmark}</span>
+                {shelter.distance && <><span>{shelter.distance}</span><span className="shelter-dot" aria-hidden="true">·</span></>}
+                <span>{shelter.landmark || 'Location not listed'}</span>
               </p>
 
-              <div className="shelter-meta">
-                <div className="shelter-contact">
-                  <PhoneIcon />
-                  <span>{shelter.phone}</span>
-                </div>
-                <span className="shelter-species">{shelter.species}</span>
-              </div>
+              {(shelter.phone || shelter.species) && <div className="shelter-meta">
+                {shelter.phone && <div className="shelter-contact"><PhoneIcon /><span>{shelter.phone}</span></div>}
+                {shelter.species && <span className="shelter-species">{shelter.species}</span>}
+              </div>}
 
-              <p className="shelter-hours">{shelter.hours}</p>
+              <VisitingHours hours={shelter.hours} />
 
               <div className="shelter-actions">
                 <Link to="/" className="shelter-btn shelter-btn--contact">

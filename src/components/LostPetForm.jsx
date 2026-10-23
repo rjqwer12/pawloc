@@ -2,6 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import Icon from './UserIcon';
 import './LostPetForm.css';
 
+function dateInputValue(value) {
+  if (!value) return '';
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+  const date = new Date();
+  if (value.toLowerCase() === 'yesterday') date.setDate(date.getDate() - 1);
+  else if (value.toLowerCase() !== 'today') {
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return '';
+    date.setTime(parsed.getTime());
+  }
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function displayDate(value) {
+  const [year, month, day] = value.split('-').map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
 export default function LostPetForm({ onBack, onSubmit, category = 'lost', initialPost = null }) {
   const isEditing = Boolean(initialPost);
   const isFound = category === 'found';
@@ -52,7 +70,7 @@ export default function LostPetForm({ onBack, onSubmit, category = 'lost', initi
     setSaving(true); setError('');
     try {
     if (isReunited) {
-      await onSubmit({ category, title: name, dateFound, description,
+      await onSubmit({ category, title: name, dateFound: displayDate(dateFound), description,
         image: upload.url, alt: `Reunion photo: ${name}`,
       });
       return;
@@ -76,7 +94,7 @@ export default function LostPetForm({ onBack, onSubmit, category = 'lost', initi
       </div>
       <div className="lost-pet-field-row">
         <label><span>{isFound ? <>Animal Type <span className="pet-field-optional">(Optional)</span></> : <>{isReunited ? isEditing ? 'Pet Name & Story Title' : 'Title/Pet Name' : 'Pet Name'} <span className="lost-pet-required">*</span></>}</span><input name="petName" defaultValue={initialName || ''} required={!isFound} maxLength={isReunited ? 120 : 80} placeholder={isReunited ? 'e.g., Barnaby is finally home safe!' : isFound ? 'e.g., Cat, Dog' : 'e.g., Barbilat'} /></label>
-        {isReunited ? <label><span>Date Found <span className="lost-pet-required">*</span></span><input name="dateFound" defaultValue={initialPost?.dateFound || ''} required maxLength={80} placeholder="e.g., Today, Yesterday, Oct 25 2026" /></label> : <label><span>{isFound ? <>{isEditing ? 'Estimated Breed' : 'Suspected Breed'} <span className="pet-field-optional">(Optional)</span></> : <>Species &amp; Breed <span className="lost-pet-required">*</span></>}</span><input name="breed" defaultValue={initialBreed} required={!isFound} maxLength={120} placeholder={isFound ? 'e.g., Golden Retriever / Labrador mix' : 'e.g., Golden Retriever mix'} /></label>}
+        {isReunited ? <label><span>Date Found <span className="lost-pet-required">*</span></span><input type="date" name="dateFound" defaultValue={dateInputValue(initialPost?.dateFound)} required /></label> : <label><span>{isFound ? <>{isEditing ? 'Estimated Breed' : 'Suspected Breed'} <span className="pet-field-optional">(Optional)</span></> : <>Species &amp; Breed <span className="lost-pet-required">*</span></>}</span><input name="breed" defaultValue={initialBreed} required={!isFound} maxLength={120} placeholder={isFound ? 'e.g., Golden Retriever / Labrador mix' : 'e.g., Golden Retriever mix'} /></label>}
       </div>
       {!isReunited && <label><span>{isFound ? 'Found / Location' : 'Last Seen Location'} <span className="lost-pet-required">*</span></span><input name="location" defaultValue={initialPost?.location || ''} required maxLength={200} placeholder={isFound ? 'e.g., Pavia, Iloilo' : 'e.g., Rob Pavia'} /></label>}
       <label><span>{isReunited ? 'Story Description' : 'Description'} <span className="lost-pet-required">*</span></span><textarea name="description" defaultValue={initialPost?.description || ''} required maxLength={2000} rows={isFound || isReunited ? 3 : 2} placeholder={isReunited ? 'Share how they were found, thank dispatch spotters, volunteers, shelters, or veterinary clinics who assisted, and describe the happy homecoming moment...' : isFound ? 'Describe physical condition, tag engravings or phone numbers, temperament (friendly, nervous), where currently being kept safely...' : 'Red nylon collar with silver bell. Very food-motivated, timid around loud delivery trucks. Call name softly...'} /></label>
